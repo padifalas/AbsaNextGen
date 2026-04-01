@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ── Palette ── */
+  --page-bg: #ffffff;
+  /* warm linen — the "room" */
+  --surface-1: #FDFAF6;
+  /* cards — slightly warm white */
+  --surface-2: #F0EBE1;
+  /* inset surfaces, inputs */
+  --surface-dark: #1C1917;
+  /* rich near-black (not navy) */
+  --surface-dark-2: #292524;
+  /* slightly lighter dark */
+
+  --red: #C1121F;
+  --red-light: #FEE2E2;
+  --red-hover: #A00E18;
+
+  --gold: #B8922A;
+  /* more saturated, warmer gold */
+  --gold-light: #FDF3DC;
+  --gold-mid: #E8C96A;
+
+  --sage: #6B8F71;
+  /* muted green — positive */
+  --sage-light: #E8F2E9;
+
+  --slate: #5C6B7A;
+  /* muted text */
+  --slate-light: #E8ECF0;
+
+  /* ── Typography ── */
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* ── Borders & Radius ── */
+  --border: rgba(0, 0, 0, 0.07);
+  --border-strong: rgba(0, 0, 0, 0.13);
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+
+  /* ── Shadows ── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-red: 0 6px 20px rgba(193, 18, 31, 0.22);
+
+  /* ── Transitions ── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --t-fast: 120ms;
+  --t-base: 220ms;
+  --t-slow: 380ms;
+
+  /* ── Legacy aliases (keep pages working) ── */
+  --color-bg-primary: var(--surface-dark);
+  --color-bg-secondary: var(--surface-dark-2);
+  --color-bg-page: var(--page-bg);
+  --color-card: var(--surface-1);
+  --color-card-border: var(--border);
+  --color-red: var(--red);
+  --color-red-hover: var(--red-hover);
+  --color-gold: var(--gold);
+  --color-gold-tint: var(--gold-light);
+  --color-text-primary: var(--surface-dark);
+  --color-text-muted: var(--slate);
+  --color-text-light: #FDFAF6;
+  --color-positive: var(--sage);
+  --color-negative: var(--red);
+  --card-shadow: var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-md);
+  --radius-card: var(--radius-md);
+  --transition-fast: var(--t-fast) ease;
+  --transition-base: var(--t-base) ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--page-bg);
+  color: var(--surface-dark);
+  line-height: 1.5;
+  min-height: 100vh;
+  /* Subtle linen texture via CSS */
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(193, 18, 31, 0.03) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(184, 146, 42, 0.04) 0%, transparent 55%);
+}
+
+#root {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 3px;
+}
+
+/* ── Layout ── */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.main-content {
+  margin-left: 240px;
+  flex: 1;
+  min-height: 100vh;
+  background: transparent;
+  transition: margin-left 280ms var(--ease-in-out);
+}
+
+.main-content.collapsed {
+  margin-left: 68px;
+}
+
+/* ── Page header pattern ── */
+.page-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-bottom: 4px;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--surface-dark);
+  line-height: 1.1;
+}
+
+.page-subtitle {
+  font-size: 0.9rem;
+  color: var(--slate);
+  margin-top: 6px;
+  line-height: 1.65;
+}
+
+/* ── Card base ── */
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 18px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--t-fast) ease, box-shadow var(--t-fast) ease, transform var(--t-fast) ease;
+  box-shadow: var(--shadow-red);
+}
+
+.btn-primary:hover {
+  background: var(--red-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(193, 18, 31, 0.28);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  background: transparent;
+  color: var(--slate);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--t-fast) ease;
+}
+
+.btn-ghost:hover {
+  border-color: var(--surface-dark);
+  color: var(--surface-dark);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* ── Utility ── */
+.text-muted {
+  color: var(--slate);
+}
+
+.text-positive {
+  color: var(--sage);
+}
+
+.text-negative {
+  color: var(--red);
+}
+
+.text-gold {
+  color: var(--gold);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+/* ── Tag / pill ── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+
+.pill--red {
+  background: var(--red-light);
+  color: var(--red);
+}
+
+.pill--gold {
+  background: var(--gold-light);
+  color: var(--gold);
+}
+
+.pill--green {
+  background: var(--sage-light);
+  color: var(--sage);
+}
+
+.pill--slate {
+  background: var(--slate-light);
+  color: var(--slate);
+}
+
+/* ── Input ── */
+input[type="text"],
+input[type="number"],
+input[type="email"] {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--surface-dark);
+  background: var(--surface-2);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  outline: none;
+  transition: border-color var(--t-fast) ease, box-shadow var(--t-fast) ease;
+  width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184, 146, 42, 0.1);
+  background: var(--surface-1);
+}
+
+/* ── Fade-in animation ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.45s var(--ease-out) both;
+}
+
+.fade-up-1 {
+  animation-delay: 0.05s;
+}
+
+.fade-up-2 {
+  animation-delay: 0.10s;
+}
+
+.fade-up-3 {
+  animation-delay: 0.15s;
+}
+
+.fade-up-4 {
+  animation-delay: 0.20s;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0 !important;
+    padding-bottom: 68px;
+  }
+}
