@@ -1,0 +1,103 @@
+/* Register-specific overrides — Login.css is already imported for shared styles */
+
+/* Allow the form card to be a bit taller without overflow */
+.register-form-card {
+  max-width: 420px;
+}
+
+/* Two-column name row */
+.reg-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Password strength meter */
+.reg-strength {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.reg-strength__bars {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.reg-strength__seg {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  transition: background 0.2s ease;
+}
+
+.reg-strength__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 44px;
+  text-align: right;
+  transition: color 0.2s ease;
+}
+
+/* Terms checkbox */
+.reg-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 13px 14px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.reg-terms input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  accent-color: var(--surface-dark);
+  cursor: pointer;
+}
+
+.reg-terms label {
+  font-size: 0.8125rem;
+  color: var(--slate);
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.reg-terms label a {
+  color: var(--red);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.reg-terms label a:hover {
+  text-decoration: underline;
+}
+
+.reg-terms-error {
+  font-size: 0.75rem;
+  color: var(--red);
+  margin-top: -10px;
+  margin-bottom: 14px;
+  padding-left: 2px;
+}
+
+/* Tighten the right panel scroll for taller form */
+@media (max-height: 800px) {
+  .login-right {
+    align-items: flex-start;
+    padding-top: 40px;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 540px) {
+  .reg-field-row {
+    grid-template-columns: 1fr;
+  }
+}
