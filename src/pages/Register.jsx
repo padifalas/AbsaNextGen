@@ -95,7 +95,7 @@ export default function Register() {
                 <label htmlFor="reg-first">First name</label>
                 <input id="reg-first" type="text"
                   className={`login-field__input${errs.firstName ? ' error' : ''}`}
-                  placeholder="Amara"
+                  placeholder="Andre"
                   value={form.firstName} onChange={patch('firstName')} onBlur={blur('firstName')}
                   autoComplete="given-name" />
                 {errs.firstName && <span className="login-field__error"><AlertCircle size={12} /> {errs.firstName}</span>}
@@ -105,7 +105,7 @@ export default function Register() {
                 <label htmlFor="reg-last">Last name</label>
                 <input id="reg-last" type="text"
                   className={`login-field__input${errs.lastName ? ' error' : ''}`}
-                  placeholder="Ndlovu"
+                  placeholder="Gopal"
                   value={form.lastName} onChange={patch('lastName')} onBlur={blur('lastName')}
                   autoComplete="family-name" />
                 {errs.lastName && <span className="login-field__error"><AlertCircle size={12} /> {errs.lastName}</span>}
@@ -195,7 +195,7 @@ export default function Register() {
 
           <div className="login-divider"><span>or sign up with</span></div>
 
-          <button className="login-oauth" onClick={() => alert('Google OAuth — connect your provider here.')}>
+          <button className="login-oauth" onClick={() => alert('Google OAuth dont work yet bud. Maybe next submission lol.')}>
             <IconGoogle /> Continue with Google
           </button>
 

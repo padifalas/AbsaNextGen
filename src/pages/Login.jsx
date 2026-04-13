@@ -65,7 +65,7 @@ export default function Login() {
                   id="login-email"
                   type="email"
                   className={`login-field__input${emailErr ? ' error' : ''}`}
-                  placeholder="you@email.com"
+                  placeholder="padi@email.com"
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); clearError(); }}
                   onBlur={() => setTouched(t => ({ ...t, email: true }))}
@@ -125,7 +125,7 @@ export default function Login() {
 
           <div className="login-divider"><span>or continue with</span></div>
 
-          <button className="login-oauth" onClick={() => alert('Google OAuth — connect your provider here.')}>
+          <button className="login-oauth" onClick={() => alert('Google OAuth dont work yet bud. Maybe next submission lol.')}>
             <IconGoogle />
             Continue with Google
           </button>
