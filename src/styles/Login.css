@@ -10,7 +10,7 @@
    LEFT — brand / story panel
    ════════════════════════════════════ */
 .login-left {
-  background: var(--surface-dark);
+  background: var(--dark-red);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -19,7 +19,7 @@
   overflow: hidden;
 }
 
-/* Atmospheric orbs */
+
 .login-left::before {
   content: '';
   position: absolute;
@@ -44,7 +44,7 @@
   pointer-events: none;
 }
 
-/* Brand mark */
+/*  */
 .login-brand {
   display: flex;
   align-items: center;
