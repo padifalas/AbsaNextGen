@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 import { useFinancial, calculateTax } from '../context/FinancialContext';
 import '../styles/Onboarding.css';
 
-/* ── Icons ── */
 const IconChevronLeft = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
     <path d="M9 11L5 7l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -91,11 +90,11 @@ const STEP_META = [
   },
 ];
 
-/* ── Formatting helpers ── */
+
 const parseNum = (str) => parseInt(String(str).replace(/\D/g, ''), 10) || 0;
 const fmt = (n) => `R${Math.round(n).toLocaleString('en-ZA')}`;
 
-/* ── Step 1: Income ── */
+/*  Step 1:which for  Income */
 function StepIncome({ data, onChange }) {
   const tax = data.grossMonthly ? calculateTax(data.grossMonthly) : null;
 
@@ -166,7 +165,7 @@ function StepIncome({ data, onChange }) {
   );
 }
 
-/* ── Step 2: Expenses ── */
+/*  Step 2: Expenses  */
 function StepExpenses({ data, onChange }) {
   const fields = [
     { key: 'rent',          label: 'Rent / Bond repayment (R)', placeholder: '12 000' },
@@ -200,7 +199,7 @@ function StepExpenses({ data, onChange }) {
   );
 }
 
-/* ── Step 3: Track ── */
+/*  Step 3: Track */
 function StepTrack({ data, onChange }) {
   return (
     <>
@@ -229,7 +228,7 @@ function StepTrack({ data, onChange }) {
   );
 }
 
-/* ── Step 4: Confirm ── */
+/* Step 4: Confirm */
 function StepConfirm({ data }) {
   const tax = data.grossMonthly ? calculateTax(data.grossMonthly) : null;
 
@@ -264,9 +263,7 @@ function StepConfirm({ data }) {
   );
 }
 
-/* ══════════════════════════════════════
-   MAIN COMPONENT
-   ══════════════════════════════════════ */
+/* main*/
 export default function Onboarding() {
   const { completeOnboarding } = useAuth();
   const { updateFinancial } = useFinancial();
@@ -274,7 +271,7 @@ export default function Onboarding() {
 
   const [step, setStep] = useState(0);
 
-  // Accumulated form data — mirrors FinancialContext shape
+  //  form data gotten — like FinancialContext 
   const [formData, setFormData] = useState({
     grossMonthly: 0,
     city: '',
@@ -297,7 +294,7 @@ export default function Onboarding() {
       setStep(s => s + 1);
       return;
     }
-    // Final step — commit to context and mark onboarded
+    // Final step this commit to context and mark onboarded
     updateFinancial(formData);
     completeOnboarding();
     navigate('/');

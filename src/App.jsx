@@ -15,7 +15,6 @@ import Register from './pages/Register';
 import Onboarding from './pages/Onboarding';
 import './styles/globals.css';
 
-/* ── Authenticated shell with sidebar + nav ── */
 function AppShell({ children }) {
   const [collapsed, setCollapsed] = useState(false);
   return (
@@ -43,7 +42,7 @@ export default function App() {
             <Route path="/login"    element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* ── Onboarding route — auth required, not yet onboarded ── */}
+            {/*  Onboarding route — auth required, not yet onboarded  */}
             <Route
               path="/onboarding"
               element={
@@ -53,7 +52,7 @@ export default function App() {
               }
             />
 
-            {/* ── Protected routes — wrapped in AppShell ── */}
+            {/*  Protected routes — wrapped in AppShell */}
             <Route
               path="/"
               element={
@@ -95,7 +94,7 @@ export default function App() {
               }
             />
 
-            {/* ── Catch-all ── */}
+            {/*  Catch-all */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
