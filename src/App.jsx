@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { FinancialProvider } from './context/FinancialContext';
+import { FinancialProvider, useFinancial } from './context/FinancialContext';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import OnboardingRoute from './components/OnBoardingRoute';
@@ -15,12 +15,20 @@ import Register from './pages/Register';
 import Onboarding from './pages/Onboarding';
 import './styles/globals.css';
 
+const TRACK_LABELS = {
+  property: 'First Property Path',
+  balanced: 'Balanced Lifestyle',
+  aggressive: 'Aggressive Global',
+};
+
 function AppShell({ children }) {
+  const { financial } = useFinancial();
   const [collapsed, setCollapsed] = useState(false);
+  const userTrack = TRACK_LABELS[financial.selectedTrack] || 'First Property Path';
   return (
     <div className="app-layout">
       <Sidebar
-        userTrack="First Property Path"
+        userTrack={userTrack}
         collapsed={collapsed}
         onToggle={() => setCollapsed(c => !c)}
       />

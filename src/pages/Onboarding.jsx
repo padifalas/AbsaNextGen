@@ -138,9 +138,9 @@ function StepIncome({ data, onChange }) {
             onChange={(e) => onChange({ city: e.target.value })}
           >
             <option value="">Select your city</option>
-            <option>Johannesburg</option>
-            <option>Cape Town</option>
             <option>Pretoria</option>
+            <option>Cape Town</option>
+            <option>Joburg</option>
             <option>Durban</option>
             <option>Other</option>
           </select>
@@ -289,15 +289,18 @@ export default function Onboarding() {
 
   const TOTAL_STEPS = 4;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step < TOTAL_STEPS - 1) {
-      setStep(s => s + 1);
+      setStep((s) => s + 1);
       return;
     }
-    // Final step this commit to context and mark onboarded
+
+    // Final step: commit the collected onboarding values and mark the user onboarded.
     updateFinancial(formData);
-    completeOnboarding();
-    navigate('/');
+    const result = await completeOnboarding();
+    if (result.success) {
+      navigate('/');
+    }
   };
 
   const handleBack = () => {

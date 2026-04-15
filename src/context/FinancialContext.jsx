@@ -61,10 +61,25 @@ const DEFAULT_STATE = {
 };
 
 export function FinancialProvider({ children }) {
-  const [financial, setFinancial] = useState(DEFAULT_STATE);
+  const [financial, setFinancial] = useState(() => {
+    try {
+      const stored = localStorage.getItem('ws_financial');
+      return stored ? { ...DEFAULT_STATE, ...JSON.parse(stored) } : DEFAULT_STATE;
+    } catch {
+      return DEFAULT_STATE;
+    }
+  });
 
   const updateFinancial = (updates) => {
-    setFinancial(prev => ({ ...prev, ...updates }));
+    setFinancial((prev) => {
+      const next = { ...prev, ...updates };
+      try {
+        localStorage.setItem('ws_financial', JSON.stringify(next));
+      } catch {
+        // ignore localStorage failures
+      }
+      return next;
+    });
   };
 
   // Derived values
