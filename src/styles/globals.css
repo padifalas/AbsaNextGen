@@ -13,7 +13,7 @@
   --surface-dark-2: #292524;
  
 
-  --red: #C1121F;
+  --red: #dc0037;
   --red-light: #FEE2E2;
   --red-hover: #A00E18;
 
@@ -60,7 +60,7 @@
   --t-base: 220ms;
   --t-slow: 380ms;
 
-  /* ── Legacy aliases (keep pages working) ── */
+
   --color-bg-primary: var(--surface-dark);
   --color-bg-secondary: var(--surface-dark-2);
   --color-bg-page: var(--page-bg);
@@ -127,7 +127,7 @@ body {
   border-radius: 3px;
 }
 
-/*  Layout */
+
 .app-layout {
   display: flex;
   min-height: 100vh;
@@ -146,7 +146,7 @@ body {
   margin-left: 68px;
 }
 
-/* ── Page header pattern ── */
+
 .page-eyebrow {
   font-family: var(--font-body);
   font-size: 0.6875rem;
@@ -173,7 +173,7 @@ body {
   line-height: 1.65;
 }
 
-/* ── Card base ── */
+/* card base  */
 .card {
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -181,7 +181,7 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
-/* ── Buttons ── */
+/*  buttonss  */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -231,7 +231,7 @@ body {
   background: rgba(0, 0, 0, 0.02);
 }
 
-/* ── Utility ── */
+
 .text-muted {
   color: var(--slate);
 }
@@ -257,7 +257,7 @@ body {
   font-size: 0.8125rem;
 }
 
-/* ── Tag / pill ── */
+/* Tag / pill */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -289,7 +289,7 @@ body {
   color: var(--slate);
 }
 
-/* ── Input ── */
+/*  Inpu*/
 input[type="text"],
 input[type="number"],
 input[type="email"] {
