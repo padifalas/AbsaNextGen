@@ -4,7 +4,7 @@
   
   --page-bg: #ffffff;
   
-  --surface-1: #FDFAF6;
+  --surface-1: #f4f3f3;
  
   --surface-2: #F0EBE1;
  
@@ -24,7 +24,7 @@
   --gold-light: #FDF3DC;
   --gold-mid: #E8C96A;
 
-  --sage: #6B8F71;
+  --sage: #50925b;
 
   --sage-light: #E8F2E9;
 
@@ -46,14 +46,14 @@
   --radius-lg: 22px;
   --radius-xl: 28px;
 
-  /*  Shadows  */
+  /*  shadows  */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-red: 0 6px 20px rgba(193, 18, 31, 0.22);
 
-  /*  Transitions  */
+  /*  transitions  */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --t-fast: 120ms;
