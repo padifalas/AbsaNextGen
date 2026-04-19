@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, AlertCircle, ShieldCheck } from 'lucide-react';
+import { Eye, EyeOff, AlertCircle, ShieldCheck, Hexagon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import AuthPanel from './AuthPanel';
 import '../styles/Login.css';

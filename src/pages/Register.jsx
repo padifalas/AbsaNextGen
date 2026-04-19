@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import AuthPanel from './AuthPanel';
 import '../styles/Login.css';
 import '../styles/Register.css';
+import { Hexagon } from 'lucide-react';
 
 const IconGoogle = () => (
   <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" width="18" height="18">

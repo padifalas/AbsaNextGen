@@ -2,6 +2,7 @@ import { useState } from 'react';
 import '../styles/MoneySnapshot.css';
 import { useFinancial } from '../context/FinancialContext';
 import { useAuth } from '../context/AuthContext';
+import { Pencil, Info, Home, Shield, TrendingUp } from 'lucide-react';
 
 const fmt = (v) => `R${Number(v || 0).toLocaleString('en-ZA')}`;
 const pct = (v) => `${Number(v || 0).toFixed(1)}%`;
@@ -101,9 +102,7 @@ export default function MoneySnapshot() {
           </p>
         </div>
         <button className="snapshot__edit-btn" onClick={() => { setDraft({ ...financial }); setEditing(e => !e); }}>
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M11.5 2.5l2 2L5 13H3v-2L11.5 2.5z" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+          <Pencil size={16} />
           {editing ? 'Cancel' : 'Edit Profile'}
         </button>
       </div>
@@ -112,10 +111,7 @@ export default function MoneySnapshot() {
       {!nudgeDismissed && (
         <div className="nudge-banner fade-up fade-up-1">
           <div className="nudge-banner__icon">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M8 1v1m0 12v1M3 8H2m12 0h-1m-1.5-4.5-.7.7M4.2 11.8l-.7.7m0-8.5.7.7m7.1 7.1.7.7" strokeLinecap="round"/>
-              <circle cx="8" cy="8" r="3"/>
-            </svg>
+            <Info size={16} />
           </div>
           <div className="nudge-banner__content">
             <div className="nudge-banner__title">{nudge.title}</div>
@@ -328,9 +324,7 @@ export default function MoneySnapshot() {
           <div className="goal-card">
             <div className="goal-card__header">
               <div className="goal-card__icon goal-card__icon--red">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M2 8L8 2l6 6v6H10v-4H6v4H2V8z" strokeLinejoin="round"/>
-                </svg>
+                <Home size={16} />
               </div>
               <div className="goal-card__name">Property Deposit</div>
               <div className={`goal-card__status goal-card__status--${depositPct >= 50 ? 'on-track' : 'at-risk'}`}>
@@ -358,10 +352,7 @@ export default function MoneySnapshot() {
           <div className="goal-card">
             <div className="goal-card__header">
               <div className="goal-card__icon goal-card__icon--gold">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <circle cx="8" cy="8" r="6"/>
-                  <path d="M8 5v3l2 2" strokeLinecap="round"/>
-                </svg>
+                <Shield size={16} />
               </div>
               <div className="goal-card__name">Emergency Fund</div>
               <div className={`goal-card__status goal-card__status--${emergencyPct >= 100 ? 'on-track' : 'at-risk'}`}>
@@ -386,9 +377,7 @@ export default function MoneySnapshot() {
           <div className="goal-card">
             <div className="goal-card__header">
               <div className="goal-card__icon goal-card__icon--green">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M8 2v12M5 5h4.5a2 2 0 010 4H5m0-4H3m2 4H3" strokeLinecap="round"/>
-                </svg>
+                <TrendingUp size={16} />
               </div>
               <div className="goal-card__name">TFSA Annual Limit</div>
               <div className={`goal-card__status goal-card__status--${tfsaYearlyPct >= 100 ? 'on-track' : 'at-risk'}`}>

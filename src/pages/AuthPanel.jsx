@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Hexagon, Shield } from 'lucide-react';
 
 const FEATURES = [
   'SARS 2024/25 PAYE — live, in seconds',
@@ -48,12 +49,7 @@ export default function AuthPanel({ variant = 'login' }) {
       </div>
 
       <div className="login-left__footer">
-        <svg className="login-left__footer-icon" viewBox="0 0 16 16" fill="none">
-          <path d="M8 1.5L2.5 4v4.5C2.5 11.5 4.9 13.8 8 14.5c3.1-.7 5.5-3 5.5-6V4L8 1.5z"
-            stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
-          <path d="M5.5 8l1.8 1.8 3.2-3.3" stroke="currentColor" strokeWidth="1.3"
-            strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        <Shield className="login-left__footer-icon" size={16} />
         {/* <span className="login-left__footer-text">
               ABSA NextGen Assignment · Padi Falas-Maifala · Not Affiliated with ABSA Group
         </span> */}

@@ -3,24 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useFinancial, calculateTax } from '../context/FinancialContext';
 import '../styles/Onboarding.css';
+import { ChevronLeft, ChevronRight, Check, Home, TrendingUp, Globe, Hexagon } from 'lucide-react';
 
-const IconChevronLeft = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-    <path d="M9 11L5 7l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-const IconChevronRight = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-    <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-const IconCheck = () => (
-  <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-    <path d="M1.5 4.5l2.2 2.2 3.8-3.9" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
+const IconChevronLeft = () => <ChevronLeft size={14} />;
+const IconChevronRight = () => <ChevronRight size={14} />;
+const IconCheck = () => <Check size={9} color="white" />;
 
 /* rack metadata  */
 const TRACKS = [
@@ -29,35 +16,21 @@ const TRACKS = [
     name: 'First Property Path',
     desc: 'Deposit-first. Own a home before 30.',
     iconClass: 'ob-track__icon--property',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M2 14V7l6-5 6 5v7H2z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
-        <rect x="5.5" y="9" width="5" height="5" rx="0.5" stroke="currentColor" strokeWidth="1.3"/>
-      </svg>
-    ),
+    icon: <Home size={16} />,
   },
   {
     id: 'balanced',
     name: 'Balanced Lifestyle',
     desc: 'TFSA + RA + quality of life. No guilt.',
     iconClass: 'ob-track__icon--balanced',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M2 12l4-4 3 3 5-6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
+    icon: <TrendingUp size={16} />,
   },
   {
     id: 'aggressive',
     name: 'Aggressive Global',
     desc: 'Max offshore ETFs. Build to options.',
     iconClass: 'ob-track__icon--aggressive',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.3"/>
-        <path d="M5 9.5l2-3 2 1.5 2-3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
+    icon: <Globe size={16} />,
   },
 ];
 
@@ -318,10 +291,7 @@ export default function Onboarding() {
       <div className="onboarding-topbar">
         <Link to="/" className="onboarding-brand">
           <div className="onboarding-brand__pill">
-            <svg viewBox="0 0 18 18" fill="none">
-              <path d="M9 2L3 6v6l6 4 6-4V6L9 2z" fill="white" opacity="0.95"/>
-              <path d="M6 9.5l2 2 4-4" stroke="#C1121F" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <Hexagon size={18} fill="white" opacity={0.95} />
           </div>
           <span className="onboarding-brand__name">Wealth Studio</span>
         </Link>
