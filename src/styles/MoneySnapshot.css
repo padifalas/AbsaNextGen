@@ -11,9 +11,14 @@
   justify-content: space-between;
   margin-bottom: 28px;
   gap: 16px;
+  flex-direction: column;
+  text-align: center;
 }
 
-.snapshot__header-left {}
+.snapshot__header-left {
+  width: 100%;
+  text-align: center;
+}
 
 .snapshot__greeting {
   font-size: 0.75rem;

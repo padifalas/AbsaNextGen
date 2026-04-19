@@ -22,7 +22,7 @@ const IconCheck = () => (
   </svg>
 );
 
-/* ── Track metadata ── */
+/* rack metadata  */
 const TRACKS = [
   {
     id: 'property',
@@ -142,6 +142,7 @@ function StepIncome({ data, onChange }) {
             <option>Cape Town</option>
             <option>Joburg</option>
             <option>Durban</option>
+            <option>Polokwane</option>
             <option>Other</option>
           </select>
         </div>
@@ -295,7 +296,7 @@ export default function Onboarding() {
       return;
     }
 
-    // Final step: commit the collected onboarding values and mark the user onboarded.
+    // Final step: commit the collected  inputss values from form and mark the user onboarded.
     updateFinancial(formData);
     const result = await completeOnboarding();
     if (result.success) {

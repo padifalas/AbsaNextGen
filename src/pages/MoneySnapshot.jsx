@@ -37,7 +37,7 @@ export default function MoneySnapshot() {
   const [nudgeIdx, setNudgeIdx] = useState(0);
   const [nudgeDismissed, setNudgeDismissed] = useState(false);
 
-  // Local edit state
+  // local edit state
   const [draft, setDraft] = useState({ ...financial });
 
   const nudge = NUDGES[nudgeIdx % NUDGES.length];
@@ -108,7 +108,7 @@ export default function MoneySnapshot() {
         </button>
       </div>
 
-      {/* ── Nudge banner ── */}
+      {/*nudge banner  */}
       {!nudgeDismissed && (
         <div className="nudge-banner fade-up fade-up-1">
           <div className="nudge-banner__icon">
@@ -129,7 +129,7 @@ export default function MoneySnapshot() {
         </div>
       )}
 
-      {/* ── Stat tiles ── */}
+      {/* stat tiles */}
       <div className="snapshot__tiles fade-up fade-up-2">
         <div className="stat-tile">
           <div className="stat-tile__accent stat-tile__accent--red" />
@@ -169,7 +169,7 @@ export default function MoneySnapshot() {
         </div>
       </div>
 
-      {/* ── Main grid ── */}
+      {/* Main grid  */}
       <div className="snapshot__grid fade-up fade-up-3">
         <div className="snapshot__grid-left">
 
@@ -321,7 +321,7 @@ export default function MoneySnapshot() {
           )}
         </div>
 
-        {/* ── Right column ── */}
+        {/*  Right column  */}
         <div className="snapshot__grid-right">
 
           {/* Property Deposit Goal */}
@@ -463,7 +463,7 @@ export default function MoneySnapshot() {
         </div>
       </div>
 
-      {/* ── Summary strip ── */}
+      {/* Summary strip  */}
       <div className="snapshot__summary fade-up fade-up-4">
         <div>
           <div className="snapshot__summary-label">Active Strategy</div>

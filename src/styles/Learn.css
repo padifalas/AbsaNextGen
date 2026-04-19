@@ -5,6 +5,7 @@
 
 .learn-page__header {
   margin-bottom: 28px;
+  text-align: center;
 }
 .learn-page__eyebrow {
   font-size: 0.6875rem;
@@ -26,6 +27,8 @@
   margin-top: 5px;
   max-width: 560px;
   line-height: 1.6;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ── Search ── */

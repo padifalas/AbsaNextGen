@@ -120,6 +120,7 @@
   letter-spacing: -0.01em;
   line-height: 1.2;
   margin-bottom: 5px;
+  text-align: center;
 }
 
 .onboarding-card__sub {
@@ -127,6 +128,9 @@
   color: var(--slate);
   line-height: 1.6;
   max-width: 520px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ── Body ── */

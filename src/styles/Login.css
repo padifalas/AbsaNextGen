@@ -194,6 +194,7 @@
   text-transform: uppercase;
   color: var(--slate);
   margin-bottom: 5px;
+  text-align: center;
 }
 
 .login-form__title {
@@ -204,6 +205,7 @@
   letter-spacing: -0.015em;
   line-height: 1.1;
   margin-bottom: 6px;
+  text-align: center;
 }
 
 .login-form__sub {
@@ -211,6 +213,7 @@
   color: var(--slate);
   line-height: 1.55;
   margin-bottom: 32px;
+  text-align: center;
 }
 
 .login-form__sub a {

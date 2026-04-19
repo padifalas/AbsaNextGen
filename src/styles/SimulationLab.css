@@ -3,9 +3,10 @@
   max-width: 1100px;
 }
 
-/* ── Header ── */
+
 .sim-page__header {
   margin-bottom: 28px;
+  text-align: center;
 }
 .sim-page__eyebrow {
   font-size: 0.6875rem;
@@ -27,9 +28,11 @@
   margin-top: 5px;
   max-width: 560px;
   line-height: 1.6;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* ── Studio selector tabs ── */
+/* studio selector tabs  */
 .sim-tabs {
   display: flex;
   gap: 10px;
@@ -75,7 +78,7 @@
   letter-spacing: 0.04em;
 }
 
-/* ── Two-col studio layout ── */
+/* 2 collum studio layout  */
 .sim-studio {
   display: grid;
   grid-template-columns: 360px 1fr;
@@ -225,14 +228,14 @@
   box-shadow: 0 6px 16px rgba(193,18,31,0.28);
 }
 
-/* Output panel */
+/* output panel */
 .sim-outputs {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* Comparison cards */
+/* comparison cards */
 .sim-compare-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -283,7 +286,7 @@
   line-height: 1.4;
 }
 
-/* Bar chart */
+/* bar chart */
 .sim-bar-chart {
   background: #fff;
   border: 1px solid var(--color-card-border);
@@ -409,7 +412,7 @@
   color: rgba(255,255,255,0.5);
 }
 
-/* SA context note */
+
 .sim-context-note {
   background: var(--color-gold-tint);
   border: 1px solid rgba(201,168,76,0.2);
