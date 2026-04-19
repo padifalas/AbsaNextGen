@@ -49,10 +49,10 @@ export default function AuthPanel({ variant = 'login' }) {
       </div>
 
       <div className="login-left__footer">
-        <Shield className="login-left__footer-icon" size={16} />
-        {/* <span className="login-left__footer-text">
+        {/* <Shield className="login-left__footer-icon" size={16} /> */}
+        <span className="login-left__footer-text">
               ABSA NextGen Assignment · Padi Falas-Maifala · Not Affiliated with ABSA Group
-        </span> */}
+        </span>
       </div>
     </div>
   );
