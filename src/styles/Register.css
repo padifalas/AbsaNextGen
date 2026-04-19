@@ -96,8 +96,22 @@
   }
 }
 
-@media (max-width: 540px) {
-  .reg-field-row {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 768px) {
+  .reg-field-row { grid-template-columns: 1fr; }
+  .reg-page { padding: 20px 16px; }
+  .reg-form__title { font-size: 1.5rem; }
+  .reg-form__subtitle { font-size: 0.9rem; }
+  .reg-section-title { font-size: 0.85rem; margin-bottom: 12px; }
+  .reg-field { margin-bottom: 14px; }
+  .reg-field label { font-size: 0.85rem; }
+  .reg-field input { padding: 12px; font-size: 0.95rem; }
+  .reg-strength-bar { height: 4px; margin-top: 8px; }
+  .reg-strength-label { font-size: 0.75rem; margin-top: 6px; }
+  .reg-btn-submit { padding: 14px; font-size: 0.95rem; }
+}
+
+@media (max-width: 480px) {
+  .reg-page { padding: 16px 12px; }
+  .reg-form__title { font-size: 1.25rem; }
+  .login-right { padding: 24px 16px; }
 }

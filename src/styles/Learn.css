@@ -364,4 +364,26 @@
 @media (max-width: 900px) {
   .learn-grid { grid-template-columns: 1fr; }
   .learn-page { padding: 20px 16px; }
+  .learn-header { margin-bottom: 24px; }
+  .learn-header__title { font-size: 1.75rem; }
+  .learn-header__subtitle { font-size: 0.9rem; }
+  .learn-section { margin-bottom: 28px; }
+  .learn-section__title { font-size: 1.1rem; margin-bottom: 16px; }
+  .learn-card { padding: 20px; }
+  .learn-card__title { font-size: 1rem; }
+  .learn-card__desc { font-size: 0.875rem; }
+  .quick-link { padding: 14px 16px; }
+  .quick-link__title { font-size: 0.9rem; }
+  .quick-link__desc { font-size: 0.8rem; }
+}
+
+@media (max-width: 640px) {
+  .learn-page { padding: 16px 12px; }
+  .learn-header__title { font-size: 1.5rem; }
+  .learn-header__subtitle { font-size: 0.85rem; }
+  .learn-card { padding: 16px; }
+  .learn-card__tags { flex-wrap: wrap; gap: 6px; }
+  .learn-card__tag { font-size: 0.65rem; padding: 4px 8px; }
+  .quick-link { padding: 12px 14px; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .quick-link__arrow { margin-left: 0; margin-top: 4px; }
 }

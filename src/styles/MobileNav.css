@@ -47,4 +47,15 @@
   .mobile-nav {
     display: flex;
   }
+  .mobile-nav { padding: 8px 12px; }
+  .mobile-nav__items { gap: 4px; }
+  .mobile-nav__item { padding: 10px 12px; }
+  .mobile-nav__label { font-size: 0.65rem; }
+  .mobile-nav__item svg { width: 18px; height: 18px; }
+}
+
+@media (max-width: 480px) {
+  .mobile-nav { padding: 6px 8px; }
+  .mobile-nav__item { padding: 8px 10px; }
+  .mobile-nav__label { font-size: 0.6rem; }
 }

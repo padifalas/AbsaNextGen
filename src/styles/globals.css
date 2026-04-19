@@ -350,4 +350,9 @@ input[type="number"]:focus {
     margin-left: 0 !important;
     padding-bottom: 68px;
   }
+  .app-layout { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+  .main-content { padding-bottom: 72px; }
 }

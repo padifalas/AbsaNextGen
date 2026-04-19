@@ -519,10 +519,23 @@
     align-items: flex-start;
     padding-top: 60px;
   }
+  .login-brand { padding: 20px 16px; }
+  .login-brand__name { font-size: 1.25rem; }
 }
 
 @media (max-width: 480px) {
   .login-right {
-    padding: 40px 20px;
+    padding: 32px 16px;
   }
+  .login-form__title { font-size: 1.5rem; }
+  .login-form__subtitle { font-size: 0.9rem; }
+  .login-input-group { margin-bottom: 16px; }
+  .login-input-group label { font-size: 0.85rem; }
+  .login-input { padding: 12px 14px; font-size: 0.95rem; }
+  .login-btn-primary { padding: 14px; font-size: 0.95rem; }
+  .login-btn-google { padding: 12px; }
+  .login-divider { margin: 20px 0; }
+  .login-divider span { font-size: 0.75rem; padding: 0 12px; }
+  .login-signup { font-size: 0.9rem; }
+  .login-signup a { font-size: 0.9rem; }
 }

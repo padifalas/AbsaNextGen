@@ -456,15 +456,43 @@
 }
 
 /* ── Responsive ── */
-@media (max-width: 640px) {
-  .onboarding-page { padding: 24px 16px 48px; }
-  .onboarding-card__header { padding: 24px 22px 18px; }
-  .onboarding-card__body { padding: 20px 22px; }
-  .onboarding-card__footer { padding: 16px 22px 20px; }
+@media (max-width: 768px) {
+  .onboarding-page { padding: 20px 16px 40px; }
+  .onboarding-topbar { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+  .onboarding-brand__pill { width: 32px; height: 32px; }
+  .onboarding-brand__name { font-size: 1rem; }
+  .onboarding-step-count { font-size: 0.75rem; }
+  .onboarding-card { border-radius: 12px; }
+  .onboarding-card__header { padding: 20px 18px 14px; }
+  .onboarding-card__title { font-size: 1.25rem; }
+  .onboarding-card__body { padding: 18px; }
+  .onboarding-card__footer { padding: 14px 18px 16px; }
   .ob-field-row { grid-template-columns: 1fr; }
+  .ob-field-row--2 { grid-template-columns: 1fr; }
+  .ob-field { margin-bottom: 16px; }
+  .ob-field label { font-size: 0.85rem; }
+  .ob-field input, .ob-field select { padding: 12px; font-size: 0.95rem; }
   .ob-expense-grid { grid-template-columns: 1fr; }
-  .ob-tracks { grid-template-columns: 1fr; }
+  .ob-tracks { grid-template-columns: 1fr; gap: 12px; }
+  .ob-track { padding: 16px; }
+  .ob-track__icon { width: 40px; height: 40px; }
+  .ob-track__name { font-size: 1rem; }
+  .ob-track__desc { font-size: 0.85rem; }
   .ob-confirm-grid { grid-template-columns: 1fr; }
-  .ob-confirm-track { grid-column: span 1; }
-  .ob-derived { grid-template-columns: 1fr 1fr 1fr; }
+  .ob-confirm-track { grid-column: span 1; padding: 16px; }
+  .ob-derived { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ob-derived-item { padding: 14px; }
+  .ob-derived__value { font-size: 1.25rem; }
+  .ob-derived__label { font-size: 0.7rem; }
+  .ob-btn-next { padding: 14px 20px; font-size: 0.95rem; }
+  .ob-btn-back { padding: 12px 16px; font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+  .onboarding-page { padding: 16px 12px 32px; }
+  .onboarding-card__title { font-size: 1.1rem; }
+  .ob-track__name { font-size: 0.95rem; }
+  .ob-derived { grid-template-columns: 1fr; }
+  .ob-btn-next { width: 100%; }
+  .ob-btn-back { width: 100%; }
 }

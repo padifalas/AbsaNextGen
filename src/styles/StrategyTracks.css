@@ -828,8 +828,128 @@
 /* Responsive stuff*/
 @media (max-width: 900px) {
   .tracks-grid { grid-template-columns: 1fr; }
+  
+  .tracks-page {
+    padding: 24px 20px;
+  }
+  
+  .tracks-page__title {
+    font-size: 1.75rem;
+  }
+  
+  .comparison-table,
+  .comparison-table thead,
+  .comparison-table tbody,
+  .comparison-table th,
+  .comparison-table td,
+  .comparison-table tr {
+    display: block;
+  }
+  
+  .comparison-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  .comparison-table td {
+    position: relative;
+    padding-left: 50%;
+    border: none;
+    border-bottom: 1px solid var(--color-card-border);
+  }
+  
+  .comparison-table td:first-child {
+    position: relative;
+    padding-left: 16px;
+    background: var(--surface-1);
+    font-weight: 700;
+  }
+  
+  .comparison-table td::before {
+    position: absolute;
+    left: 16px;
+    width: 45%;
+    white-space: nowrap;
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .comparison-table tr {
+    margin-bottom: 16px;
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .comparison-table tr:last-child td:last-child {
+    border-bottom: none;
+  }
 }
 
 @media (max-width: 640px) {
-  .tracks-page { padding: 20px 16px; }
+  .tracks-page { 
+    padding: 16px 12px; 
+  }
+  
+  .tracks-page__title {
+    font-size: 1.5rem;
+  }
+  
+  .tracks-page__subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .track-card__header {
+    padding: 18px 16px 14px;
+  }
+  
+  .track-card__body {
+    padding: 14px 16px 16px;
+  }
+  
+  .track-card__name {
+    font-size: 0.95rem;
+  }
+  
+  .track-card__pitch {
+    font-size: 0.75rem;
+  }
+  
+  .track-card__select-btn {
+    padding: 8px;
+    font-size: 0.75rem;
+  }
+  
+  .milestones-timeline {
+    padding: 16px;
+  }
+  
+  .milestone-row {
+    gap: 12px;
+  }
+  
+  .milestone-dot {
+    width: 20px;
+    height: 20px;
+    font-size: 0.5rem;
+  }
+  
+  .milestone-desc {
+    font-size: 0.8rem;
+  }
+  
+  .track-milestones__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .tracks-explainer {
+    padding: 20px 16px;
+  }
 }

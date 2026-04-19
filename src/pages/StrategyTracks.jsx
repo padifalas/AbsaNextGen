@@ -207,15 +207,15 @@ export default function StrategyTracks() {
           <thead>
             <tr>
               <th>Factor</th>
-              {TRACKS.map(t => <th key={t.id}>{t.name}</th>)}
+              {TRACKS.map(t => <th key={t.id} data-label={t.name}>{t.name}</th>)}
             </tr>
           </thead>
           <tbody>
             {COMPARISON_ROWS.map(row => (
               <tr key={row.key}>
-                <td>{row.label}</td>
+                <td data-label="Factor">{row.label}</td>
                 {TRACKS.map(t => (
-                  <td key={t.id}>
+                  <td key={t.id} data-label={t.name}>
                     {row.key === 'risk'
                       ? <span className={`comparison-pill ${RISK_PILL[t.comparison[row.key]] || ''}`}>{t.comparison[row.key]}</span>
                       : t.comparison[row.key]
@@ -225,10 +225,10 @@ export default function StrategyTracks() {
               </tr>
             ))}
             <tr>
-              <td>Trade-off</td>
-              <td>RA &amp; offshore sacrificed short-term</td>
-              <td>Slower deposit, less aggressive growth</td>
-              <td>Zero property equity, lifestyle constrained</td>
+              <td data-label="Factor">Trade-off</td>
+              <td data-label="First Property Path">RA &amp; offshore sacrificed short-term</td>
+              <td data-label="Balanced Lifestyle">Slower deposit, less aggressive growth</td>
+              <td data-label="Aggressive Global">Zero property equity, lifestyle constrained</td>
             </tr>
           </tbody>
         </table>

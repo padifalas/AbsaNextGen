@@ -797,12 +797,33 @@
   .snapshot__summary > div:nth-child(2) { border-right: none; }
   .snapshot__summary > div:nth-child(3) { border-top: 1px solid var(--color-card-border); border-right: 1px solid var(--color-card-border); }
   .snapshot__summary > div:nth-child(4) { border-top: 1px solid var(--color-card-border); border-right: none; }
+  .snapshot__header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .snapshot__header-left { width: 100%; }
+  .snapshot__title { font-size: 1.75rem; }
+  .snapshot__greeting { font-size: 0.9rem; }
 }
 
 @media (max-width: 640px) {
-  .snapshot { padding: 20px 16px; }
-  .snapshot__tiles { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .snapshot { padding: 16px 12px; }
+  .snapshot__tiles { grid-template-columns: 1fr; gap: 12px; }
   .snapshot__grid-right { grid-template-columns: 1fr; }
   .input-grid { grid-template-columns: 1fr; }
-  .snapshot__summary { grid-template-columns: repeat(2, 1fr); }
+  .snapshot__summary { grid-template-columns: 1fr 1fr; }
+  .snapshot__title { font-size: 1.5rem; }
+  .snapshot__subtitle { font-size: 0.9rem; }
+  .stat-tile { padding: 16px; }
+  .stat-tile__value { font-size: 1.25rem; }
+  .stat-tile__label { font-size: 0.75rem; }
+  .income-card { padding: 16px; }
+  .income-card__header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .income-flow-row { padding: 12px 0; }
+  .income-flow__label { font-size: 0.85rem; }
+  .income-flow__amount { font-size: 0.95rem; }
+  .allocation-card { padding: 16px; }
+  .goal-card { padding: 16px; }
+  .goal-card__header { flex-wrap: wrap; gap: 8px; }
+  .goal-card__name { font-size: 0.9rem; }
+  .benchmarks-card { padding: 16px; }
+  .nudge-banner { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px; }
+  .nudge-banner__action { width: 100%; text-align: center; }
 }
