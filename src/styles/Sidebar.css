@@ -164,6 +164,7 @@
 .sidebar__section { padding: 0 10px; }
 
 .sidebar__section-label {
+    font-family: var(--font-display);
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.13em;
@@ -179,6 +180,7 @@
 .sidebar__menu { list-style: none; display: flex; flex-direction: column; gap: 1px; }
 
 .sidebar__link {
+  font-family: var(--font-display);
   display: flex;
   align-items: center;
   gap: 9px;
