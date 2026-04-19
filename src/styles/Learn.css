@@ -1,34 +1,39 @@
 .learn-page {
   padding: 32px;
-  max-width: 1100px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .learn-page__header {
-  margin-bottom: 28px;
+  margin-bottom: 32px;
   text-align: center;
 }
+
 .learn-page__eyebrow {
+  display: inline-block;
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
-  margin-bottom: 4px;
+  color: var(--red);
+  margin-bottom: 8px;
 }
+
 .learn-page__title {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 400;
+  color: var(--surface-dark);
+  margin-bottom: 8px;
   letter-spacing: -0.02em;
-  color: var(--color-text-primary);
 }
+
 .learn-page__subtitle {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  margin-top: 5px;
-  max-width: 560px;
+  font-size: 1rem;
+  color: var(--slate);
+  max-width: 480px;
+  margin: 0 auto;
   line-height: 1.6;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* ── Search ── */
