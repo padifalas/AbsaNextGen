@@ -1,13 +1,12 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-// Lucide
+
 import { FlaskConical, ChevronLeft, ChevronRight, HelpCircle, LogOut } from 'lucide-react';
 
-// Heroicons
+
 import { ChartBarIcon } from '@heroicons/react/24/outline';
 
-// Material
 import SchoolIcon from '@mui/icons-material/School';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
@@ -72,7 +71,7 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
   return (
     <aside className={`sidebar${collapsed ? ' collapsed' : ''}`}>
 
-      {/* ── Brand ── */}
+      {/*  logo - will replace with actual logo */}
       <div className="sidebar__brand">
         <NavLink to="/" className="sidebar__brand-mark">
 
@@ -94,7 +93,7 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
         </button>
       </div>
 
-      {/* ── Active track chip ── */}
+      {/* Active track yhing*/}
       <div className="sidebar__user">
         <div className="sidebar__user-dot" />
         <div className="sidebar__user-label">Active Track</div>
@@ -102,7 +101,7 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
         <div className="sidebar__user-track-sub">First five years</div>
       </div>
 
-      {/* ── Nav ── */}
+      {/* Nav  */}
       <nav className="sidebar__nav">
         {NAV_ITEMS.map(({ section, items }) => (
           <div className="sidebar__section" key={section}>
@@ -134,7 +133,7 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
         ))}
       </nav>
 
-      {/* ── Footer ── */}
+      {/* Footer  */}
       <div className="sidebar__footer">
         <div className="sidebar__footer-link">
           <span className="sidebar__footer-icon">

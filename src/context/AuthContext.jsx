@@ -132,8 +132,8 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    // Keep user data in localStorage so they can log back in without re-registering
-    // Just clear the React state
+    // keep    user data in localStorage so they can log back in without re-registering
+    // jus clearin the React state
     setUser(null);
     setAuthError('');
   };
