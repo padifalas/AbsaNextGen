@@ -14,7 +14,7 @@
 
 .sidebar.collapsed { width: 68px; }
 
-/* ─── Brand ── */
+/*  Brand  */
 .sidebar__brand {
   padding: 20px 16px 16px;
   border-bottom: 1px solid var(--border);
@@ -89,7 +89,7 @@
 .sidebar__toggle:hover { background: var(--border); color: var(--surface-dark); }
 .sidebar.collapsed .sidebar__toggle { margin: 0 auto; }
 
-/* ─── Track chip ── */
+/* Track chip thing  */
 .sidebar__user {
   margin: 12px 12px 0;
   padding: 11px 13px;
@@ -164,7 +164,7 @@
 .sidebar__section { padding: 0 10px; }
 
 .sidebar__section-label {
-    font-family: var(--font-display);
+  font-family: var(--font-display);
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.13em;
@@ -180,7 +180,7 @@
 .sidebar__menu { list-style: none; display: flex; flex-direction: column; gap: 1px; }
 
 .sidebar__link {
-  font-family: var(--font-display);
+  /* font-family: var(--font-display); */
   display: flex;
   align-items: center;
   gap: 9px;
@@ -189,7 +189,7 @@
   text-decoration: none;
   color: var(--slate);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 400;
   transition: all var(--t-fast) ease;
   position: relative;
   white-space: nowrap;
@@ -203,9 +203,14 @@
 }
 
 .sidebar__link.active {
-  background: var(--red-light);
-  color: var(--red);
+  background: var(--surface-dark);
+  color:var(--surface-1);
   font-weight: 600;
+}
+
+.sidebar__link.active .sidebar__link-icon {
+  /* color: var(--red);  */
+  color: inherit;
 }
 
 .sidebar__link-icon {

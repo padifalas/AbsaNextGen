@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import '../styles/MoneySnapshot.css';
 import { useFinancial } from '../context/FinancialContext';
 import { useAuth } from '../context/AuthContext';
 import { Pencil, Info, Home, Shield, TrendingUp } from 'lucide-react';
+import gsap from 'gsap';
 
 const fmt = (v) => `R${Number(v || 0).toLocaleString('en-ZA')}`;
 const pct = (v) => `${Number(v || 0).toFixed(1)}%`;
@@ -38,6 +39,11 @@ export default function MoneySnapshot() {
   const [nudgeIdx, setNudgeIdx] = useState(0);
   const [nudgeDismissed, setNudgeDismissed] = useState(false);
 
+  // GSAP animations
+  const tileRefs = useRef([]);
+  const valueRefs = useRef([]);
+  const containerRef = useRef(null);
+
   // local edit state
   const [draft, setDraft] = useState({ ...financial });
 
@@ -60,6 +66,67 @@ export default function MoneySnapshot() {
   const debtStatus = debtToIncome > 35 ? 'at-risk' : debtToIncome > 20 ? 'warning' : 'on-track';
   const savingsRate = parseFloat(derived.savingsRate);
   const savingsStatus = savingsRate < 10 ? 'at-risk' : savingsRate >= 20 ? 'on-track' : 'warning';
+
+  // GSAP animations
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    // Animate container entrance
+    gsap.fromTo(containerRef.current, 
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
+    );
+
+    //  stat tiles animation
+    tileRefs.current.forEach((tile, index) => {
+      if (tile) {
+        gsap.fromTo(tile,
+          { opacity: 0, y: 30 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.5, 
+            delay: 0.2 + index * 0.1,
+            ease: 'power2.out'
+          }
+        );
+      }
+    });
+
+    //  values animation w  count up
+    const values = [
+      financial.grossMonthly,
+      derived.tax.takeHome,
+      derived.tax.paye + derived.tax.uif,
+      Math.max(0, derived.freeCapital)
+    ];
+
+    valueRefs.current.forEach((el, index) => {
+      if (el && values[index] !== undefined) {
+        gsap.fromTo(el,
+          { opacity: 0.5 },
+          { 
+            opacity: 1, 
+            duration: 0.3,
+            delay: 0.4 + index * 0.15,
+            ease: 'power2.out'
+          }
+        );
+        
+        // count up animation
+        const obj = { val: 0 };
+        gsap.to(obj, {
+          val: values[index],
+          duration: 1,
+          delay: 0.4 + index * 0.15,
+          ease: 'power2.out',
+          onUpdate: () => {
+            el.textContent = fmt(obj.val);
+          }
+        });
+      }
+    });
+  }, [financial.grossMonthly, derived.tax.takeHome, derived.tax.paye, derived.tax.uif, derived.freeCapital]);
 
   const handleSave = () => {
     const toNum = (v) => parseFloat(String(v).replace(/\s/g, '')) || 0;
@@ -91,8 +158,8 @@ export default function MoneySnapshot() {
   );
 
   return (
-    <div className="snapshot fade-up">
-      {/* ── Header ── */}
+    <div className="snapshot fade-up" ref={containerRef}>
+      {/*  Header  */}
       <div className="snapshot__header">
         <div className="snapshot__header-left">
           <div className="snapshot__greeting">Good day, {firstName}</div>
@@ -126,37 +193,37 @@ export default function MoneySnapshot() {
       )}
 
       {/* stat tiles */}
-      <div className="snapshot__tiles fade-up fade-up-2">
-        <div className="stat-tile">
+      <div className="snapshot__tiles fade-up fade-up-2" ref={containerRef}>
+        <div className="stat-tile" ref={el => tileRefs.current[0] = el}>
           <div className="stat-tile__accent stat-tile__accent--red" />
           <div className="stat-tile__label">Gross Monthly</div>
-          <div className="stat-tile__value">{fmt(financial.grossMonthly)}</div>
+          <div className="stat-tile__value" ref={el => valueRefs.current[0] = el}>{fmt(financial.grossMonthly)}</div>
           <div className="stat-tile__sub">Before PAYE &amp; UIF</div>
         </div>
-        <div className="stat-tile">
+        <div className="stat-tile" ref={el => tileRefs.current[1] = el}>
           <div className="stat-tile__accent stat-tile__accent--green" />
           <div className="stat-tile__label">Take-Home Pay</div>
-          <div className="stat-tile__value">{fmt(derived.tax.takeHome)}</div>
+          <div className="stat-tile__value" ref={el => valueRefs.current[1] = el}>{fmt(derived.tax.takeHome)}</div>
           <div className="stat-tile__sub">
             <span className="stat-tile__indicator stat-tile__indicator--neutral">
               {pct((derived.tax.takeHome / financial.grossMonthly) * 100)} of gross
             </span>
           </div>
         </div>
-        <div className="stat-tile">
+        <div className="stat-tile" ref={el => tileRefs.current[2] = el}>
           <div className="stat-tile__accent stat-tile__accent--gold" />
           <div className="stat-tile__label">Tax &amp; UIF</div>
-          <div className="stat-tile__value">{fmt(derived.tax.paye + derived.tax.uif)}</div>
+          <div className="stat-tile__value" ref={el => valueRefs.current[2] = el}>{fmt(derived.tax.paye + derived.tax.uif)}</div>
           <div className="stat-tile__sub">
             <span className="stat-tile__indicator stat-tile__indicator--neutral">
               {derived.tax.effectiveRate}% effective rate
             </span>
           </div>
         </div>
-        <div className="stat-tile">
+        <div className="stat-tile" ref={el => tileRefs.current[3] = el}>
           <div className="stat-tile__accent stat-tile__accent--blue" />
           <div className="stat-tile__label">Free Capital</div>
-          <div className="stat-tile__value">{fmt(Math.max(0, derived.freeCapital))}</div>
+          <div className="stat-tile__value" ref={el => valueRefs.current[3] = el}>{fmt(Math.max(0, derived.freeCapital))}</div>
           <div className="stat-tile__sub">
             <span className={`stat-tile__indicator stat-tile__indicator--${derived.freeCapital > 0 ? 'positive' : 'negative'}`}>
               {derived.freeCapital > 0 ? 'Available' : 'Overcommitted'}
