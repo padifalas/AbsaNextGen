@@ -71,7 +71,7 @@ const TRACKS = [
     icon: <Globe size={20} color="#fff" />,
     priorities: [
       'Offshore ETFs (MSCI World)',
-      'Max RA — 27.5% of income',
+      'Max RA - 27.5% of income',
       'Max TFSA for tax-free growth',
       'Use R1M SARB allowance yearly',
     ],

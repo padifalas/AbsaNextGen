@@ -1,7 +1,8 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 // Lucide
-import { FlaskConical, ChevronLeft, ChevronRight, HelpCircle } from 'lucide-react';
+import { FlaskConical, ChevronLeft, ChevronRight, HelpCircle, LogOut } from 'lucide-react';
 
 // Heroicons
 import { ChartBarIcon } from '@heroicons/react/24/outline';
@@ -59,6 +60,13 @@ const NAV_ITEMS = [
 ];
 
 export default function Sidebar({ userTrack = 'First Property Path', collapsed, onToggle }) {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
 
   return (
@@ -142,6 +150,13 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
           <span>Help & Glossary</span>
           <span className="sidebar__link-tooltip">Help & Glossary</span>
         </div>
+        <button className="sidebar__footer-link" onClick={handleLogout}>
+          <span className="sidebar__footer-icon">
+            <LogOut size={18} />
+          </span>
+          <span>Log Out</span>
+          <span className="sidebar__link-tooltip">Log Out</span>
+        </button>
       </div>
 
       <div className="sidebar__absa-credit">ABSA Next Gen © Padi</div>
