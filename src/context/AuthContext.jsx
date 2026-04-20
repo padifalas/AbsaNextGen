@@ -132,8 +132,8 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    localStorage.removeItem('ws_user');
-    localStorage.removeItem('ws_financial');
+    // Keep user data in localStorage so they can log back in without re-registering
+    // Just clear the React state
     setUser(null);
     setAuthError('');
   };
