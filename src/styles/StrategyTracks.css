@@ -435,12 +435,14 @@
 .track-card {
   background: #fff;
   border: 1px solid var(--color-card-border);
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: var(--card-shadow);
   overflow: hidden;
   cursor: pointer;
   transition: box-shadow 200ms ease, transform 200ms ease;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .track-card:hover {
@@ -455,7 +457,7 @@
 
 
 .track-card__header {
-  padding: 22px 22px 18px;
+  padding: 16px 18px 14px;
   position: relative;
 }
 
@@ -486,83 +488,90 @@
 }
 
 .track-card__icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   background: rgba(255,255,255,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .track-card__tagline {
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
-  margin-bottom: 6px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 4px;
 }
 
 .track-card__name {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #fff;
   line-height: 1.3;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .track-card__pitch {
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.55);
-  line-height: 1.5;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* Standard property for compatibility */
+  line-clamp: 2;
 }
 
 /* body */
 .track-card__body {
-  padding: 18px 22px 20px;
+  padding: 14px 18px 16px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
+  flex: 1;
 }
 
 .track-card__section-label {
-  font-size: 0.6rem;
+  font-size: 0.5625rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-muted);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .track-card__priorities,
 .track-card__avoids {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
 }
 
 .track-card__priority-item,
 .track-card__avoid-item {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  font-size: 0.8125rem;
+  gap: 6px;
+  font-size: 0.75rem;
   color: var(--color-text-primary);
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .track-card__avoid-item {
   color: var(--color-text-muted);
-  font-size: 0.8rem;
+  font-size: 0.6875rem;
 }
 
 .track-card__priority-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  margin-top: 5px;
+  margin-top: 4px;
   flex-shrink: 0;
 }
 
@@ -573,24 +582,24 @@
 
 .track-card__outcome {
   background: #f9fafb;
-  border-radius: 10px;
-  padding: 12px 14px;
+  border-radius: 8px;
+  padding: 10px 12px;
 }
 
 .track-card__outcome-label {
-  font-size: 0.6rem;
+  font-size: 0.5625rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-muted);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .track-card__outcome-text {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--color-text-primary);
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .track-card__select-btn {
