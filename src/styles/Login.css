@@ -39,7 +39,7 @@
   width: 280px;
   height: 280px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(193, 18, 31, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(10, 25, 48, 0.06) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -63,7 +63,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 16px rgba(193, 18, 31, 0.35);
+  box-shadow: 0 4px 16px rgba(10, 25, 48, 0.35);
 }
 
 .login-brand__pill svg {
@@ -268,7 +268,7 @@
 
 .login-field__input.error {
   border-color: var(--red);
-  box-shadow: 0 0 0 3px rgba(193, 18, 31, 0.08);
+  box-shadow: 0 0 0 3px rgba(10, 25, 48, 0.08);
 }
 
 .login-field__input::placeholder {
@@ -392,8 +392,8 @@
   align-items: center;
   gap: 10px;
   padding: 12px 14px;
-  background: rgba(193, 18, 31, 0.06);
-  border: 1px solid rgba(193, 18, 31, 0.15);
+  background: rgba(10, 25, 48, 0.06);
+  border: 1px solid rgba(10, 25, 48, 0.15);
   border-left: 3px solid var(--red);
   border-radius: var(--radius-sm);
   margin-bottom: 16px;

@@ -3,7 +3,7 @@
   min-height: 100vh;
   background: var(--page-bg);
   background-image:
-    radial-gradient(ellipse at 10% 70%, rgba(193,18,31,0.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 70%, rgba(10,25,48,0.04) 0%, transparent 55%),
     radial-gradient(ellipse at 88% 12%, rgba(184,146,42,0.05) 0%, transparent 50%);
   display: flex;
   flex-direction: column;
@@ -37,7 +37,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 3px 10px rgba(193,18,31,0.28);
+  box-shadow: 0 3px 10px rgba(10,25,48,0.28);
 }
 
 .onboarding-brand__pill svg { width: 15px; height: 15px; }
@@ -281,7 +281,7 @@
 .ob-track.selected {
   border-color: var(--red);
   background: var(--red-light);
-  box-shadow: 0 0 0 3px rgba(193,18,31,0.08);
+  box-shadow: 0 0 0 3px rgba(10,25,48,0.08);
 }
 
 .ob-track__check {
@@ -452,7 +452,7 @@
 
 .ob-btn-next.finish:hover {
   background: var(--red-hover);
-  box-shadow: 0 6px 20px rgba(193,18,31,0.28);
+  box-shadow: 0 6px 20px rgba(10,25,48,0.28);
 }
 
 /* ── Responsive ── */

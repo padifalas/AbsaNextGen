@@ -1,57 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=Hammersmith+One&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Hammersmith+One&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
   
-  --page-bg: #ffffff;
+  --page-bg: #edebe7;
   
-  --surface-1: #f4f3f3;
+  --surface-1: #ffffff;
  
-  --surface-2: #F0EBE1;
+  --surface-2: #f5f4ef;
  
-  --surface-dark: #1C1917;
+  --surface-dark: #0a1930;
 
-  --surface-dark-2: #292524;
+  --surface-dark-2: #162a4a;
  
 
-  --red: #dc0037;
-  --red-light: #FEE2E2;
-  --red-hover: #A00E18;
+  --red: #0a1930;
+  --red-light: #e4eaf4;
+  --red-hover: #1a365d;
 
-  --dark-red:#661a26;
+  --dark-red: #051021;
 
-  --gold: #B8922A;
+  --gold: #b28a50;
  
-  --gold-light: #FDF3DC;
-  --gold-mid: #E8C96A;
+  --gold-light: #fdfaf6;
+  --gold-mid: #cfb183;
 
-  --sage: #50925b;
+  --sage: #2c4c3b;
 
-  --sage-light: #E8F2E9;
+  --sage-light: #e6eee9;
 
-  --slate: #5C6B7A;
+  --slate: #676767;
  
-  --slate-light: #E8ECF0;
+  --slate-light: #e8ecf0;
 
   /* typography stuff  */
-  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-display: 'Playfair Display', 'DM Serif Display', Georgia, serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* ── borders n radius*/
-  --border: rgba(0, 0, 0, 0.07);
-  --border-strong: rgba(0, 0, 0, 0.13);
-  --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 22px;
-  --radius-xl: 28px;
+  --border: rgba(10, 25, 48, 0.1);
+  --border-strong: rgba(10, 25, 48, 0.2);
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
 
   /*  shadows  */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-red: 0 6px 20px rgba(193, 18, 31, 0.22);
+  --shadow-xs: 0 1px 2px rgba(10, 25, 48, 0.04);
+  --shadow-sm: 0 2px 8px rgba(10, 25, 48, 0.06), 0 1px 2px rgba(10, 25, 48, 0.04);
+  --shadow-md: 0 4px 20px rgba(10, 25, 48, 0.08), 0 1px 4px rgba(10, 25, 48, 0.05);
+  --shadow-lg: 0 8px 40px rgba(10, 25, 48, 0.1), 0 2px 8px rgba(10, 25, 48, 0.06);
+  --shadow-red: 0 6px 20px rgba(10, 25, 48, 0.22);
 
   /*  transitions  */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -66,7 +66,7 @@
   --color-bg-page: var(--page-bg);
   --color-card: var(--surface-1);
   --color-card-border: var(--border);
-  --color-red: var(--red);
+  --color-red: var(--red); /* renamed semantic wise but holds navy blue */
   --color-red-hover: var(--red-hover);
   --color-gold: var(--gold);
   --color-gold-tint: var(--gold-light);
@@ -74,7 +74,7 @@
   --color-text-muted: var(--slate);
   --color-text-light: #FDFAF6;
   --color-positive: var(--sage);
-  --color-negative: var(--red);
+  --color-negative: #b33939; /* real negative just in case */
   --card-shadow: var(--shadow-sm);
   --card-shadow-hover: var(--shadow-md);
   --radius-card: var(--radius-md);
@@ -104,8 +104,8 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(193, 18, 31, 0.03) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(184, 146, 42, 0.04) 0%, transparent 55%);
+    radial-gradient(ellipse at 20% 50%, rgba(26, 54, 93, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(178, 138, 80, 0.04) 0%, transparent 55%);
 }
 
 #root {

@@ -26,7 +26,7 @@
   padding: 6px 14px;
   border-radius: 10px;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--slate);
   font-size: 0.625rem;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -35,7 +35,7 @@
 }
 
 .mobile-nav__item.active {
-  color: var(--color-red);
+  color: #ffffff;
 }
 
 .mobile-nav__item svg {

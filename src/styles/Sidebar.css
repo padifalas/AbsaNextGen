@@ -42,7 +42,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(193,18,31,0.3);
+  box-shadow: 0 4px 12px rgba(10,25,48,0.3);
 }
 
 .sidebar__logo-pill svg { width: 17px; height: 17px; }
@@ -198,13 +198,13 @@
 .sidebar.collapsed .sidebar__link { justify-content: center; padding: 10px 0; }
 
 .sidebar__link:hover {
-  background: var(--surface-2);
-  color: var(--surface-dark);
+  background: var(--red-hover);
+  color: #ffffff;
 }
 
 .sidebar__link.active {
-  background: var(--surface-dark);
-  color:var(--surface-1);
+  background: var(--red);
+  color: #ffffff;
   font-weight: 600;
 }
 

@@ -70,7 +70,7 @@
   background: var(--color-red);
   border-color: var(--color-red);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(193,18,31,0.2);
+  box-shadow: 0 4px 12px rgba(10,25,48,0.2);
 }
 
 .sim-tab__badge {
@@ -182,7 +182,7 @@
   border-radius: 50%;
   background: var(--color-red);
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(193,18,31,0.3);
+  box-shadow: 0 2px 6px rgba(10,25,48,0.3);
   transition: transform 150ms ease;
 }
 
@@ -224,12 +224,12 @@
   font-family: inherit;
   cursor: pointer;
   transition: background 150ms ease, box-shadow 150ms ease;
-  box-shadow: 0 4px 12px rgba(193,18,31,0.2);
+  box-shadow: 0 4px 12px rgba(10,25,48,0.2);
 }
 
 .sim-run-btn:hover {
   background: var(--color-red-hover);
-  box-shadow: 0 6px 16px rgba(193,18,31,0.28);
+  box-shadow: 0 6px 16px rgba(10,25,48,0.28);
 }
 
 /* output panel */
