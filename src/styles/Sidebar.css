@@ -1,3 +1,7 @@
+/* ─────────────────────────────────────────
+   Sidebar.css
+───────────────────────────────────────── */
+
 .sidebar {
   width: 240px;
   min-height: 100vh;
@@ -8,20 +12,20 @@
   left: 0; top: 0; bottom: 0;
   z-index: 100;
   border-right: 1px solid var(--border);
-  transition: width 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 260ms cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
 }
 
-.sidebar.collapsed { width: 68px; }
+.sidebar.collapsed { width: 64px; }
 
-/*  Brand  */
+/* ── Brand ── */
 .sidebar__brand {
-  padding: 20px 16px 16px;
+  padding: 18px 14px 14px;
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 66px;
+  min-height: 64px;
   flex-shrink: 0;
 }
 
@@ -31,230 +35,245 @@
   gap: 10px;
   text-decoration: none;
   overflow: hidden;
+  flex: 1;
+  min-width: 0;
 }
 
 .sidebar__logo-pill {
-  width: 34px;
-  height: 34px;
-  background: var(--red);
-  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  background: var(--surface-dark);
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(10,25,48,0.3);
+  box-shadow: 0 4px 12px rgba(10,25,48,0.2);
+  transition: transform 0.2s ease;
 }
-
-.sidebar__logo-pill svg { width: 17px; height: 17px; }
+.sidebar__logo-pill:hover { transform: scale(1.06); }
 
 .sidebar__brand-text {
   display: flex;
   flex-direction: column;
   gap: 1px;
   white-space: nowrap;
-  transition: opacity 200ms ease;
+  overflow: hidden;
+  transition: opacity 200ms ease, width 200ms ease;
 }
-.sidebar.collapsed .sidebar__brand-text { opacity: 0; width: 0; pointer-events: none; }
+.sidebar.collapsed .sidebar__brand-text {
+  opacity: 0;
+  width: 0;
+  pointer-events: none;
+}
 
 .sidebar__brand-name {
   font-family: var(--font-display);
   font-size: 0.9375rem;
   font-weight: 400;
   color: var(--surface-dark);
-  letter-spacing: 0;
   line-height: 1.2;
 }
 
 .sidebar__brand-sub {
   font-size: 0.6875rem;
-  font-weight: 400;
   color: var(--slate);
   letter-spacing: 0.02em;
 }
 
+/* Toggle button — hamburger / X */
 .sidebar__toggle {
-  width: 26px;
-  height: 26px;
-  border-radius: var(--radius-xs);
-  border: 1px solid var(--border-strong);
-  background: var(--surface-2);
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
   color: var(--slate);
-  transition: all var(--t-fast) ease;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
-.sidebar__toggle:hover { background: var(--border); color: var(--surface-dark); }
+.sidebar__toggle:hover {
+  background: var(--surface-dark);
+  color: #fff;
+  border-color: var(--surface-dark);
+}
 .sidebar.collapsed .sidebar__toggle { margin: 0 auto; }
 
-/* Track chip thing  */
-.sidebar__user {
-  margin: 12px 12px 0;
-  padding: 11px 13px;
+/* ── Active Track Chip ── */
+.sidebar__track-chip {
+  margin: 12px 10px 0;
+  padding: 11px 12px;
   background: var(--gold-light);
   border: 1px solid rgba(184,146,42,0.18);
   border-radius: var(--radius-sm);
-  flex-shrink: 0;
-  overflow: hidden;
-  transition: all 200ms ease;
-}
-
-.sidebar.collapsed .sidebar__user {
-  margin: 12px 10px 0;
-  padding: 9px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: var(--gold-light);
-}
-
-.sidebar__user-label {
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 3px;
-  white-space: nowrap;
-}
-
-.sidebar__user-track {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--surface-dark);
-  white-space: nowrap;
+  gap: 8px;
+  flex-shrink: 0;
   overflow: hidden;
-  text-overflow: ellipsis;
+  transition: padding 200ms ease;
+}
+.sidebar.collapsed .sidebar__track-chip {
+  padding: 9px;
+  justify-content: center;
 }
 
-.sidebar__user-track-sub {
-  font-size: 0.6875rem;
-  color: var(--slate);
-  margin-top: 1px;
-  white-space: nowrap;
-}
-
-.sidebar__user-dot {
+.sidebar__track-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--gold);
   flex-shrink: 0;
-  display: none;
 }
-.sidebar.collapsed .sidebar__user-dot { display: block; }
-.sidebar.collapsed .sidebar__user-label,
-.sidebar.collapsed .sidebar__user-track,
-.sidebar.collapsed .sidebar__user-track-sub { display: none; }
 
-/* ─── Nav ── */
+.sidebar__track-body {
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 200ms ease, width 200ms ease;
+}
+.sidebar.collapsed .sidebar__track-body {
+  opacity: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+.sidebar__track-label {
+  font-size: 0.5875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2px;
+}
+
+.sidebar__track-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--surface-dark);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar__track-sub {
+  font-size: 0.6875rem;
+  color: var(--slate);
+  margin-top: 1px;
+}
+
+/* ── Nav ── */
 .sidebar__nav {
   flex: 1;
-  padding: 16px 0 8px;
+  padding: 14px 0 8px;
   overflow-y: auto;
   overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
 }
 .sidebar__nav::-webkit-scrollbar { display: none; }
 
-.sidebar__section { padding: 0 10px; }
-
-.sidebar__section-label {
-  font-family: var(--font-display);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: rgba(92,107,122,0.5);
+.sidebar__menu {
+  list-style: none;
   padding: 0 8px;
-  margin-bottom: 4px;
-  white-space: nowrap;
-  transition: opacity 200ms ease;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
-.sidebar.collapsed .sidebar__section-label { opacity: 0; height: 0; margin: 0; }
-
-.sidebar__menu { list-style: none; display: flex; flex-direction: column; gap: 1px; }
 
 .sidebar__link {
-  /* font-family: var(--font-display); */
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 8px 10px;
-  border-radius: var(--radius-sm);
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 10px;
   text-decoration: none;
-  color: var(--slate);
+  color: #676767;
   font-size: 0.875rem;
-  font-weight: 400;
-  transition: all var(--t-fast) ease;
+  font-weight: 500;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.15s ease;
   position: relative;
   white-space: nowrap;
   overflow: hidden;
 }
-.sidebar.collapsed .sidebar__link { justify-content: center; padding: 10px 0; }
 
-.sidebar__link:hover {
-  background: var(--red-hover);
-  color: #ffffff;
+/* Collapsed: centre icon only */
+.sidebar.collapsed .sidebar__link {
+  justify-content: center;
+  padding: 10px 0;
 }
 
+/* Hover — deep navy fill */
+.sidebar__link:hover {
+  background: #1a365d;
+  color: #fff;
+  transform: translateX(2px);
+}
+.sidebar.collapsed .sidebar__link:hover {
+  transform: none;
+}
+
+/* Active */
 .sidebar__link.active {
-  background: var(--red);
-  color: #ffffff;
+  background: #0a1930;
+  color: #fff;
   font-weight: 600;
 }
-
 .sidebar__link.active .sidebar__link-icon {
-  /* color: var(--red);  */
-  color: inherit;
+  color: var(--gold);
+}
+
+/* Subtle left accent bar on active */
+.sidebar__link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+  background: var(--gold);
 }
 
 .sidebar__link-icon {
-  width: 19px;
-  height: 19px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: color 0.15s;
 }
 
-.sidebar__link-label { flex: 1; transition: opacity 200ms ease; }
-.sidebar.collapsed .sidebar__link-label { opacity: 0; width: 0; overflow: hidden; }
-
-.sidebar__link-badge {
-  font-size: 0.6rem;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 20px;
-  background: var(--red);
-  color: #fff;
+.sidebar__link-label {
+  flex: 1;
   transition: opacity 200ms ease;
 }
-.sidebar__link-badge--gold { background: var(--gold); color: #fff; }
-.sidebar.collapsed .sidebar__link-badge { opacity: 0; width: 0; padding: 0; overflow: hidden; }
+.sidebar.collapsed .sidebar__link-label {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
 
-/* Tooltip */
+/* Tooltip (collapsed hover) */
 .sidebar__link-tooltip {
   position: absolute;
-  left: calc(100% + 10px);
+  left: calc(100% + 12px);
   top: 50%;
   transform: translateY(-50%);
   background: var(--surface-dark);
-  color: var(--surface-1);
+  color: #fff;
   font-size: 0.75rem;
   font-weight: 500;
-  padding: 5px 10px;
-  border-radius: var(--radius-xs);
+  padding: 6px 12px;
+  border-radius: 8px;
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
   transition: opacity 150ms ease;
   z-index: 999;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 12px rgba(10,25,48,0.15);
 }
 .sidebar__link-tooltip::before {
   content: '';
@@ -267,47 +286,84 @@
 }
 .sidebar.collapsed .sidebar__link:hover .sidebar__link-tooltip { opacity: 1; }
 
-/* ─── Footer ── */
+/* ── Footer ── */
 .sidebar__footer {
-  padding: 8px 10px;
+  padding: 8px;
   border-top: 1px solid var(--border);
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .sidebar__footer-link {
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 8px 10px;
-  border-radius: var(--radius-sm);
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 10px;
   color: var(--slate);
   font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--t-fast) ease;
+  position: relative;
   white-space: nowrap;
   overflow: hidden;
-  position: relative;
+  transition: background 0.18s ease, color 0.18s ease;
 }
 .sidebar.collapsed .sidebar__footer-link { justify-content: center; }
-.sidebar.collapsed .sidebar__footer-link span:not(.sidebar__link-tooltip) { opacity: 0; width: 0; overflow: hidden; }
 .sidebar__footer-link:hover { background: var(--surface-2); color: var(--surface-dark); }
 
 .sidebar__footer-icon {
-  width: 19px;
-  height: 19px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-.sidebar__absa-credit {
+.sidebar__footer-text {
+  flex: 1;
+  transition: opacity 200ms ease;
+}
+.sidebar.collapsed .sidebar__footer-text {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+/* Logout button — premium hover */
+.sidebar__logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--slate);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.sidebar.collapsed .sidebar__logout { justify-content: center; }
+.sidebar__logout:hover {
+  background: rgba(179,57,57,0.1);
+  color: #b33939;
+}
+
+/* Credit */
+.sidebar__credit {
   padding: 8px 18px 12px;
-  font-size: 0.6rem;
+  font-size: 0.575rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: rgba(92,107,122,0.4);
@@ -315,6 +371,88 @@
   white-space: nowrap;
   transition: opacity 200ms ease;
 }
-.sidebar.collapsed .sidebar__absa-credit { opacity: 0; height: 0; padding: 0; }
+.sidebar.collapsed .sidebar__credit { opacity: 0; height: 0; padding: 0; overflow: hidden; }
 
+/* Mobile */
 @media (max-width: 768px) { .sidebar { display: none; } }
+
+
+/* ═══════════════════════════════════════════════
+   GLOBAL BUTTON HOVER UPGRADES
+   Applied here since Sidebar is in every layout,
+   and these affect buttons app-wide.
+═══════════════════════════════════════════════ */
+
+/* Primary button */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease !important;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.2s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(10,25,48,0.25) !important;
+}
+.btn-primary:hover::after { background: rgba(255,255,255,0.06); }
+.btn-primary:active { transform: translateY(0) !important; }
+
+/* Ghost / outline buttons */
+.btn-ghost,
+.ms-btn-ghost,
+.ed-btn-ghost {
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease !important;
+}
+.btn-ghost:hover,
+.ms-btn-ghost:hover,
+.ed-btn-ghost:hover {
+  background: var(--surface-2) !important;
+  color: var(--surface-dark) !important;
+  border-color: var(--surface-dark) !important;
+}
+
+/* Solid dark buttons (ms-btn-primary, ed-btn-solid) */
+.ms-btn-primary,
+.ed-btn-solid {
+  transition: opacity 0.15s ease, transform 0.15s ease !important;
+}
+.ms-btn-primary:hover,
+.ed-btn-solid:hover {
+  transform: translateY(-1px);
+  opacity: 0.88 !important;
+}
+.ms-btn-primary:active,
+.ed-btn-solid:active { transform: none !important; }
+
+/* Edit toggle pill (Money Snapshot) */
+.ms-edit-btn {
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.15s ease !important;
+}
+.ms-edit-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Gold outline (nudge action, ed-edit-toggle) */
+.ed-edit-toggle,
+.ms-nudge__action {
+  transition: background 0.18s ease, color 0.18s ease, transform 0.15s ease !important;
+}
+.ed-edit-toggle:hover,
+.ms-nudge__action:hover { transform: translateY(-1px); }
+
+/* RA CTA */
+.ms-promo__cta,
+.ra-opportunity__cta {
+  transition: opacity 0.15s ease, transform 0.15s ease !important;
+}
+.ms-promo__cta:hover,
+.ra-opportunity__cta:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
