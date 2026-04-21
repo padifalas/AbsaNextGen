@@ -2,7 +2,7 @@
 
 :root {
   
-  --page-bg: #ffffff;
+  --page-bg: #edebe7;
   
   --surface-1: #f4f3f3;
  
@@ -11,6 +11,8 @@
   --surface-dark: #1C1917;
 
   --surface-dark-2: #292524;
+
+  --navy-blue: #142443;
  
 
   --red: #dc0037;
