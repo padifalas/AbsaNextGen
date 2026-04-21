@@ -10,7 +10,6 @@ import { ChartBarIcon } from '@heroicons/react/24/outline';
 import SchoolIcon from '@mui/icons-material/School';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
-// Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet } from '@fortawesome/free-solid-svg-icons';
 
@@ -149,12 +148,9 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
           <span>Help & Glossary</span>
           <span className="sidebar__link-tooltip">Help & Glossary</span>
         </div>
-        <button className="sidebar__footer-link" onClick={handleLogout}>
-          <span className="sidebar__footer-icon">
-            <LogOut size={18} />
-          </span>
+        <button className="btn-primary" onClick={handleLogout}>
+          <LogOut size={18} />
           <span>Log Out</span>
-          <span className="sidebar__link-tooltip">Log Out</span>
         </button>
       </div>
 

@@ -46,7 +46,7 @@ export default function App() {
       <FinancialProvider>
         <BrowserRouter>
           <Routes>
-            {/* ── Public routes ── */}
+            {/* ublic routes */}
             <Route path="/login"    element={<Login />} />
             <Route path="/register" element={<Register />} />
 
@@ -60,7 +60,7 @@ export default function App() {
               }
             />
 
-            {/*  Protected routes — wrapped in AppShell */}
+            {/*  Protected routes — putt in AppShell */}
             <Route
               path="/"
               element={
@@ -102,7 +102,7 @@ export default function App() {
               }
             />
 
-            {/*  Catch-all */}
+        
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>

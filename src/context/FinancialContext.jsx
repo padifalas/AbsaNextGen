@@ -57,7 +57,7 @@ const DEFAULT_STATE = {
   depositSaved: 22000,
 
   // Track selection
-  selectedTrack: 'property', // 'property' | 'balanced' | 'aggressive'
+  selectedTrack: 'property', // 'property' or 'balanced' or 'aggressive'
 };
 
 export function FinancialProvider({ children }) {
