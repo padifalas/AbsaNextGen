@@ -9,7 +9,7 @@ const fmtM = (v) => {
   return fmt(v);
 };
 
-// ── Property vs Rent calculator ──────────────────────────────
+// Property vs Rent calcu
 function calcPropertyVsRent({ propertyValue, deposit, monthlyRent, investReturn, propertyAppreciation, years, interestRate, levies }) {
   const loanAmount = propertyValue - deposit;
   const monthlyRate = interestRate / 100 / 12;
@@ -18,7 +18,7 @@ function calcPropertyVsRent({ propertyValue, deposit, monthlyRent, investReturn,
     ? (loanAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -numPayments))
     : 0;
 
-  // Transfer duty (SA 2024)
+  // Transfer duty (SA 2024) - only one i could find yoh
   let transferDuty = 0;
   if (propertyValue > 1100000) transferDuty = (propertyValue - 1100000) * 0.03 + 0;
   if (propertyValue > 1512500) transferDuty = (propertyValue - 1512500) * 0.06 + 12375;
@@ -26,7 +26,7 @@ function calcPropertyVsRent({ propertyValue, deposit, monthlyRent, investReturn,
   if (propertyValue > 2722500) transferDuty = (propertyValue - 2722500) * 0.11 + 97675;
   if (propertyValue > 12100000) transferDuty = (propertyValue - 12100000) * 0.13 + 1128600;
 
-  const bondReg = Math.round(propertyValue * 0.012); // ~1.2% of bond
+  const bondReg = Math.round(propertyValue * 0.012);
   const upfrontBuying = deposit + transferDuty + bondReg;
 
   const totalBuying = (bondRepayment + levies) * numPayments + upfrontBuying;
@@ -47,7 +47,7 @@ function calcPropertyVsRent({ propertyValue, deposit, monthlyRent, investReturn,
     : 0;
   const netRenterPosition = depositGrown + surplusGrown;
 
-  // Break-even month
+
   let breakEvenMonth = null;
   let cumBuy = upfrontBuying;
   let cumRent = 0;
@@ -80,19 +80,19 @@ function calcPropertyVsRent({ propertyValue, deposit, monthlyRent, investReturn,
   };
 }
 
-// ── Car vs Invest calculator ──────────────────────────────────
+
 function calcCarVsInvest({ carPrice, balloonPct, term, interestRate, insurance, investReturn, years }) {
   const balloon = carPrice * balloonPct / 100;
-  const financeAmount = carPrice - 0; // no deposit assumed
+  const financeAmount = carPrice - 0;
   const monthlyRate = interestRate / 100 / 12;
   const repayment = financeAmount > 0
     ? ((financeAmount - balloon * Math.pow(1 + monthlyRate, -term)) * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -term))
     : 0;
 
-  // Depreciation
+
   let carValue = carPrice;
   for (let y = 0; y < years; y++) {
-    carValue *= y === 0 ? 0.82 : 0.88; // 18% yr1, 12% thereafter
+    carValue *= y === 0 ? 0.82 : 0.88;
   }
 
   const totalRepayments = repayment * Math.min(term, years * 12);
@@ -100,7 +100,7 @@ function calcCarVsInvest({ carPrice, balloonPct, term, interestRate, insurance, 
   const balloonCost = years >= term / 12 ? balloon : 0;
   const totalCostOwnership = totalRepayments + totalInsurance + balloonCost;
 
-  // Portfolio if invested instead
+
   const numMonths = years * 12;
   const monthly = repayment + insurance;
   const portfolioValue = monthly * ((Math.pow(1 + investReturn / 100 / 12, numMonths) - 1) / (investReturn / 100 / 12));
@@ -119,7 +119,7 @@ function calcCarVsInvest({ carPrice, balloonPct, term, interestRate, insurance, 
   };
 }
 
-// ── Year bars helper ──
+// Year bars 
 function YearBars({ buyValues, rentValues, labels, colors }) {
   const max = Math.max(...buyValues, ...rentValues, 1);
   return (
@@ -186,7 +186,7 @@ export default function SimulationLab() {
 
   return (
     <div className="sim-page">
-      {/* ── Header ── */}
+      {/*  Header */}
       <div className="sim-page__header">
         <div className="sim-page__eyebrow">Know Your Money</div>
         <h1 className="sim-page__title">Simulation Lab</h1>
@@ -368,7 +368,7 @@ export default function SimulationLab() {
         </>
       )}
 
-      {/* ── Studio 2: Car vs Invest ── */}
+      {/* Studio 2: Car vs Invest  */}
       {activeTab === 'car' && (
         <>
           <div className="sim-context-note">
@@ -512,9 +512,10 @@ export default function SimulationLab() {
         </>
       )}
 
-      {/* ── Explainer strip ── */}
+      {/* Explainer thing */}
       <div className="sim-context-note" style={{ marginTop: 24 }}>
-        <strong>How these calculators work:</strong> Property vs Rent models the true total cost of ownership (bond repayments, transfer duty, bond registration, levies) against the renter's invested position (deposit + monthly surplus into equity). Car vs Invest uses SA balloon finance structures and real depreciation curves. Numbers are estimates — consult a financial adviser before major decisions.
+        <strong>How these calculators work:</strong>
+        Property vs Rent models the true total cost of ownership (bond repayments, transfer duty, bond registration, levies) against the renter's invested position (deposit + monthly surplus into equity). Car vs Invest uses SA balloon finance structures and real depreciation curves. Numbers are estimates — consult a financial adviser before major decisions.
       </div>
     </div>
   );

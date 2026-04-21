@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import '../styles/MoneySnapshot.css';
 import { useFinancial } from '../context/FinancialContext';
 import { useAuth } from '../context/AuthContext';
-import { Pencil, Info, Home, Shield, TrendingUp } from 'lucide-react';
+import { Pencil, Info, Home, Shield, TrendingUp, X } from 'lucide-react';
 import gsap from 'gsap';
 
 const fmt = (v) => `R${Number(v || 0).toLocaleString('en-ZA')}`;
@@ -14,21 +14,18 @@ const NUDGES = [
     title: 'RA Tax Opportunity',
     body: 'At your salary bracket, an R8 000/month RA contribution saves you approximately R2 880 in PAYE tax every month.',
     action: 'Open RA',
-    color: 'gold',
   },
   {
     id: 'tfsa',
     title: 'TFSA Headroom Available',
     body: 'You have R36 000/year in tax-free growth available. Every rand of growth, dividends, and withdrawals is zero tax.',
     action: 'Learn more',
-    color: 'green',
   },
   {
     id: 'deposit',
     title: 'Deposit Goal On Track',
-    body: 'At your current savings rate you\'re on track to hit your deposit target. Keep your free capital disciplined.',
+    body: "At your current savings rate you're on track to hit your deposit target. Keep your free capital disciplined.",
     action: 'View goal',
-    color: 'red',
   },
 ];
 
@@ -39,12 +36,8 @@ export default function MoneySnapshot() {
   const [nudgeIdx, setNudgeIdx] = useState(0);
   const [nudgeDismissed, setNudgeDismissed] = useState(false);
 
-  // GSAP animations
-  const tileRefs = useRef([]);
   const valueRefs = useRef([]);
-  const containerRef = useRef(null);
 
-  // local edit state
   const [draft, setDraft] = useState({ ...financial });
 
   const nudge = NUDGES[nudgeIdx % NUDGES.length];
@@ -57,8 +50,7 @@ export default function MoneySnapshot() {
 
   const depositPct = Math.min(100, parseFloat(derived.depositProgress));
   const emergencyPct = financial.emergencyFundTarget > 0
-    ? Math.min(100, (financial.emergencyFund / financial.emergencyFundTarget) * 100)
-    : 0;
+    ? Math.min(100, (financial.emergencyFund / financial.emergencyFundTarget) * 100) : 0;
   const tfsaMonthly = financial.tfsa;
   const tfsaYearlyPct = Math.min(100, ((tfsaMonthly * 12) / 36000) * 100);
 
@@ -67,64 +59,13 @@ export default function MoneySnapshot() {
   const savingsRate = parseFloat(derived.savingsRate);
   const savingsStatus = savingsRate < 10 ? 'at-risk' : savingsRate >= 20 ? 'on-track' : 'warning';
 
-  // GSAP animations
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    // Animate container entrance
-    gsap.fromTo(containerRef.current, 
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
-    );
-
-    //  stat tiles animation
-    tileRefs.current.forEach((tile, index) => {
-      if (tile) {
-        gsap.fromTo(tile,
-          { opacity: 0, y: 30 },
-          { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.5, 
-            delay: 0.2 + index * 0.1,
-            ease: 'power2.out'
-          }
-        );
-      }
-    });
-
-    //  values animation w  count up
-    const values = [
-      financial.grossMonthly,
-      derived.tax.takeHome,
-      derived.tax.paye + derived.tax.uif,
-      Math.max(0, derived.freeCapital)
-    ];
-
-    valueRefs.current.forEach((el, index) => {
-      if (el && values[index] !== undefined) {
-        gsap.fromTo(el,
-          { opacity: 0.5 },
-          { 
-            opacity: 1, 
-            duration: 0.3,
-            delay: 0.4 + index * 0.15,
-            ease: 'power2.out'
-          }
-        );
-        
-        // count up animation
-        const obj = { val: 0 };
-        gsap.to(obj, {
-          val: values[index],
-          duration: 1,
-          delay: 0.4 + index * 0.15,
-          ease: 'power2.out',
-          onUpdate: () => {
-            el.textContent = fmt(obj.val);
-          }
-        });
-      }
+    valueRefs.current.forEach((el, i) => {
+      if (!el) return;
+      gsap.fromTo(el,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.6, delay: i * 0.08, ease: 'power1.out' }
+      );
     });
   }, [financial.grossMonthly, derived.tax.takeHome, derived.tax.paye, derived.tax.uif, derived.freeCapital]);
 
@@ -147,8 +88,8 @@ export default function MoneySnapshot() {
   };
 
   const field = (label, key, hint) => (
-    <div className="input-row" key={key}>
-      <label>{label}{hint && <span className="input-hint"> — {hint}</span>}</label>
+    <div className="ms-input-row" key={key}>
+      <label>{label}{hint && <span> ({hint})</span>}</label>
       <input
         type="number"
         value={draft[key] ?? ''}
@@ -158,394 +99,319 @@ export default function MoneySnapshot() {
   );
 
   return (
-    <div className="snapshot fade-up" ref={containerRef}>
-      {/*  Header  */}
-      <div className="snapshot__header">
-        <div className="snapshot__header-left">
-          <div className="snapshot__greeting">Good day, {firstName}</div>
-          <h1 className="snapshot__title">Money Snapshot</h1>
-          <p className="snapshot__subtitle">
-            Your financial position, after tax, in plain terms.
-          </p>
-        </div>
-        <button className="snapshot__edit-btn" onClick={() => { setDraft({ ...financial }); setEditing(e => !e); }}>
-          <Pencil size={16} />
-          {editing ? 'Cancel' : 'Edit Profile'}
-        </button>
+    <div className="ms-page">
+
+      {/* Header */}
+      <div className="ms-page__header">
+        <div className="ms-page__eyebrow">Good day, {firstName}</div>
+        <h1 className="ms-page__title">Money Snapshot</h1>
+        <p className="ms-page__subtitle">
+          Your financial position, after tax, in plain terms.
+        </p>
       </div>
 
-      {/*nudge banner  */}
+      {/* Nudge Banner thing */}
       {!nudgeDismissed && (
-        <div className="nudge-banner fade-up fade-up-1">
-          <div className="nudge-banner__icon">
-            <Info size={16} />
+        <div className="ms-nudge">
+          <Info size={15} className="ms-nudge__icon" />
+          <div className="ms-nudge__text">
+            <strong>{nudge.title}</strong> — {nudge.body}
           </div>
-          <div className="nudge-banner__content">
-            <div className="nudge-banner__title">{nudge.title}</div>
-            <div className="nudge-banner__body">{nudge.body}</div>
-          </div>
-          <button className="nudge-banner__action">{nudge.action}</button>
-          <button className="nudge-banner__dismiss" onClick={() => {
+          <button className="ms-nudge__action">{nudge.action}</button>
+          <button className="ms-nudge__close" onClick={() => {
             if (nudgeIdx + 1 >= NUDGES.length) setNudgeDismissed(true);
             else setNudgeIdx(i => i + 1);
-          }}>✕</button>
+          }}><X size={14} /></button>
         </div>
       )}
 
-      {/* stat tiles */}
-      <div className="snapshot__tiles fade-up fade-up-2" ref={containerRef}>
-        <div className="stat-tile" ref={el => tileRefs.current[0] = el}>
-          <div className="stat-tile__accent stat-tile__accent--red" />
-          <div className="stat-tile__label">Gross Monthly</div>
-          <div className="stat-tile__value" ref={el => valueRefs.current[0] = el}>{fmt(financial.grossMonthly)}</div>
-          <div className="stat-tile__sub">Before PAYE &amp; UIF</div>
+      {/*─ Stat cards tiles  */}
+      <div className="ms-tiles">
+        <div className="ms-tile ms-tile--primary">
+          <div className="ms-tile__label">Take-Home Pay</div>
+          <div className="ms-tile__value" ref={el => valueRefs.current[1] = el}>{fmt(derived.tax.takeHome)}</div>
+          <div className="ms-tile__sub">from <span ref={el => valueRefs.current[0] = el}>{fmt(financial.grossMonthly)}</span> gross</div>
         </div>
-        <div className="stat-tile" ref={el => tileRefs.current[1] = el}>
-          <div className="stat-tile__accent stat-tile__accent--green" />
-          <div className="stat-tile__label">Take-Home Pay</div>
-          <div className="stat-tile__value" ref={el => valueRefs.current[1] = el}>{fmt(derived.tax.takeHome)}</div>
-          <div className="stat-tile__sub">
-            <span className="stat-tile__indicator stat-tile__indicator--neutral">
-              {pct((derived.tax.takeHome / financial.grossMonthly) * 100)} of gross
-            </span>
-          </div>
-        </div>
-        <div className="stat-tile" ref={el => tileRefs.current[2] = el}>
-          <div className="stat-tile__accent stat-tile__accent--gold" />
-          <div className="stat-tile__label">Tax &amp; UIF</div>
-          <div className="stat-tile__value" ref={el => valueRefs.current[2] = el}>{fmt(derived.tax.paye + derived.tax.uif)}</div>
-          <div className="stat-tile__sub">
-            <span className="stat-tile__indicator stat-tile__indicator--neutral">
-              {derived.tax.effectiveRate}% effective rate
-            </span>
-          </div>
-        </div>
-        <div className="stat-tile" ref={el => tileRefs.current[3] = el}>
-          <div className="stat-tile__accent stat-tile__accent--blue" />
-          <div className="stat-tile__label">Free Capital</div>
-          <div className="stat-tile__value" ref={el => valueRefs.current[3] = el}>{fmt(Math.max(0, derived.freeCapital))}</div>
-          <div className="stat-tile__sub">
-            <span className={`stat-tile__indicator stat-tile__indicator--${derived.freeCapital > 0 ? 'positive' : 'negative'}`}>
+
+        <div className="ms-tile">
+          <div className="ms-tile__label">Free Capital</div>
+          <div className="ms-tile__value" ref={el => valueRefs.current[3] = el}>{fmt(Math.max(0, derived.freeCapital))}</div>
+          <div className="ms-tile__sub">
+            <span className={derived.freeCapital > 0 ? 'ms-pill ms-pill--pos' : 'ms-pill ms-pill--neg'}>
               {derived.freeCapital > 0 ? 'Available' : 'Overcommitted'}
             </span>
           </div>
         </div>
+
+        <div className="ms-tile">
+          <div className="ms-tile__label">Tax & UIF</div>
+          <div className="ms-tile__value ms-tile__value--muted" ref={el => valueRefs.current[2] = el}>{fmt(derived.tax.paye + derived.tax.uif)}</div>
+          <div className="ms-tile__sub">{derived.tax.effectiveRate}% effective rate</div>
+        </div>
+
+        <div className="ms-tile">
+          <div className="ms-tile__label">Savings Rate</div>
+          <div className={`ms-tile__value ${savingsStatus === 'on-track' ? 'ms-tile__value--pos' : savingsStatus === 'at-risk' ? 'ms-tile__value--neg' : 'ms-tile__value--warn'}`}>
+            {pct(savingsRate)}
+          </div>
+          <div className="ms-tile__sub">SA avg: 11%</div>
+        </div>
       </div>
 
-      {/* Main grid  */}
-      <div className="snapshot__grid fade-up fade-up-3">
-        <div className="snapshot__grid-left">
+      {/* Main Grid */}
+      <div className="ms-grid">
 
-          {/* Income Reality / Edit Card */}
-          <div className="income-card">
-            <div className="income-card__header">
-              <div className="income-card__title">Income Reality</div>
-              <button className="income-card__edit" onClick={() => { setDraft({ ...financial }); setEditing(e => !e); }}>
+        {/* LEFT COLUMN */}
+        <div className="ms-col-left">
+
+          {/* Income Reality card */}
+          <div className="ms-card">
+            <div className="ms-card__hdr">
+              <div className="ms-card__title">Income Reality</div>
+              <button className="ms-edit-btn" onClick={() => { setDraft({ ...financial }); setEditing(e => !e); }}>
+                <Pencil size={13} />
                 {editing ? 'Cancel' : 'Edit'}
               </button>
             </div>
 
             {editing ? (
-              <div className="income-card__input-form">
-                <div className="input-section-title">Income</div>
+              <div className="ms-form">
+                <div className="ms-form__section">Income</div>
                 {field('Gross Monthly Salary (R)', 'grossMonthly')}
-                <div className="input-section-title">Fixed Costs</div>
-                <div className="input-grid">
+                <div className="ms-form__section">Fixed Costs</div>
+                <div className="ms-form__grid">
                   {field('Rent / Bond', 'rent')}
                   {field('Car Repayment', 'carRepayment')}
                   {field('Medical Aid', 'medicalAid')}
                   {field('Insurance', 'insurance')}
                   {field('Student Loan', 'studentLoan')}
                 </div>
-                <div className="input-section-title">Savings &amp; Goals</div>
-                <div className="input-grid">
-                  {field('TFSA Monthly (max R3 000)', 'tfsa', 'R36K/yr limit')}
-                  {field('RA Monthly', 'ra', 'Up to 27.5% of income')}
+                <div className="ms-form__section">Savings & Goals</div>
+                <div className="ms-form__grid">
+                  {field('TFSA Monthly', 'tfsa', 'R36K/yr limit')}
+                  {field('RA Monthly', 'ra', 'up to 27.5%')}
                   {field('Emergency Fund Saved', 'emergencyFund')}
                   {field('Deposit Saved', 'depositSaved')}
                   {field('Deposit Target', 'depositTarget')}
                 </div>
-                <div className="input-actions">
-                  <button className="btn-primary" onClick={handleSave}>Save Changes</button>
-                  <button className="btn-ghost" onClick={() => setEditing(false)}>Cancel</button>
+                <div className="ms-form__actions">
+                  <button className="ms-btn-primary" onClick={handleSave}>Save Changes</button>
+                  <button className="ms-btn-ghost" onClick={() => setEditing(false)}>Cancel</button>
                 </div>
               </div>
             ) : (
-              <div className="income-card__flow">
-                <div className="income-flow-row">
-                  <div className="income-flow__indicator" style={{ background: '#1C1917' }} />
-                  <div className="income-flow__label">
-                    Gross Salary
-                    <span className="income-flow__label-sub">Before any deductions</span>
+              <div className="ms-flow">
+                <div className="ms-flow__row">
+                  <div className="ms-flow__dot" style={{ background: 'var(--surface-dark)' }} />
+                  <div className="ms-flow__info">
+                    <span>Gross Salary</span>
+                    <small>Before any deductions</small>
                   </div>
-                  <div className="income-flow__amount">{fmt(financial.grossMonthly)}</div>
+                  <div className="ms-flow__amt">{fmt(financial.grossMonthly)}</div>
                 </div>
-                <div className="income-flow-row">
-                  <div className="income-flow__indicator" style={{ background: 'var(--color-red)' }} />
-                  <div className="income-flow__label">
-                    PAYE Tax
-                    <span className="income-flow__label-sub">SARS 2024/25 tables · {derived.tax.effectiveRate}% effective</span>
+                <div className="ms-flow__row">
+                  <div className="ms-flow__dot" style={{ background: 'var(--color-negative)' }} />
+                  <div className="ms-flow__info">
+                    <span>PAYE Tax</span>
+                    <small>SARS 2024/25 · {derived.tax.effectiveRate}% effective</small>
                   </div>
-                  <div className="income-flow__amount income-flow__amount--deduction">−{fmt(derived.tax.paye)}</div>
+                  <div className="ms-flow__amt ms-flow__amt--deduct">−{fmt(derived.tax.paye)}</div>
                 </div>
-                <div className="income-flow-row">
-                  <div className="income-flow__indicator" style={{ background: 'var(--color-gold)' }} />
-                  <div className="income-flow__label">
-                    UIF Contribution
-                    <span className="income-flow__label-sub">1% of salary, capped at R177.12</span>
+                <div className="ms-flow__row">
+                  <div className="ms-flow__dot" style={{ background: 'var(--color-gold)' }} />
+                  <div className="ms-flow__info">
+                    <span>UIF Contribution</span>
+                    <small>1% of salary, capped at R177.12</small>
                   </div>
-                  <div className="income-flow__amount income-flow__amount--deduction">−{fmt(derived.tax.uif)}</div>
+                  <div className="ms-flow__amt ms-flow__amt--deduct">−{fmt(derived.tax.uif)}</div>
                 </div>
-                <div className="income-flow-row income-flow-row--total">
-                  <div className="income-flow__indicator" style={{ background: 'var(--color-positive)' }} />
-                  <div className="income-flow__label">
+                <div className="ms-flow__row ms-flow__row--total">
+                  <div className="ms-flow__dot" style={{ background: 'var(--color-positive)' }} />
+                  <div className="ms-flow__info">
                     <strong>Take-Home Pay</strong>
-                    <span className="income-flow__label-sub">What lands in your account</span>
+                    <small>What lands in your account</small>
                   </div>
-                  <div className="income-flow__amount income-flow__amount--total">{fmt(derived.tax.takeHome)}</div>
+                  <div className="ms-flow__amt ms-flow__amt--total">{fmt(derived.tax.takeHome)}</div>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Allocation breakdown */}
+          {/* Allocation card */}
           {!editing && (
-            <div className="allocation-card">
-              <div className="allocation-card__header">
-                <div className="allocation-card__title">Income Allocation</div>
-                <div className="allocation-card__total">
-                  Take-home: <strong>{fmt(takeHome)}</strong>
-                </div>
+            <div className="ms-card">
+              <div className="ms-card__hdr">
+                <div className="ms-card__title">Capital Allocation</div>
+                <div className="ms-card__sub">of {fmt(takeHome)} take-home</div>
               </div>
-              <div className="allocation-bars">
-                <div className="allocation-bar-row">
-                  <div className="allocation-bar-row__meta">
-                    <div className="allocation-bar-row__label">
-                      <div className="allocation-bar-row__dot" style={{ background: 'var(--color-red)' }} />
-                      Fixed Costs
+              <div className="ms-allocation">
+                {[
+                  { label: 'Fixed Costs', amount: derived.totalFixedCosts, pctVal: fixedPct, color: 'var(--color-negative)' },
+                  { label: 'Savings & Investments', amount: derived.totalSavingsContributions, pctVal: savingsPct, color: 'var(--color-gold)' },
+                  { label: 'Free Capital', amount: Math.max(0, derived.freeCapital), pctVal: freePct, color: 'var(--color-positive)' },
+                ].map(({ label, amount, pctVal, color }) => (
+                  <div className="ms-alloc-row" key={label}>
+                    <div className="ms-alloc-meta">
+                      <div className="ms-alloc-label">
+                        <div className="ms-alloc-dot" style={{ background: color }} />
+                        {label}
+                      </div>
+                      <div className="ms-alloc-vals">
+                        <span>{fmt(amount)}</span>
+                        <span className="ms-alloc-pct">{pctVal}%</span>
+                      </div>
                     </div>
-                    <div className="allocation-bar-row__value">
-                      {fmt(derived.totalFixedCosts)}
-                      <span className="allocation-bar-row__pct">{fixedPct}%</span>
-                    </div>
-                  </div>
-                  <div className="allocation-bar-track">
-                    <div className="allocation-bar-fill" style={{ width: `${fixedPct}%`, background: 'var(--color-red)' }} />
-                  </div>
-                </div>
-                <div className="allocation-bar-row">
-                  <div className="allocation-bar-row__meta">
-                    <div className="allocation-bar-row__label">
-                      <div className="allocation-bar-row__dot" style={{ background: 'var(--color-gold)' }} />
-                      Savings &amp; Investments
-                    </div>
-                    <div className="allocation-bar-row__value">
-                      {fmt(derived.totalSavingsContributions)}
-                      <span className="allocation-bar-row__pct">{savingsPct}%</span>
+                    <div className="ms-alloc-track">
+                      <div className="ms-alloc-fill" style={{ width: `${pctVal}%`, background: color }} />
                     </div>
                   </div>
-                  <div className="allocation-bar-track">
-                    <div className="allocation-bar-fill" style={{ width: `${savingsPct}%`, background: 'var(--color-gold)' }} />
-                  </div>
-                </div>
-                <div className="allocation-bar-row">
-                  <div className="allocation-bar-row__meta">
-                    <div className="allocation-bar-row__label">
-                      <div className="allocation-bar-row__dot" style={{ background: 'var(--color-positive)' }} />
-                      Free Capital
-                    </div>
-                    <div className="allocation-bar-row__value">
-                      {fmt(Math.max(0, derived.freeCapital))}
-                      <span className="allocation-bar-row__pct">{freePct}%</span>
-                    </div>
-                  </div>
-                  <div className="allocation-bar-track">
-                    <div className="allocation-bar-fill" style={{ width: `${freePct}%`, background: 'var(--color-positive)' }} />
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           )}
 
           {/* RA opportunity */}
           {!editing && financial.ra === 0 && (
-            <div className="ra-opportunity">
-              <div className="ra-opportunity__label">Tax Opportunity · RA Deduction</div>
-              <div className="ra-opportunity__headline">
+            <div className="ms-promo">
+              <div className="ms-promo__label">Tax Opportunity · RA Deduction</div>
+              <div className="ms-promo__headline">
                 Save up to {fmt(Math.round(derived.tax.paye * 0.22))} in PAYE tax each month
               </div>
-              <div className="ra-opportunity__body">
+              <p className="ms-promo__body">
                 You're currently contributing R0 to a Retirement Annuity. At your salary, an R8 000/month RA
                 contribution would reduce your taxable income by R96 000/year and save you approximately
-                R22 000–R28 000 in annual tax. This is money the government would otherwise keep.
-              </div>
-              <button className="ra-opportunity__cta">Explore ABSA RA →</button>
+                R22 000–R28 000 in annual tax.
+              </p>
+              <button className="ms-promo__cta">Explore ABSA RA →</button>
             </div>
           )}
         </div>
 
-        {/*  Right column  */}
-        <div className="snapshot__grid-right">
+        {/* RIGHT COLUMN */}
+        <div className="ms-col-right">
 
-          {/* Property Deposit Goal */}
-          <div className="goal-card">
-            <div className="goal-card__header">
-              <div className="goal-card__icon goal-card__icon--red">
-                <Home size={16} />
+          {/* Goals */}
+          <div className="ms-card">
+            <div className="ms-card__hdr">
+              <div className="ms-card__title">Strategic Targets</div>
+            </div>
+
+            <div className="ms-goal">
+              <div className="ms-goal__hdr">
+                <div className="ms-goal__icon ms-goal__icon--red"><Home size={14} /></div>
+                <div className="ms-goal__name">Property Deposit</div>
+                <div className={`ms-goal__badge ${depositPct >= 50 ? 'ms-goal__badge--pos' : 'ms-goal__badge--warn'}`}>
+                  {depositPct >= 50 ? 'On Track' : 'Building'}
+                </div>
               </div>
-              <div className="goal-card__name">Property Deposit</div>
-              <div className={`goal-card__status goal-card__status--${depositPct >= 50 ? 'on-track' : 'at-risk'}`}>
-                {depositPct >= 50 ? 'On Track' : 'Building'}
+              <div className="ms-goal__bar">
+                <div className="ms-goal__fill" style={{ width: `${depositPct}%`, background: '#e55353' }} />
+              </div>
+              <div className="ms-goal__meta">
+                <strong>{fmt(financial.depositSaved)}</strong> of {fmt(financial.depositTarget)} · {depositPct.toFixed(0)}%
               </div>
             </div>
-            <div className="goal-card__body">
-              <div className="goal-card__progress-meta">
-                <div className="goal-card__current">{fmt(financial.depositSaved)}</div>
-                <div className="goal-card__target">of {fmt(financial.depositTarget)}</div>
+
+            <div className="ms-goal">
+              <div className="ms-goal__hdr">
+                <div className="ms-goal__icon ms-goal__icon--gold"><Shield size={14} /></div>
+                <div className="ms-goal__name">Emergency Runway</div>
+                <div className={`ms-goal__badge ${emergencyPct >= 100 ? 'ms-goal__badge--pos' : 'ms-goal__badge--warn'}`}>
+                  {emergencyPct >= 100 ? 'Complete' : `${emergencyPct.toFixed(0)}% done`}
+                </div>
               </div>
-              <div className="goal-card__bar-track">
-                <div className="goal-card__bar-fill goal-card__bar-fill--red" style={{ width: `${depositPct}%` }} />
+              <div className="ms-goal__bar">
+                <div className="ms-goal__fill" style={{ width: `${emergencyPct}%`, background: 'var(--color-gold)' }} />
               </div>
-              <div className="goal-card__timeline">
-                {derived.monthsToDeposit
-                  ? <><strong>{derived.monthsToDeposit} months</strong>&nbsp;at current pace</>
-                  : <span>Increase free capital to accelerate</span>
-                }
+              <div className="ms-goal__meta">
+                <strong>{fmt(financial.emergencyFund)}</strong> of {fmt(financial.emergencyFundTarget)} · 3-month target
+              </div>
+            </div>
+
+            <div className="ms-goal">
+              <div className="ms-goal__hdr">
+                <div className="ms-goal__icon ms-goal__icon--green"><TrendingUp size={14} /></div>
+                <div className="ms-goal__name">TFSA Annual Limit</div>
+                <div className={`ms-goal__badge ${tfsaYearlyPct >= 100 ? 'ms-goal__badge--pos' : 'ms-goal__badge--neutral'}`}>
+                  {tfsaYearlyPct >= 100 ? 'Maxed Out' : 'Room Available'}
+                </div>
+              </div>
+              <div className="ms-goal__bar">
+                <div className="ms-goal__fill" style={{ width: `${tfsaYearlyPct}%`, background: 'var(--color-positive)' }} />
+              </div>
+              <div className="ms-goal__meta">
+                <strong>{fmt(tfsaMonthly * 12)}</strong>/yr of R36 000 limit · {tfsaYearlyPct.toFixed(0)}%
               </div>
             </div>
           </div>
 
-          {/* Emergency Fund */}
-          <div className="goal-card">
-            <div className="goal-card__header">
-              <div className="goal-card__icon goal-card__icon--gold">
-                <Shield size={16} />
-              </div>
-              <div className="goal-card__name">Emergency Fund</div>
-              <div className={`goal-card__status goal-card__status--${emergencyPct >= 100 ? 'on-track' : 'at-risk'}`}>
-                {emergencyPct >= 100 ? 'Complete' : `${emergencyPct.toFixed(0)}% done`}
-              </div>
+
+          <div className="ms-card">
+            <div className="ms-card__hdr">
+              <div className="ms-card__title">SA Peer Benchmarks</div>
             </div>
-            <div className="goal-card__body">
-              <div className="goal-card__progress-meta">
-                <div className="goal-card__current">{fmt(financial.emergencyFund)}</div>
-                <div className="goal-card__target">of {fmt(financial.emergencyFundTarget)}</div>
-              </div>
-              <div className="goal-card__bar-track">
-                <div className="goal-card__bar-fill goal-card__bar-fill--gold" style={{ width: `${emergencyPct}%` }} />
-              </div>
-              <div className="goal-card__timeline">
-                Target: <strong>3 months of fixed expenses</strong>
-              </div>
+            <div className="ms-bench">
+              {[
+                {
+                  label: 'Debt-to-Income',
+                  you: pct(debtToIncome),
+                  avg: '28% avg',
+                  status: debtStatus,
+                },
+                {
+                  label: 'Savings Rate',
+                  you: pct(savingsRate),
+                  avg: '11% avg',
+                  status: savingsStatus,
+                },
+                {
+                  label: 'Effective Tax Rate',
+                  you: `${derived.tax.effectiveRate}%`,
+                  avg: 'SARS 2024/25',
+                  status: 'neutral',
+                },
+                {
+                  label: 'Free Capital',
+                  you: fmt(Math.max(0, derived.freeCapital)),
+                  avg: `of ${fmt(takeHome)}`,
+                  status: derived.freeCapital > 0 ? 'on-track' : 'at-risk',
+                },
+              ].map(({ label, you, avg, status }) => (
+                <div className="ms-bench__row" key={label}>
+                  <div className="ms-bench__label">{label}</div>
+                  <div className="ms-bench__vals">
+                    <span className={`ms-bench__you ms-bench__you--${status}`}>{you}</span>
+                    <span className="ms-bench__avg">{avg}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* TFSA */}
-          <div className="goal-card">
-            <div className="goal-card__header">
-              <div className="goal-card__icon goal-card__icon--green">
-                <TrendingUp size={16} />
-              </div>
-              <div className="goal-card__name">TFSA Annual Limit</div>
-              <div className={`goal-card__status goal-card__status--${tfsaYearlyPct >= 100 ? 'on-track' : 'at-risk'}`}>
-                {tfsaYearlyPct >= 100 ? 'Maxed Out' : 'Room Available'}
-              </div>
-            </div>
-            <div className="goal-card__body">
-              <div className="goal-card__progress-meta">
-                <div className="goal-card__current">{fmt(tfsaMonthly * 12)}<span style={{ fontSize: '0.75rem', fontWeight: 400, color: 'var(--color-text-muted)' }}>/yr</span></div>
-                <div className="goal-card__target">of R36 000 limit</div>
-              </div>
-              <div className="goal-card__bar-track">
-                <div className="goal-card__bar-fill goal-card__bar-fill--green" style={{ width: `${tfsaYearlyPct}%` }} />
-              </div>
-              <div className="goal-card__timeline">
-                {tfsaYearlyPct < 100
-                  ? <>Top up by <strong>{fmt(Math.round((36000 - tfsaMonthly * 12) / 12))}/month</strong> to max out</>
-                  : <>Annual limit reached — zero tax on all growth</>
-                }
-              </div>
-            </div>
-          </div>
-
-          {/* SA Benchmarks */}
-          <div className="benchmarks-card">
-            <div className="benchmarks-card__title">SA Peer Benchmarks</div>
-
-            <div className="benchmark-row">
-              <div className="benchmark-row__label">Debt-to-Income</div>
-              <div className="benchmark-row__values">
-                <div className={`benchmark-row__you`} style={{ color: debtStatus === 'on-track' ? 'var(--color-positive)' : debtStatus === 'at-risk' ? '#EF4444' : 'var(--color-gold)' }}>
-                  {pct(debtToIncome)}
-                </div>
-                <div className="benchmark-row__vs">vs</div>
-                <div className="benchmark-row__avg">28% avg</div>
-              </div>
-            </div>
-
-            <div className="benchmark-row">
-              <div className="benchmark-row__label">Savings Rate</div>
-              <div className="benchmark-row__values">
-                <div className="benchmark-row__you" style={{ color: savingsStatus === 'on-track' ? 'var(--color-positive)' : savingsStatus === 'at-risk' ? '#EF4444' : 'var(--color-gold)' }}>
-                  {pct(savingsRate)}
-                </div>
-                <div className="benchmark-row__vs">vs</div>
-                <div className="benchmark-row__avg">11% avg</div>
-              </div>
-            </div>
-
-            <div className="benchmark-row">
-              <div className="benchmark-row__label">Effective Tax Rate</div>
-              <div className="benchmark-row__values">
-                <div className="benchmark-row__you" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                  {derived.tax.effectiveRate}%
-                </div>
-                <div className="benchmark-row__vs">SARS</div>
-                <div className="benchmark-row__avg">2024/25</div>
-              </div>
-            </div>
-
-            <div className="benchmark-row">
-              <div className="benchmark-row__label">Free Capital</div>
-              <div className="benchmark-row__values">
-                <div className="benchmark-row__you" style={{ color: derived.freeCapital > 0 ? 'var(--color-positive)' : '#EF4444' }}>
-                  {fmt(Math.max(0, derived.freeCapital))}
-                </div>
-                <div className="benchmark-row__vs">of</div>
-                <div className="benchmark-row__avg">{fmt(takeHome)}</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Summary strip  */}
-      <div className="snapshot__summary fade-up fade-up-4">
-        <div>
-          <div className="snapshot__summary-label">Active Strategy</div>
-          <div className="snapshot__summary-value">
+      {/* Summary Footer thing */}
+      <div className="ms-strip">
+        <div className="ms-strip__item">
+          <div className="ms-strip__label">Active Strategy</div>
+          <div className="ms-strip__val">
             {financial.selectedTrack === 'property' ? 'First Property Path'
               : financial.selectedTrack === 'balanced' ? 'Balanced Lifestyle'
-              : 'Aggressive Global'}
+                : 'Aggressive Global'}
           </div>
         </div>
-        <div>
-          <div className="snapshot__summary-label">Debt-to-Income</div>
-          <div className="snapshot__summary-value" style={{ color: debtStatus === 'at-risk' ? 'var(--color-red)' : 'inherit' }}>
-            {pct(debtToIncome)}
-          </div>
+        <div className="ms-strip__item">
+          <div className="ms-strip__label">Debt-to-Income</div>
+          <div className={`ms-strip__val ms-strip__val--${debtStatus}`}>{pct(debtToIncome)}</div>
         </div>
-        <div>
-          <div className="snapshot__summary-label">Savings Rate</div>
-          <div className="snapshot__summary-value" style={{ color: savingsStatus === 'on-track' ? 'var(--color-positive)' : 'inherit' }}>
-            {pct(savingsRate)}
-          </div>
+        <div className="ms-strip__item">
+          <div className="ms-strip__label">Savings Rate</div>
+          <div className={`ms-strip__val ms-strip__val--${savingsStatus}`}>{pct(savingsRate)}</div>
         </div>
-        <div>
-          <div className="snapshot__summary-label">Months to Deposit</div>
-          <div className="snapshot__summary-value">
-            {derived.monthsToDeposit ? `${derived.monthsToDeposit} months` : '—'}
-          </div>
+        <div className="ms-strip__item">
+          <div className="ms-strip__label">Months to Deposit</div>
+          <div className="ms-strip__val">{derived.monthsToDeposit ? `${derived.monthsToDeposit} mo` : '—'}</div>
         </div>
       </div>
     </div>
