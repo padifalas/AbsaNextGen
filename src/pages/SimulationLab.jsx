@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import gsap from 'gsap';
 import '../styles/SimulationLab.css';
 import { useFinancial } from '../context/FinancialContext';
 
@@ -104,25 +105,95 @@ function calcCarVsInvest({ carPrice, balloonPct, term, interestRate, insurance, 
   };
 }
 
-function YearBars({ buyValues, rentValues, labels, colors }) {
+function YearBars({ buyValues, rentValues, labels, colors, tooltipLabels }) {
   const max = Math.max(...buyValues, ...rentValues, 1);
+  const buyRefs = useRef([]);
+  const rentRefs = useRef([]);
+  const [hovered, setHovered] = useState(null);
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+
+
+  useEffect(() => {
+    buyValues.forEach((val, i) => {
+      const targetW = `${(val / max) * 50}%`;
+      if (buyRefs.current[i]) {
+        gsap.fromTo(buyRefs.current[i],
+          { width: 0 },
+          { width: targetW, duration: 0.7, delay: i * 0.08, ease: 'power2.out' }
+        );
+      }
+      if (rentRefs.current[i]) {
+        gsap.fromTo(rentRefs.current[i],
+          { width: 0 },
+          { width: `${(rentValues[i] / max) * 50}%`, duration: 0.7, delay: i * 0.08 + 0.06, ease: 'power2.out' }
+        );
+      }
+    });
+  }, [buyValues, rentValues, max]);
+
+  const handleMouseMove = (e, i) => {
+    const rect = e.currentTarget.closest('.sim-bar-chart').getBoundingClientRect();
+    setTooltipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    setHovered(i);
+  };
+
   return (
-    <div className="sim-bars">
+    <div className="sim-bars" style={{ position: 'relative' }}>
       {labels.map((label, i) => (
-        <div key={i} className="sim-bar-row">
+        <div
+          key={i}
+          className={`sim-bar-row${hovered === i ? ' sim-bar-row--hovered' : ''}`}
+          onMouseMove={e => handleMouseMove(e, i)}
+          onMouseLeave={() => setHovered(null)}
+        >
           <div className="sim-bar-row__label">{label}</div>
           <div className="sim-bar-row__track">
-            <div className="sim-bar-segment" style={{ width: `${(buyValues[i] / max) * 50}%`, background: colors[0] }} />
-            <div className="sim-bar-segment" style={{ width: `${(rentValues[i] / max) * 50}%`, background: colors[1] }} />
+            <div
+              ref={el => buyRefs.current[i] = el}
+              className="sim-bar-segment"
+              style={{ width: 0, background: colors[0] }}
+            />
+            <div
+              ref={el => rentRefs.current[i] = el}
+              className="sim-bar-segment"
+              style={{ width: 0, background: colors[1], opacity: 0.6 }}
+            />
           </div>
           <div className="sim-bar-row__value">{fmtM(buyValues[i])}</div>
         </div>
       ))}
+
+      {/* Hover tooltip thing - still need to fix omg */}
+      {hovered !== null && (
+        <div
+          className="sim-bar-tooltip"
+          style={{ left: tooltipPos.x + 16, top: tooltipPos.y - 20 }}
+        >
+          <div className="sim-bar-tooltip__label">{labels[hovered]}</div>
+          <div className="sim-bar-tooltip__row">
+            <span className="sim-bar-tooltip__dot" style={{ background: colors[0] }} />
+            <span>{tooltipLabels?.[0] ?? 'Option A'}</span>
+            <strong>{fmtM(buyValues[hovered])}</strong>
+          </div>
+          <div className="sim-bar-tooltip__row">
+            <span className="sim-bar-tooltip__dot" style={{ background: colors[1] }} />
+            <span>{tooltipLabels?.[1] ?? 'Option B'}</span>
+            <strong>{fmtM(rentValues[hovered])}</strong>
+          </div>
+          {buyValues[hovered] !== rentValues[hovered] && (
+            <div className="sim-bar-tooltip__diff">
+              Δ {fmtM(Math.abs(buyValues[hovered] - rentValues[hovered]))}
+              {' '}
+              <span>{buyValues[hovered] > rentValues[hovered] ? '↑ more costly' : '↓ less costly'}</span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
-// Reusable slider field
+
 function SliderField({ label, hint, min, max, step, value, onChange, metaMin, metaMax }) {
   return (
     <div className="sim-field">
@@ -179,13 +250,13 @@ export default function SimulationLab() {
 
   const tabs = [
     { id: 'property', label: 'Property vs Rent', badge: 'Studio 1' },
-    { id: 'car',      label: 'Car vs Invest',    badge: 'Studio 2' },
+    { id: 'car', label: 'Car vs Invest', badge: 'Studio 2' },
   ];
 
   return (
     <div className="sim-page">
 
-      {/* Header */}
+      {/* Heading at top */}
       <div className="sim-page__header">
         <div className="sim-page__eyebrow">Know Your Money</div>
         <h1 className="sim-page__title">Simulation Lab</h1>
@@ -194,7 +265,7 @@ export default function SimulationLab() {
         </p>
       </div>
 
-      {/* Tabs */}
+
       <div className="sim-tabs">
         {tabs.map(t => (
           <button
@@ -303,6 +374,7 @@ export default function SimulationLab() {
                   buyValues={[pvrResult.upfrontBuying, pvrResult.bondRepayment * 12, pvrResult.bondRepayment * 36, pvrResult.totalBuying]}
                   rentValues={[0, pvr.monthlyRent * 12, pvr.monthlyRent * 36, pvrResult.totalRenting]}
                   colors={['var(--surface-dark)', '#3B82F6']}
+                  tooltipLabels={['Buying', 'Renting']}
                 />
               </div>
 
@@ -325,7 +397,7 @@ export default function SimulationLab() {
         </>
       )}
 
-      {/* Studio 2: Car vs Invest */}
+      {/* Studio 22 Car vs Invest */}
       {activeTab === 'car' && (
         <>
           <div className="sim-context-note">
@@ -421,6 +493,7 @@ export default function SimulationLab() {
                     cviResult.portfolioValue,
                   ]}
                   colors={['var(--surface-dark)', '#3B82F6']}
+                  tooltipLabels={['Car costs', 'Portfolio']}
                 />
               </div>
 

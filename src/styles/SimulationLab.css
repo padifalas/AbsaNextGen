@@ -1,12 +1,10 @@
-/* ── SimulationLab.css ── */
-
 .sim-page {
   padding: 32px;
   max-width: 1100px;
   margin: 0 auto;
 }
 
-/* ── Header ── */
+
 .sim-page__header {
   text-align: center;
   margin-bottom: 36px;
@@ -39,7 +37,7 @@
   line-height: 1.6;
 }
 
-/* ── Tab Selector ── */
+
 .sim-tabs {
   display: flex;
   gap: 10px;
@@ -79,16 +77,17 @@
   font-weight: 700;
   padding: 2px 7px;
   border-radius: 20px;
-  background: rgba(255,255,255,0.18);
+  background: rgba(255, 255, 255, 0.18);
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
+
 .sim-tab:not(.active) .sim-tab__badge {
   background: var(--surface-2);
   color: var(--slate);
 }
 
-/* ── Context Note ── */
+
 .sim-context-note {
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -106,7 +105,7 @@
   font-weight: 600;
 }
 
-/* ── Studio Layout ── */
+
 .sim-studio {
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -114,7 +113,7 @@
   align-items: start;
 }
 
-/* ── Input Panel ── */
+
 .sim-inputs {
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -144,7 +143,7 @@
   gap: 28px;
 }
 
-/* Grouped input sections */
+
 .sim-field-group {
   display: flex;
   flex-direction: column;
@@ -162,7 +161,7 @@
   border-bottom: 1px solid var(--border);
 }
 
-/* ── Individual Field ── */
+
 .sim-field {
   display: flex;
   flex-direction: column;
@@ -187,7 +186,7 @@
   letter-spacing: -0.01em;
 }
 
-/* ── Premium Custom Slider ── */
+
 .sim-field__slider {
   width: 100%;
   -webkit-appearance: none;
@@ -207,14 +206,14 @@
   border-radius: 50%;
   background: var(--surface-dark);
   border: 2.5px solid var(--surface-1);
-  box-shadow: 0 0 0 1.5px var(--surface-dark), 0 2px 8px rgba(10,25,48,0.2);
+  box-shadow: 0 0 0 1.5px var(--surface-dark), 0 2px 8px rgba(10, 25, 48, 0.2);
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .sim-field__slider::-webkit-slider-thumb:hover {
   transform: scale(1.2);
-  box-shadow: 0 0 0 1.5px var(--surface-dark), 0 4px 12px rgba(10,25,48,0.25);
+  box-shadow: 0 0 0 1.5px var(--surface-dark), 0 4px 12px rgba(10, 25, 48, 0.25);
 }
 
 .sim-field__slider::-moz-range-thumb {
@@ -241,14 +240,14 @@
   margin: 0;
 }
 
-/* ── Output Panel ── */
+
 .sim-outputs {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* ── Compare Cards Row ── */
+
 .sim-compare-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -265,6 +264,7 @@
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .sim-compare-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
@@ -273,12 +273,19 @@
 .sim-compare-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 3px;
 }
 
-.sim-compare-card--buy::before  { background: var(--surface-dark); }
-.sim-compare-card--rent::before { background: #3B82F6; }
+.sim-compare-card--buy::before {
+  background: var(--surface-dark);
+}
+
+.sim-compare-card--rent::before {
+  background: #3B82F6;
+}
 
 .sim-compare-card__label {
   font-size: 0.6875rem;
@@ -306,7 +313,7 @@
   line-height: 1.5;
 }
 
-/* ── Bar Chart ── */
+
 .sim-bar-chart {
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -350,7 +357,7 @@
   flex-shrink: 0;
 }
 
-/* ── Bar Rows ── */
+
 .sim-bars {
   display: flex;
   flex-direction: column;
@@ -397,7 +404,93 @@
   flex-shrink: 0;
 }
 
-/* ── Verdict ── */
+.sim-bar-row--hovered .sim-bar-row__track {
+  filter: brightness(1.06);
+}
+
+.sim-bar-row--hovered {
+  cursor: crosshair;
+}
+
+
+.sim-bar-tooltip {
+  position: absolute;
+  pointer-events: none;
+  z-index: 50;
+  background: var(--surface-dark);
+  border-radius: 10px;
+  padding: 14px 16px;
+  min-width: 180px;
+  box-shadow: 0 8px 28px rgba(10, 25, 48, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  animation: tooltip-in 0.15s ease forwards;
+}
+
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sim-bar-tooltip__label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.sim-bar-tooltip__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 6px;
+}
+
+.sim-bar-tooltip__row:last-of-type {
+  margin-bottom: 0;
+}
+
+.sim-bar-tooltip__row strong {
+  margin-left: auto;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.sim-bar-tooltip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.sim-bar-tooltip__diff {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.sim-bar-tooltip__diff span {
+  font-weight: 600;
+  color: var(--gold);
+}
+
+
 .sim-verdict {
   background: var(--surface-dark);
   border-radius: var(--radius-md);
@@ -416,29 +509,48 @@
 
 .sim-verdict__text {
   font-size: 0.9375rem;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.65;
 }
 
-.sim-verdict__text strong { color: var(--gold); }
+.sim-verdict__text strong {
+  color: var(--gold);
+}
 
 .sim-verdict__breakeven {
   margin-top: 12px;
   font-size: 0.8125rem;
-  color: rgba(255,255,255,0.45);
-  border-top: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255, 255, 255, 0.45);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding-top: 12px;
 }
 
-/* ── Responsive ── */
+/* ─Responsive stufff  */
 @media (max-width: 900px) {
-  .sim-studio { grid-template-columns: 1fr; }
-  .sim-inputs { position: static; }
-  .sim-page { padding: 20px 16px; }
+  .sim-studio {
+    grid-template-columns: 1fr;
+  }
+
+  .sim-inputs {
+    position: static;
+  }
+
+  .sim-page {
+    padding: 20px 16px;
+  }
 }
 
 @media (max-width: 600px) {
-  .sim-compare-row { grid-template-columns: 1fr; }
-  .sim-tabs { flex-direction: column; }
-  .sim-tab { border-radius: var(--radius-sm); justify-content: center; }
+  .sim-compare-row {
+    grid-template-columns: 1fr;
+  }
+
+  .sim-tabs {
+    flex-direction: column;
+  }
+
+  .sim-tab {
+    border-radius: var(--radius-sm);
+    justify-content: center;
+  }
 }
