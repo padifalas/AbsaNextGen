@@ -1,14 +1,17 @@
-
 .tracks-page {
-  padding: 32px;
-  max-width: 900px;
+  padding: 24px 32px;
+  max-width: 920px;
   margin: 0 auto;
 }
 
 /* Header */
 .tracks-page__header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+  padding: 24px 24px 20px;
+  background: linear-gradient(to bottom, rgba(10, 25, 48, 0.03), transparent);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(10, 25, 48, 0.05);
 }
 
 .tracks-page__eyebrow {
@@ -17,7 +20,7 @@
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--red);
+  color: var(--gold);
   margin-bottom: 8px;
 }
 
@@ -68,7 +71,7 @@
 
 .track-tab.active {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 .track-tab__icon {
@@ -83,7 +86,7 @@
 }
 
 .track-tab.active .track-tab__icon {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .track-tab__name {
@@ -403,28 +406,29 @@
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .track-tab {
     min-width: auto;
   }
-  
+
   .track-content {
     grid-template-columns: 1fr;
   }
-  
+
   .track-content__milestones {
     border-left: none;
     border-top: 1px solid var(--border);
   }
-  
+
   .track-content__grid {
     grid-template-columns: 1fr;
   }
-  
+
   .comparison-grid {
     grid-template-columns: 1fr;
   }
 }
+
 .tracks-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -452,7 +456,7 @@
 
 .track-card.active-track {
   border-color: var(--color-red);
-  box-shadow: 0 0 0 2px rgba(10,25,48,0.12), var(--card-shadow-hover);
+  box-shadow: 0 0 0 2px rgba(10, 25, 48, 0.12), var(--card-shadow-hover);
 }
 
 
@@ -462,15 +466,15 @@
 }
 
 .track-card__header--property {
-  background: linear-gradient(135deg, #1a1a2e 0%, #2d1f3d 100%);
+  background: linear-gradient(135deg, #12122a 0%, #1e1040 60%, #2a1060 100%);
 }
 
 .track-card__header--balanced {
-  background: linear-gradient(135deg, #1a2e1e 0%, #1f3a28 100%);
+  background: linear-gradient(135deg, #0d2218 0%, #1a3d28 60%, #1f6b47 100%);
 }
 
 .track-card__header--aggressive {
-  background: linear-gradient(135deg, #1a2535 0%, #1e3048 100%);
+  background: linear-gradient(135deg, #0a1930 0%, #162a4a 60%, #1e3a6a 100%);
 }
 
 .track-card__active-badge {
@@ -491,7 +495,7 @@
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -503,7 +507,7 @@
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   margin-bottom: 4px;
 }
 
@@ -517,7 +521,7 @@
 
 .track-card__pitch {
   font-size: 0.75rem;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -581,9 +585,10 @@
 }
 
 .track-card__outcome {
-  background: #f9fafb;
+  background: var(--surface-2);
   border-radius: 8px;
   padding: 10px 12px;
+  border-left: 2px solid var(--gold);
 }
 
 .track-card__outcome-label {
@@ -623,9 +628,10 @@
 }
 
 .track-card__select-btn.selected {
-  background: var(--color-red);
-  border-color: var(--color-red);
+  background: var(--surface-dark);
+  border-color: var(--surface-dark);
   color: #fff;
+  box-shadow: 0 4px 12px rgba(10, 25, 48, 0.2);
 }
 
 
@@ -680,7 +686,9 @@
   line-height: 1.5;
 }
 
-.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table tr:last-child td {
+  border-bottom: none;
+}
 
 .comparison-table td:first-child {
   font-weight: 600;
@@ -700,9 +708,23 @@
   border-radius: 20px;
 }
 
-.comparison-pill--high   { background: rgba(16,185,129,0.1); color: #10B981; }
-.comparison-pill--medium { background: rgba(201,168,76,0.12); color: #C9A84C; }
-.comparison-pill--low    { background: rgba(100,116,139,0.1); color: #64748B; }
+.comparison-pill--high {
+  background: var(--positive-bg);
+  color: var(--positive);
+  border: 1px solid var(--positive-border);
+}
+
+.comparison-pill--medium {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--warning-border);
+}
+
+.comparison-pill--low {
+  background: rgba(100, 116, 139, 0.1);
+  color: #64748B;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+}
 
 /*  milestones  */
 .track-milestones {
@@ -734,7 +756,7 @@
 .track-milestones__track-name {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--color-red);
+  color: var(--gold);
 }
 
 .milestones-timeline {
@@ -760,7 +782,9 @@
   background: var(--color-card-border);
 }
 
-.milestone-row + .milestone-row { margin-top: 8px; }
+.milestone-row+.milestone-row {
+  margin-top: 8px;
+}
 
 .milestone-dot {
   width: 24px;
@@ -777,9 +801,22 @@
   z-index: 1;
 }
 
-.milestone-dot--done    { background: var(--color-positive); color: #fff; }
-.milestone-dot--active  { background: var(--color-red); color: #fff; }
-.milestone-dot--pending { background: var(--color-card-border); color: var(--color-text-muted); }
+.milestone-dot--done {
+  background: var(--positive);
+  color: #fff;
+  box-shadow: 0 0 0 3px var(--positive-bg);
+}
+
+.milestone-dot--active {
+  background: var(--surface-dark);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(10, 25, 48, 0.1);
+}
+
+.milestone-dot--pending {
+  background: var(--border);
+  color: var(--slate);
+}
 
 .milestone-content {
   flex: 1;
@@ -827,7 +864,9 @@
   margin-bottom: 10px;
 }
 
-.tracks-explainer p:last-child { margin-bottom: 0; }
+.tracks-explainer p:last-child {
+  margin-bottom: 0;
+}
 
 .tracks-explainer p strong {
   color: var(--color-text-primary);
@@ -836,16 +875,18 @@
 
 /* Responsive stuff*/
 @media (max-width: 900px) {
-  .tracks-grid { grid-template-columns: 1fr; }
-  
+  .tracks-grid {
+    grid-template-columns: 1fr;
+  }
+
   .tracks-page {
     padding: 24px 20px;
   }
-  
+
   .tracks-page__title {
     font-size: 1.75rem;
   }
-  
+
   .comparison-table,
   .comparison-table thead,
   .comparison-table tbody,
@@ -854,27 +895,27 @@
   .comparison-table tr {
     display: block;
   }
-  
+
   .comparison-table thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
-  
+
   .comparison-table td {
     position: relative;
     padding-left: 50%;
     border: none;
     border-bottom: 1px solid var(--color-card-border);
   }
-  
+
   .comparison-table td:first-child {
     position: relative;
     padding-left: 16px;
     background: var(--surface-1);
     font-weight: 700;
   }
-  
+
   .comparison-table td::before {
     position: absolute;
     left: 16px;
@@ -887,77 +928,77 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  
+
   .comparison-table tr {
     margin-bottom: 16px;
     border: 1px solid var(--color-card-border);
     border-radius: 12px;
     overflow: hidden;
   }
-  
+
   .comparison-table tr:last-child td:last-child {
     border-bottom: none;
   }
 }
 
 @media (max-width: 640px) {
-  .tracks-page { 
-    padding: 16px 12px; 
+  .tracks-page {
+    padding: 16px 12px;
   }
-  
+
   .tracks-page__title {
     font-size: 1.5rem;
   }
-  
+
   .tracks-page__subtitle {
     font-size: 0.9rem;
   }
-  
+
   .track-card__header {
     padding: 18px 16px 14px;
   }
-  
+
   .track-card__body {
     padding: 14px 16px 16px;
   }
-  
+
   .track-card__name {
     font-size: 0.95rem;
   }
-  
+
   .track-card__pitch {
     font-size: 0.75rem;
   }
-  
+
   .track-card__select-btn {
     padding: 8px;
     font-size: 0.75rem;
   }
-  
+
   .milestones-timeline {
     padding: 16px;
   }
-  
+
   .milestone-row {
     gap: 12px;
   }
-  
+
   .milestone-dot {
     width: 20px;
     height: 20px;
     font-size: 0.5rem;
   }
-  
+
   .milestone-desc {
     font-size: 0.8rem;
   }
-  
+
   .track-milestones__header {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
-  
+
   .tracks-explainer {
     padding: 20px 16px;
   }

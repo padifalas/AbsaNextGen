@@ -125,7 +125,7 @@ export default function MoneySnapshot() {
         </div>
       )}
 
-      {/*─ Stat cards tiles  */}
+    
       <div className="ms-tiles">
         <div className="ms-tile ms-tile--primary">
           <div className="ms-tile__label">Take-Home Pay</div>
@@ -133,9 +133,11 @@ export default function MoneySnapshot() {
           <div className="ms-tile__sub">from <span ref={el => valueRefs.current[0] = el}>{fmt(financial.grossMonthly)}</span> gross</div>
         </div>
 
-        <div className="ms-tile">
+        <div className={`ms-tile ${derived.freeCapital > 0 ? 'ms-tile--positive-state' : 'ms-tile--negative-state'}`}>
           <div className="ms-tile__label">Free Capital</div>
-          <div className="ms-tile__value" ref={el => valueRefs.current[3] = el}>{fmt(Math.max(0, derived.freeCapital))}</div>
+          <div className={`ms-tile__value ${derived.freeCapital > 0 ? 'ms-tile__value--pos' : 'ms-tile__value--neg'}`} ref={el => valueRefs.current[3] = el}>
+            {fmt(Math.max(0, derived.freeCapital))}
+          </div>
           <div className="ms-tile__sub">
             <span className={derived.freeCapital > 0 ? 'ms-pill ms-pill--pos' : 'ms-pill ms-pill--neg'}>
               {derived.freeCapital > 0 ? 'Available' : 'Overcommitted'}
@@ -149,12 +151,20 @@ export default function MoneySnapshot() {
           <div className="ms-tile__sub">{derived.tax.effectiveRate}% effective rate</div>
         </div>
 
-        <div className="ms-tile">
+        <div className={`ms-tile ${
+          savingsStatus === 'on-track' ? 'ms-tile--positive-state'
+          : savingsStatus === 'at-risk' ? 'ms-tile--negative-state'
+          : 'ms-tile--warning-state'
+        }`}>
           <div className="ms-tile__label">Savings Rate</div>
-          <div className={`ms-tile__value ${savingsStatus === 'on-track' ? 'ms-tile__value--pos' : savingsStatus === 'at-risk' ? 'ms-tile__value--neg' : 'ms-tile__value--warn'}`}>
+          <div className={`ms-tile__value ${
+            savingsStatus === 'on-track' ? 'ms-tile__value--pos'
+            : savingsStatus === 'at-risk' ? 'ms-tile__value--neg'
+            : 'ms-tile__value--warn'
+          }`}>
             {pct(savingsRate)}
           </div>
-          <div className="ms-tile__sub">SA avg: 11%</div>
+          <div className="ms-tile__sub">SA avg: 11% · {savingsStatus === 'on-track' ? '✓ Good' : savingsStatus === 'at-risk' ? '↓ Below target' : '~ Improving'}</div>
         </div>
       </div>
 
@@ -411,7 +421,7 @@ export default function MoneySnapshot() {
         </div>
         <div className="ms-strip__item">
           <div className="ms-strip__label">Months to Deposit</div>
-          <div className="ms-strip__val">{derived.monthsToDeposit ? `${derived.monthsToDeposit} mo` : '—'}</div>
+          <div className="ms-strip__val">{derived.monthsToDeposit ? `${derived.monthsToDeposit} months` : '—'}</div>
         </div>
       </div>
     </div>

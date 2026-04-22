@@ -1,13 +1,17 @@
 .sim-page {
-  padding: 32px;
-  max-width: 1100px;
+  padding: 24px 32px;
+  max-width: 1140px;
   margin: 0 auto;
 }
 
 
 .sim-page__header {
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 28px;
+  padding: 24px 24px 20px;
+  background: linear-gradient(to bottom, rgba(10,25,48,0.03), transparent);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(10,25,48,0.05);
 }
 
 .sim-page__eyebrow {
@@ -89,15 +93,15 @@
 
 
 .sim-context-note {
-  background: var(--surface-1);
-  border: 1px solid var(--border);
+  background: linear-gradient(to right, rgba(178,138,80,0.06), transparent);
+  border: 1px solid var(--warning-border);
   border-left: 3px solid var(--gold);
   border-radius: var(--radius-sm);
-  padding: 14px 18px;
+  padding: 12px 18px;
   font-size: 0.8rem;
   color: var(--slate);
   line-height: 1.6;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .sim-context-note strong {
@@ -280,11 +284,19 @@
 }
 
 .sim-compare-card--buy::before {
-  background: var(--surface-dark);
+  background: linear-gradient(to right, var(--positive), var(--sage-mid));
 }
 
 .sim-compare-card--rent::before {
-  background: #3B82F6;
+  background: linear-gradient(to right, #3B82F6, #60a5fa);
+}
+
+.sim-compare-card--buy {
+  border-top: 3px solid var(--positive);
+}
+
+.sim-compare-card--rent {
+  border-top: 3px solid #3B82F6;
 }
 
 .sim-compare-card__label {
@@ -298,7 +310,7 @@
 
 .sim-compare-card__value {
   font-family: var(--font-display);
-  font-size: 1.75rem;
+  font-size: 1.625rem;
   font-weight: 400;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
@@ -306,6 +318,10 @@
   margin-bottom: 6px;
   line-height: 1.1;
 }
+
+/* state value coloring for compare cards */
+.sim-compare-card--buy .sim-compare-card__value { color: var(--positive); }
+.sim-compare-card--rent .sim-compare-card__value { color: #3B82F6; }
 
 .sim-compare-card__sub {
   font-size: 0.75rem;
@@ -380,8 +396,8 @@
 
 .sim-bar-row__track {
   flex: 1;
-  height: 10px;
-  background: var(--surface-2);
+  height: 12px;
+  background: rgba(10,25,48,0.07);
   border-radius: 99px;
   overflow: hidden;
   display: flex;
@@ -492,10 +508,22 @@
 
 
 .sim-verdict {
-  background: var(--surface-dark);
+  background: linear-gradient(135deg, var(--surface-dark) 0%, #162a4a 100%);
   border-radius: var(--radius-md);
   padding: 24px 28px;
   border-left: 3px solid var(--gold);
+}
+
+/* Variant: when buying wins */
+.sim-verdict--buy-wins {
+  border-left-color: var(--positive);
+  background: linear-gradient(135deg, #0d2b1a 0%, #1a3d28 100%);
+}
+
+/* Variant: when renting wins */
+.sim-verdict--rent-wins {
+  border-left-color: #3B82F6;
+  background: linear-gradient(135deg, #0d1f35 0%, #1a2e4a 100%);
 }
 
 .sim-verdict__label {
@@ -506,6 +534,8 @@
   color: var(--gold);
   margin-bottom: 10px;
 }
+.sim-verdict--buy-wins .sim-verdict__label { color: var(--sage-mid); }
+.sim-verdict--rent-wins .sim-verdict__label { color: #60a5fa; }
 
 .sim-verdict__text {
   font-size: 0.9375rem;

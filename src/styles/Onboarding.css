@@ -219,8 +219,8 @@
   font-variant-numeric: tabular-nums;
 }
 
-.ob-derived-tile__value.neg { color: var(--red); }
-.ob-derived-tile__value.pos { color: var(--sage); }
+.ob-derived-tile__value.neg { color: var(--negative); }
+.ob-derived-tile__value.pos { color: var(--positive); }
 
 /* ── Expense grid ── */
 .ob-expense-grid {
@@ -247,8 +247,8 @@
 
 .ob-callout--sage {
   background: var(--sage-light);
-  border-color: var(--sage);
-  color: #2e5c35;
+  border-color: var(--positive);
+  color: var(--positive);
 }
 
 .ob-callout strong { font-weight: 600; }
@@ -317,8 +317,8 @@
   justify-content: center;
 }
 
-.ob-track__icon--property  { background: rgba(28,25,23,0.08); color: var(--surface-dark); }
-.ob-track__icon--balanced  { background: var(--sage-light); color: var(--sage); }
+.ob-track__icon--property  { background: rgba(10,25,48,0.08); color: var(--surface-dark); }
+.ob-track__icon--balanced  { background: var(--positive-bg); color: var(--positive); }
 .ob-track__icon--aggressive{ background: rgba(59,130,246,0.1); color: #3B82F6; }
 
 .ob-track__name {

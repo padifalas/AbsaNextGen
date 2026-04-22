@@ -2,12 +2,12 @@
 
 :root {
   
-  --page-bg: #edebe7;
+  --page-bg: #e8e6e1;
   
   --surface-1: #ffffff;
  
-  --surface-2: #f5f4ef;
- 
+  --surface-2: #f2f1ec;
+  
   --surface-dark: #0a1930;
 
   --surface-dark-2: #162a4a;
@@ -24,13 +24,27 @@
   --gold-light: #fdfaf6;
   --gold-mid: #cfb183;
 
-  --sage: #2c4c3b;
+  --sage: #1f6b47;
 
-  --sage-light: #e6eee9;
+  --sage-light: #e3f2eb;
+  --sage-mid: #2d8a5e;
 
   --slate: #676767;
  
   --slate-light: #e8ecf0;
+
+  /* Semantic state colors */
+  --positive: #1f6b47;
+  --positive-bg: rgba(31, 107, 71, 0.08);
+  --positive-border: rgba(31, 107, 71, 0.2);
+
+  --negative: #b33939;
+  --negative-bg: rgba(179, 57, 57, 0.08);
+  --negative-border: rgba(179, 57, 57, 0.2);
+
+  --warning: #b28a50;
+  --warning-bg: rgba(178, 138, 80, 0.1);
+  --warning-border: rgba(178, 138, 80, 0.25);
 
   /* typography stuff  */
   --font-display: 'Playfair Display', 'DM Serif Display', Georgia, serif;
@@ -49,8 +63,8 @@
   /*  shadows  */
   --shadow-xs: 0 1px 2px rgba(10, 25, 48, 0.04);
   --shadow-sm: 0 2px 8px rgba(10, 25, 48, 0.06), 0 1px 2px rgba(10, 25, 48, 0.04);
-  --shadow-md: 0 4px 20px rgba(10, 25, 48, 0.08), 0 1px 4px rgba(10, 25, 48, 0.05);
-  --shadow-lg: 0 8px 40px rgba(10, 25, 48, 0.1), 0 2px 8px rgba(10, 25, 48, 0.06);
+  --shadow-md: 0 4px 20px rgba(10, 25, 48, 0.1), 0 1px 4px rgba(10, 25, 48, 0.06);
+  --shadow-lg: 0 8px 40px rgba(10, 25, 48, 0.12), 0 2px 8px rgba(10, 25, 48, 0.08);
   --shadow-red: 0 6px 20px rgba(10, 25, 48, 0.22);
 
   /*  transitions  */
@@ -66,15 +80,15 @@
   --color-bg-page: var(--page-bg);
   --color-card: var(--surface-1);
   --color-card-border: var(--border);
-  --color-red: var(--red); /* renamed semantic wise but holds navy blue */
+  --color-red: var(--red);
   --color-red-hover: var(--red-hover);
   --color-gold: var(--gold);
   --color-gold-tint: var(--gold-light);
   --color-text-primary: var(--surface-dark);
   --color-text-muted: var(--slate);
   --color-text-light: #FDFAF6;
-  --color-positive: var(--sage);
-  --color-negative: #b33939; /* real negative just in case */
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
   --card-shadow: var(--shadow-sm);
   --card-shadow-hover: var(--shadow-md);
   --radius-card: var(--radius-md);
@@ -104,8 +118,9 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(26, 54, 93, 0.04) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(178, 138, 80, 0.04) 0%, transparent 55%);
+    radial-gradient(ellipse at 15% 40%, rgba(26, 54, 93, 0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 15%, rgba(178, 138, 80, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 90%, rgba(31, 107, 71, 0.04) 0%, transparent 60%);
 }
 
 #root {
@@ -237,11 +252,11 @@ body {
 }
 
 .text-positive {
-  color: var(--sage);
+  color: var(--positive);
 }
 
 .text-negative {
-  color: var(--red);
+  color: var(--negative);
 }
 
 .text-gold {
@@ -255,6 +270,42 @@ body {
 .mono {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
+}
+
+/* ── State Badge utilities ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+}
+
+.badge--pos {
+  background: var(--positive-bg);
+  color: var(--positive);
+  border: 1px solid var(--positive-border);
+}
+
+.badge--neg {
+  background: var(--negative-bg);
+  color: var(--negative);
+  border: 1px solid var(--negative-border);
+}
+
+.badge--warn {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--warning-border);
+}
+
+.badge--neutral {
+  background: var(--slate-light);
+  color: var(--slate);
+  border: 1px solid rgba(103,103,103,0.15);
 }
 
 /* Tag / pill */

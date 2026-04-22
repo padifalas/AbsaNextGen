@@ -373,13 +373,13 @@ export default function SimulationLab() {
                   labels={['Upfront', 'Yr 1', 'Yr 3', `Yr ${pvr.years}`]}
                   buyValues={[pvrResult.upfrontBuying, pvrResult.bondRepayment * 12, pvrResult.bondRepayment * 36, pvrResult.totalBuying]}
                   rentValues={[0, pvr.monthlyRent * 12, pvr.monthlyRent * 36, pvrResult.totalRenting]}
-                  colors={['var(--surface-dark)', '#3B82F6']}
+                  colors={['var(--positive)', '#3B82F6']}
                   tooltipLabels={['Buying', 'Renting']}
                 />
               </div>
 
-              <div className="sim-verdict">
-                <div className="sim-verdict__label">Studio Verdict</div>
+              <div className={`sim-verdict${pvrResult.buyingWins ? ' sim-verdict--buy-wins' : ' sim-verdict--rent-wins'}`}>
+                <div className="sim-verdict__label">Studio Verdict · {pvrResult.buyingWins ? 'Buying Wins' : 'Renting Wins'}</div>
                 <div className="sim-verdict__text">
                   {pvrResult.buyingWins
                     ? <><strong>Buying builds more wealth</strong> at these inputs over {pvr.years} years. Your equity of {fmtM(pvrResult.equityOwner)} outpaces the renter's invested position of {fmtM(pvrResult.netRenterPosition)}.</>
