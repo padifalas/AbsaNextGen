@@ -1,33 +1,45 @@
 /* ─────────────────────────────────────────
-   Sidebar.css
+   Sidebar.css — Premium Dark Sidebar
 ───────────────────────────────────────── */
 
 .sidebar {
   width: 240px;
   min-height: 100vh;
-  background: var(--surface-1);
-  background-image: radial-gradient(ellipse at 50% 100%, rgba(178,138,80,0.04) 0%, transparent 65%);
+  background: linear-gradient(180deg, #0a1930 0%, #0d2140 60%, #0a1930 100%);
   display: flex;
   flex-direction: column;
   position: fixed;
   left: 0; top: 0; bottom: 0;
   z-index: 100;
-  border-right: 1px solid var(--border);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
   transition: width 260ms cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Subtle noise/shimmer overlay */
+.sidebar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(178, 138, 80, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(31, 107, 71, 0.06) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .sidebar.collapsed { width: 64px; }
 
 /* ── Brand ── */
 .sidebar__brand {
-  padding: 18px 14px 14px;
-  border-bottom: 1px solid var(--border);
+  padding: 16px 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-height: 64px;
   flex-shrink: 0;
+  position: relative;
 }
 
 .sidebar__brand-mark {
@@ -40,19 +52,31 @@
   min-width: 0;
 }
 
+/* ABSA logo pill */
 .sidebar__logo-pill {
-  width: 32px;
-  height: 32px;
-  background: var(--surface-dark);
-  border-radius: 9px;
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(10,25,48,0.2);
-  transition: transform 0.2s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  padding: 3px;
 }
-.sidebar__logo-pill:hover { transform: scale(1.06); }
+.sidebar__logo-pill:hover {
+  transform: scale(1.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255,255,255,0.15);
+}
+
+.sidebar__logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
 .sidebar__brand-text {
   display: flex;
@@ -72,35 +96,38 @@
   font-family: var(--font-display);
   font-size: 0.9375rem;
   font-weight: 400;
-  color: var(--surface-dark);
+  color: #fff;
   line-height: 1.2;
 }
 
 .sidebar__brand-sub {
-  font-size: 0.6875rem;
-  color: var(--slate);
-  letter-spacing: 0.02em;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.9;
 }
 
-/* Toggle button — hamburger / X */
+/* Toggle button */
 .sidebar__toggle {
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  border: 1px solid var(--border);
-  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  color: var(--slate);
+  color: rgba(255, 255, 255, 0.6);
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 .sidebar__toggle:hover {
-  background: var(--surface-dark);
+  background: rgba(255, 255, 255, 0.14);
   color: #fff;
-  border-color: var(--surface-dark);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 .sidebar.collapsed .sidebar__toggle { margin: 0 auto; }
 
@@ -108,8 +135,8 @@
 .sidebar__track-chip {
   margin: 12px 10px 0;
   padding: 11px 12px;
-  background: linear-gradient(135deg, rgba(178,138,80,0.1) 0%, rgba(178,138,80,0.05) 100%);
-  border: 1px solid rgba(184,146,42,0.22);
+  background: linear-gradient(135deg, rgba(178, 138, 80, 0.18) 0%, rgba(178, 138, 80, 0.08) 100%);
+  border: 1px solid rgba(178, 138, 80, 0.25);
   border-left: 3px solid var(--gold);
   border-radius: var(--radius-sm);
   display: flex;
@@ -125,11 +152,12 @@
 }
 
 .sidebar__track-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--gold);
   flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(178, 138, 80, 0.6);
 }
 
 .sidebar__track-body {
@@ -144,32 +172,51 @@
 }
 
 .sidebar__track-label {
-  font-size: 0.5875rem;
+  font-size: 0.5625rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
+  opacity: 0.85;
   margin-bottom: 2px;
 }
 
 .sidebar__track-name {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--surface-dark);
+  color: #fff;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .sidebar__track-sub {
-  font-size: 0.6875rem;
-  color: var(--slate);
+  font-size: 0.625rem;
+  color: rgba(255, 255, 255, 0.4);
   margin-top: 1px;
+}
+
+/* ── Nav Section Label ── */
+.sidebar__nav-section-label {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  padding: 14px 18px 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 200ms ease;
+}
+.sidebar.collapsed .sidebar__nav-section-label {
+  opacity: 0;
+  height: 0;
+  padding: 0;
 }
 
 /* ── Nav ── */
 .sidebar__nav {
   flex: 1;
-  padding: 14px 0 8px;
+  padding: 6px 0 8px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -191,7 +238,7 @@
   padding: 9px 10px;
   border-radius: 10px;
   text-decoration: none;
-  color: #676767;
+  color: rgba(255, 255, 255, 0.5);
   font-size: 0.875rem;
   font-weight: 500;
   transition: background 0.18s ease, color 0.18s ease, transform 0.15s ease;
@@ -200,15 +247,14 @@
   overflow: hidden;
 }
 
-/* Collapsed: centre icon only */
 .sidebar.collapsed .sidebar__link {
   justify-content: center;
   padding: 10px 0;
 }
 
-/* Hover — deep navy fill */
+/* Hover */
 .sidebar__link:hover {
-  background: #1a365d;
+  background: rgba(255, 255, 255, 0.08);
   color: #fff;
   transform: translateX(2px);
 }
@@ -218,7 +264,7 @@
 
 /* Active */
 .sidebar__link.active {
-  background: #0a1930;
+  background: rgba(178, 138, 80, 0.15);
   color: #fff;
   font-weight: 600;
 }
@@ -226,7 +272,7 @@
   color: var(--gold);
 }
 
-/* Subtle left accent bar on active */
+/* Gold left accent bar on active */
 .sidebar__link.active::before {
   content: '';
   position: absolute;
@@ -236,6 +282,7 @@
   width: 3px;
   border-radius: 0 2px 2px 0;
   background: var(--gold);
+  box-shadow: 0 0 8px rgba(178, 138, 80, 0.5);
 }
 
 .sidebar__link-icon {
@@ -246,6 +293,10 @@
   justify-content: center;
   flex-shrink: 0;
   transition: color 0.15s;
+  color: rgba(255, 255, 255, 0.45);
+}
+.sidebar__link:hover .sidebar__link-icon {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .sidebar__link-label {
@@ -275,7 +326,8 @@
   opacity: 0;
   transition: opacity 150ms ease;
   z-index: 999;
-  box-shadow: 0 4px 12px rgba(10,25,48,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 .sidebar__link-tooltip::before {
   content: '';
@@ -288,10 +340,17 @@
 }
 .sidebar.collapsed .sidebar__link:hover .sidebar__link-tooltip { opacity: 1; }
 
+/* ── Divider ── */
+.sidebar__divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 8px 10px;
+}
+
 /* ── Footer ── */
 .sidebar__footer {
   padding: 8px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -304,7 +363,7 @@
   gap: 10px;
   padding: 9px 10px;
   border-radius: 10px;
-  color: var(--slate);
+  color: rgba(255, 255, 255, 0.4);
   font-size: 0.8125rem;
   font-weight: 500;
   cursor: pointer;
@@ -314,7 +373,10 @@
   transition: background 0.18s ease, color 0.18s ease;
 }
 .sidebar.collapsed .sidebar__footer-link { justify-content: center; }
-.sidebar__footer-link:hover { background: var(--surface-2); color: var(--surface-dark); }
+.sidebar__footer-link:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.8);
+}
 
 .sidebar__footer-icon {
   width: 20px;
@@ -323,6 +385,10 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.35);
+}
+.sidebar__footer-link:hover .sidebar__footer-icon {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .sidebar__footer-text {
@@ -335,7 +401,7 @@
   overflow: hidden;
 }
 
-/* Logout button — premium hover */
+/* Logout button */
 .sidebar__logout {
   display: flex;
   align-items: center;
@@ -345,7 +411,7 @@
   border-radius: 10px;
   border: none;
   background: transparent;
-  color: var(--slate);
+  color: rgba(255, 255, 255, 0.35);
   font-size: 0.8125rem;
   font-weight: 600;
   cursor: pointer;
@@ -358,17 +424,17 @@
 }
 .sidebar.collapsed .sidebar__logout { justify-content: center; }
 .sidebar__logout:hover {
-  background: rgba(179,57,57,0.1);
-  color: #b33939;
+  background: rgba(179, 57, 57, 0.15);
+  color: #e57373;
 }
 
 /* Credit */
 .sidebar__credit {
   padding: 8px 18px 12px;
-  font-size: 0.575rem;
+  font-size: 0.5625rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: rgba(92,107,122,0.4);
+  color: rgba(255, 255, 255, 0.15);
   font-weight: 500;
   white-space: nowrap;
   transition: opacity 200ms ease;
@@ -385,7 +451,6 @@
    and these affect buttons app-wide.
 ═══════════════════════════════════════════════ */
 
-/* Primary button */
 .btn-primary {
   position: relative;
   overflow: hidden;
@@ -405,7 +470,6 @@
 .btn-primary:hover::after { background: rgba(255,255,255,0.06); }
 .btn-primary:active { transform: translateY(0) !important; }
 
-/* Ghost / outline buttons */
 .btn-ghost,
 .ms-btn-ghost,
 .ed-btn-ghost {
@@ -419,7 +483,6 @@
   border-color: var(--surface-dark) !important;
 }
 
-/* Solid dark buttons (ms-btn-primary, ed-btn-solid) */
 .ms-btn-primary,
 .ed-btn-solid {
   transition: opacity 0.15s ease, transform 0.15s ease !important;
@@ -432,7 +495,6 @@
 .ms-btn-primary:active,
 .ed-btn-solid:active { transform: none !important; }
 
-/* Edit toggle pill (Money Snapshot) */
 .ms-edit-btn {
   transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.15s ease !important;
 }
@@ -440,7 +502,6 @@
   transform: translateY(-1px);
 }
 
-/* Gold outline (nudge action, ed-edit-toggle) */
 .ed-edit-toggle,
 .ms-nudge__action {
   transition: background 0.18s ease, color 0.18s ease, transform 0.15s ease !important;
@@ -448,7 +509,6 @@
 .ed-edit-toggle:hover,
 .ms-nudge__action:hover { transform: translateY(-1px); }
 
-/* RA CTA */
 .ms-promo__cta,
 .ra-opportunity__cta {
   transition: opacity 0.15s ease, transform 0.15s ease !important;

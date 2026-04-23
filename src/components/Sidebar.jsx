@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { FlaskConical, HelpCircle, LogOut, Menu, X, LayoutDashboard, BookOpen, BarChart2, User } from 'lucide-react';
 import '../styles/Sidebar.css';
+import absaLogo from '../assets/absa-logo.png';
 
 const NAV_ITEMS = [
   { label: 'Money Snapshot',  to: '/',           icon: <LayoutDashboard size={18} />,  end: true },
@@ -23,9 +24,7 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
       <div className="sidebar__brand">
         <NavLink to="/" className="sidebar__brand-mark">
           <div className="sidebar__logo-pill">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 15, height: 15, color: '#fff' }}>
-              <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
-            </svg>
+            <img src={absaLogo} alt="ABSA" className="sidebar__logo-img" />
           </div>
           <div className="sidebar__brand-text">
             <span className="sidebar__brand-name">Wealth Studio</span>
@@ -50,6 +49,7 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
 
       {/* Nav */}
       <nav className="sidebar__nav">
+        <div className="sidebar__nav-section-label">Navigate</div>
         <ul className="sidebar__menu">
           {NAV_ITEMS.map(({ label, to, icon, end }) => (
             <li key={to}>
@@ -60,7 +60,6 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
               >
                 <span className="sidebar__link-icon">{icon}</span>
                 <span className="sidebar__link-label">{label}</span>
-                {/* tooltip shown only when collapsed */}
                 <span className="sidebar__link-tooltip">{label}</span>
               </NavLink>
             </li>
