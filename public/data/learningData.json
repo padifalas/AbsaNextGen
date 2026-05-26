@@ -1,0 +1,774 @@
+{
+  "_architecture": {
+    "_comment_1": "DATA SOURCE: This file is currently served as a local static asset from /public/data/learningData.json.",
+    "_comment_2": "PRODUCTION INTENT: In a real ABSA deployment this JSON would be fetched from a CMS REST endpoint,",
+    "_comment_3": "e.g. GET /api/v1/learn/content?locale=en-ZA  — see useLearningData.js for the fetch layer.",
+    "_comment_4": "SA_REGULATORY_DATA (modules, glossary): Content reflects SARS 2024/25 tax year.",
+    "_comment_5": "These values change once per year (March). A production backend would version-stamp",
+    "_comment_6": "each record with 'taxYear' and 'validFrom' so stale cached data is detectable.",
+    "_comment_7": "ABSA_DEEP_LINKS: URLs below point to live ABSA product pages as of 2024.",
+    "_comment_8": "A production integration would source these from ABSA's internal link registry API",
+    "_comment_9": "so marketing can update destinations without a code deploy.",
+    "_comment_10": "SARS_LIVE_DATA: SARS does not expose a public REST API. The bracket/rebate values",
+    "_comment_11": "in this file are sourced from https://www.sars.gov.za/tax-rates/income-tax/rates-of-tax-for-individuals/",
+    "_comment_12": "A production system would have a scheduled job that scrapes and validates this page",
+    "_comment_13": "on 1 March each year and writes updated values to the CMS."
+  },
+
+  "meta": {
+    "taxYear": "2024/25",
+    "validFrom": "2024-03-01",
+    "lastUpdated": "2024-11-01",
+    "primeRate": 11.75,
+    "uifCapMonthly": 177.12,
+    "tfsaAnnualLimit": 36000,
+    "tfsaLifetimeCap": 500000,
+    "primaryRebate": 17235,
+    "raMaxDeductionPct": 27.5,
+    "raMaxDeductionRand": 350000,
+    "sarbSDA": 1000000,
+    "transferDutyThreshold": 1100000
+  },
+
+  "absaDeepLinks": {
+    "_comment": "These are real ABSA product page URLs. In production these would be fetched from ABSA's link registry.",
+    "homeLoan": {
+      "label": "ABSA Home Loans",
+      "url": "https://www.absa.co.za/personal/loans/home-loans/",
+      "cta": "Apply for a home loan"
+    },
+    "retirementAnnuity": {
+      "label": "ABSA Retirement Annuity",
+      "url": "https://www.absa.co.za/personal/investments/retirement-annuity/",
+      "cta": "Open an RA"
+    },
+    "tfsa": {
+      "label": "ABSA Tax-Free Investment",
+      "url": "https://www.absa.co.za/personal/investments/tax-free-investment/",
+      "cta": "Open a TFSA"
+    },
+    "investmentAccount": {
+      "label": "ABSA Investment Account",
+      "url": "https://www.absa.co.za/personal/investments/",
+      "cta": "Explore investments"
+    },
+    "vehicleFinance": {
+      "label": "ABSA Vehicle Finance",
+      "url": "https://www.absa.co.za/personal/loans/vehicle-finance/",
+      "cta": "Calculate vehicle finance"
+    },
+    "bondCalculator": {
+      "label": "ABSA Bond Calculator",
+      "url": "https://www.absa.co.za/personal/loans/home-loans/bond-repayment-calculator/",
+      "cta": "Calculate bond repayments"
+    }
+  },
+
+  "externalLinks": {
+    "_comment": "Authoritative SA government and regulator sources referenced in content.",
+    "sarsIndividualRates": "https://www.sars.gov.za/tax-rates/income-tax/rates-of-tax-for-individuals/",
+    "sarsRa": "https://www.sars.gov.za/types-of-tax/income-tax/retirement-benefits/",
+    "sarbExchangeControl": "https://www.resbank.co.za/en/home/what-we-do/financial-surveillance/exchange-control-regulations",
+    "faisOmbudsman": "https://www.faisombud.co.za/",
+    "ncrCreditBureau": "https://www.ncr.org.za/",
+    "transunionFreeReport": "https://www.transunion.co.za/consumer/free-credit-report"
+  },
+
+  "categories": [
+    { "id": "tax",        "label": "Tax & PAYE",       "colorVar": "var(--color-red)"   },
+    { "id": "savings",    "label": "Savings & TFSA",   "colorVar": "var(--color-gold)"  },
+    { "id": "retirement", "label": "Retirement (RA)",  "colorVar": "var(--color-sage)"  },
+    { "id": "property",   "label": "Property",         "colorVar": "#7C8FD4"            },
+    { "id": "investing",  "label": "Investing",        "colorVar": "#E07B54"            },
+    { "id": "debt",       "label": "Debt & Credit",    "colorVar": "#C1848A"            },
+    { "id": "offshore",   "label": "Offshore",         "colorVar": "#5BA08E"            },
+    { "id": "basics",     "label": "Money Basics",     "colorVar": "var(--text-muted)"  }
+  ],
+
+  "trackRecommendations": {
+    "property":   ["paye-101", "property-math", "tfsa-basics"],
+    "balanced":   ["paye-101", "ra-deep-dive",  "tfsa-basics"],
+    "aggressive": ["offshore-investing", "compound-growth", "ra-deep-dive"]
+  },
+
+  "modules": [
+    {
+      "id": "paye-101",
+      "title": "How PAYE Works in South Africa",
+      "category": "tax",
+      "level": "Beginner",
+      "readTime": 4,
+      "summary": "Understand how SARS takes tax from your salary before you ever see it — and why your \"salary\" isn't what lands in your account.",
+      "absaLink": "retirementAnnuity",
+      "externalLink": "sarsIndividualRates",
+      "content": [
+        {
+          "type": "intro",
+          "text": "PAYE stands for Pay As You Earn. It's the tax SARS collects from your employer every month before your salary reaches your bank account. If you earn above a certain threshold, your employer is legally required to deduct PAYE and pay it to SARS on your behalf."
+        },
+        {
+          "type": "callout",
+          "variant": "gold",
+          "text": "The 2024/25 tax-free threshold is R95 750/year (R7 979/month gross). Below this, you pay zero income tax."
+        },
+        {
+          "type": "heading",
+          "text": "The SARS 2024/25 Brackets"
+        },
+        {
+          "type": "table",
+          "headers": ["Annual Income", "Tax Rate", "Monthly Gross (approx)"],
+          "rows": [
+            ["R0 – R237 100", "18%", "R0 – R19 758"],
+            ["R237 101 – R370 500", "26%", "R19 758 – R30 875"],
+            ["R370 501 – R512 800", "31%", "R30 875 – R42 733"],
+            ["R512 801 – R673 000", "36%", "R42 733 – R56 083"],
+            ["R673 001 – R857 900", "39%", "R56 083 – R71 491"],
+            ["R857 901 – R1 817 000", "41%", "R71 491 – R151 416"],
+            ["R1 817 001+", "45%", "R151 416+"]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "How the calculation works"
+        },
+        {
+          "type": "text",
+          "text": "The brackets are marginal — you don't pay 36% on your entire salary just because you're in that bracket. You pay 18% on the first R237 100, then 26% on the portion between R237 101 and R370 500, and so on. SARS then subtracts the Primary Rebate (R17 235 in 2024/25) from your calculated tax — this is a fixed deduction every taxpayer gets."
+        },
+        {
+          "type": "example",
+          "title": "Real Example: R52 000/month gross salary (R624 000/year)",
+          "steps": [
+            "Annual tax before rebate on R624 000 = R121 475 + (R624 000 – R512 800) × 36% = R121 475 + R40 032 = R161 507",
+            "Subtract Primary Rebate: R161 507 – R17 235 = R144 272/year",
+            "Monthly PAYE = R144 272 ÷ 12 = R12 022",
+            "UIF = R52 000 × 1% = R520 (capped at R177.12)",
+            "Take-home = R52 000 – R12 022 – R177 = R39 801/month"
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "sage",
+          "text": "Key insight: At R52 000/month gross, you keep roughly 76 cents of every rand. But lifestyle inflation often means people spend like they earn the gross, not the net."
+        },
+        {
+          "type": "heading",
+          "text": "UIF: What it is and the cap"
+        },
+        {
+          "type": "text",
+          "text": "UIF (Unemployment Insurance Fund) is deducted at 1% of your gross salary — but it's capped. The annual ceiling is R17 712, which means the maximum you'll ever pay is R177.12/month regardless of how much you earn. Once you're above R17 712/month gross, UIF is a flat R177.12."
+        }
+      ],
+      "quiz": [
+        {
+          "q": "At R45 000/month gross, which SARS bracket are you primarily in?",
+          "options": ["18%", "26%", "31%", "36%"],
+          "answer": 2,
+          "explanation": "R45 000/month = R540 000/year, which falls in the R512 801–R673 000 bracket at 36%. But remember: the brackets are marginal, so only the income above R512 800 is taxed at 36%."
+        },
+        {
+          "q": "What is the Primary Rebate for 2024/25?",
+          "options": ["R12 000", "R15 000", "R17 235", "R20 000"],
+          "answer": 2,
+          "explanation": "The Primary Rebate for 2024/25 is R17 235. This is deducted from your calculated tax, not your income — it reduces your tax bill directly."
+        },
+        {
+          "q": "What is the maximum UIF deduction per month?",
+          "options": ["1% of salary, no cap", "R177.12", "R350", "R500"],
+          "answer": 1,
+          "explanation": "UIF is capped at R177.12/month (R17 712/year ÷ 12). If your salary is above R17 712/month, your UIF stays at R177.12 regardless."
+        }
+      ],
+      "didYouKnow": "If you contribute to a Retirement Annuity (RA), those contributions are deducted from your taxable income before PAYE is calculated — meaning you pay less tax every month."
+    },
+
+    {
+      "id": "tfsa-basics",
+      "title": "The Tax-Free Savings Account (TFSA)",
+      "category": "savings",
+      "level": "Beginner",
+      "readTime": 3,
+      "summary": "The TFSA is the single most powerful savings tool available to South Africans. Here's why every rand you put in is more valuable than it looks.",
+      "absaLink": "tfsa",
+      "externalLink": "sarsIndividualRates",
+      "content": [
+        {
+          "type": "intro",
+          "text": "A Tax-Free Savings Account (TFSA) lets you invest money and pay zero tax on any growth, dividends, or interest earned — and zero tax when you withdraw. It's offered by banks, insurers, and investment platforms and was introduced to encourage long-term saving."
+        },
+        {
+          "type": "callout",
+          "variant": "gold",
+          "text": "Annual limit: R36 000/year. Lifetime cap: R500 000. If you exceed these limits, SARS taxes the excess at 40%."
+        },
+        {
+          "type": "heading",
+          "text": "Why the tax-free part matters"
+        },
+        {
+          "type": "text",
+          "text": "Outside a TFSA, you pay Dividends Withholding Tax (20%), income tax on interest above R23 800/year, and Capital Gains Tax on investment growth. Inside a TFSA, all of these are R0. Over 20 years, this compounding difference is enormous."
+        },
+        {
+          "type": "comparison",
+          "title": "R3 000/month × 20 years at 10% annual return",
+          "items": [
+            { "label": "Normal investment account", "value": "~R1.85M", "sub": "After tax on growth & dividends", "highlight": false },
+            { "label": "TFSA", "value": "~R2.28M", "sub": "Zero tax on all gains", "highlight": true }
+          ],
+          "note": "The difference (~R430 000) is pure tax savings compounding over time."
+        },
+        {
+          "type": "heading",
+          "text": "The R36 000 annual limit in practice"
+        },
+        {
+          "type": "text",
+          "text": "R36 000/year = R3 000/month. If you contribute less one year, you cannot \"catch up\" the unused portion in a future year. The limit is strict and annual. The R500 000 lifetime limit means you can contribute R36 000/year for approximately 13–14 years before hitting the ceiling."
+        },
+        {
+          "type": "callout",
+          "variant": "red",
+          "text": "Critical: If you withdraw from your TFSA, the withdrawn amount does NOT get added back to your annual limit. Treat it as long-term savings. Withdrawals for short-term spending destroy the compounding advantage."
+        },
+        {
+          "type": "heading",
+          "text": "What to invest your TFSA in"
+        },
+        {
+          "type": "text",
+          "text": "Most providers offer multiple underlying investments: money market (low risk), bond funds (medium), and equity funds (higher risk, higher long-term return). For someone under 35 with a 10+ year horizon, equity ETFs (like a Satrix Top 40 or Satrix MSCI World fund) inside a TFSA are typically the optimal choice."
+        }
+      ],
+      "quiz": [
+        {
+          "q": "How much can you contribute to a TFSA per year (2024/25)?",
+          "options": ["R24 000", "R30 000", "R36 000", "R50 000"],
+          "answer": 2,
+          "explanation": "The annual TFSA limit is R36 000 (R3 000/month). Contributing more than this results in a 40% penalty tax on the excess from SARS."
+        },
+        {
+          "q": "If you withdraw R20 000 from your TFSA, what happens to your annual contribution room?",
+          "options": ["You get R20 000 back in room", "Your annual room stays the same", "You lose that R20 000 permanently from your lifetime cap", "Your limit drops by R20 000"],
+          "answer": 2,
+          "explanation": "Withdrawals permanently reduce your lifetime contribution room. The R500 000 lifetime limit is based on contributions made, not the current balance."
+        }
+      ],
+      "didYouKnow": "If you open a TFSA at 25 and contribute R3 000/month into a global equity ETF for 20 years, you could have over R2.2 million completely tax-free by 45."
+    },
+
+    {
+      "id": "emergency-fund",
+      "title": "Emergency Funds: The Foundation of Everything",
+      "category": "basics",
+      "level": "Beginner",
+      "readTime": 3,
+      "summary": "Without an emergency fund, every financial plan is one bad month away from collapse. Here's how to build yours in the SA context.",
+      "absaLink": null,
+      "externalLink": null,
+      "content": [
+        {
+          "type": "intro",
+          "text": "An emergency fund is 3–6 months of living expenses held in a liquid, accessible account. It exists for one purpose: to prevent a financial emergency (retrenchment, medical event, major car repair) from derailing your long-term financial plan."
+        },
+        {
+          "type": "callout",
+          "variant": "gold",
+          "text": "Rule of thumb: 3 months if you're employed with job security. 6 months if you're freelance, commission-based, or in a volatile industry."
+        },
+        {
+          "type": "heading",
+          "text": "Why South Africans specifically need this"
+        },
+        {
+          "type": "text",
+          "text": "Load shedding can cause unexpected appliance failures. Retrenchments happen in waves, especially in sectors like tech and finance. Without emergency savings, South Africans often turn to expensive credit (personal loans at 20–29% interest, store credit at 24%) which creates a debt spiral that takes years to unwind."
+        },
+        {
+          "type": "example",
+          "title": "The real cost of not having an emergency fund",
+          "steps": [
+            "Emergency: R25 000 car repair needed",
+            "No emergency fund → Personal loan at 24% p.a.",
+            "24-month repayment = R1 380/month",
+            "Total repaid = R33 120 — R8 120 paid in pure interest",
+            "With emergency fund: R0 interest, fund rebuilt over 6 months at R4 200/month"
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Where to keep it"
+        },
+        {
+          "type": "text",
+          "text": "The emergency fund must be: (1) liquid — accessible within 24–48 hours, (2) separate from your spending account — out of sight helps, (3) not invested in equities — the value can't drop 30% the week you need it. In SA, good options are a 32-day notice account (5–7% interest), a money market account, or a high-interest savings account."
+        },
+        {
+          "type": "callout",
+          "variant": "sage",
+          "text": "Build your emergency fund before opening equity investments. A 10% return on R50 000 in the market is R5 000. A personal loan for R25 000 at 24% costs R6 000+ in interest. The maths favors the buffer every time."
+        }
+      ],
+      "quiz": [
+        {
+          "q": "How many months of expenses should a freelancer target for their emergency fund?",
+          "options": ["1 month", "3 months", "6 months", "12 months"],
+          "answer": 2,
+          "explanation": "6 months is the recommended target for freelancers, commission earners, or anyone in a volatile industry. Employment uncertainty means a longer buffer is worth the slower investment start."
+        }
+      ],
+      "didYouKnow": "The 32-day notice account offered by most SA banks typically earns 5.5–7% p.a. — higher than a normal savings account while still being accessible within a month."
+    },
+
+    {
+      "id": "ra-deep-dive",
+      "title": "Retirement Annuities: The Tax Hack Nobody Talks About",
+      "category": "retirement",
+      "level": "Intermediate",
+      "readTime": 5,
+      "summary": "An RA isn't just a retirement tool — it's one of the most powerful legal tax reductions available to employed South Africans. Here's how to use it correctly.",
+      "absaLink": "retirementAnnuity",
+      "externalLink": "sarsRa",
+      "content": [
+        {
+          "type": "intro",
+          "text": "A Retirement Annuity (RA) is a private pension fund. Unlike an employer provident fund, you control it. Your contributions are deductible from taxable income — up to 27.5% of your gross income, capped at R350 000/year. This deduction reduces your PAYE every month."
+        },
+        {
+          "type": "callout",
+          "variant": "gold",
+          "text": "At R52 000/month gross: An R8 000/month RA contribution (R96 000/year) reduces your taxable income to R528 000 — dropping your tax by approximately R2 880/month (R34 560/year)."
+        },
+        {
+          "type": "heading",
+          "text": "How the tax deduction actually works"
+        },
+        {
+          "type": "text",
+          "text": "Your RA contribution comes off your taxable income before PAYE is calculated. This is different from a tax credit — it reduces the income that gets taxed, which is more powerful for higher earners. If you're in the 36% bracket and contribute R8 000/month to an RA, you effectively \"get\" R2 880 of that contribution back from SARS every month."
+        },
+        {
+          "type": "example",
+          "title": "Side-by-side at R52 000/month gross",
+          "steps": [
+            "Without RA: Taxable income = R624 000/year → PAYE = ~R12 022/month → Take-home = ~R39 801",
+            "With R8 000/month RA: Taxable income = R528 000/year → PAYE = ~R9 142/month → Take-home = ~R42 681",
+            "Net cost of R8 000 RA = R8 000 – R2 880 tax saving = R5 120/month out of pocket",
+            "But R8 000 goes into YOUR retirement investment",
+            "Effective return on the R5 120 cost: R8 000 invested = 56% instant return via tax savings"
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "RA restrictions you need to know"
+        },
+        {
+          "type": "text",
+          "text": "RAs are locked until you turn 55. At retirement you can take 1/3 as a lump sum (first R550 000 tax-free), and the remaining 2/3 must be used to purchase a living or guaranteed annuity. This illiquidity is the trade-off — it's long-term money, not accessible for emergencies."
+        },
+        {
+          "type": "callout",
+          "variant": "red",
+          "text": "Don't contribute more than 27.5% of your income to an RA (max R350 000/year). Excess contributions don't get the deduction — they're just locked away with no tax benefit until they can be \"used up\" in future years."
+        },
+        {
+          "type": "heading",
+          "text": "RA vs TFSA: which first?"
+        },
+        {
+          "type": "text",
+          "text": "This is the most debated question in SA personal finance. The practical answer: (1) If you're in a higher tax bracket (36%+), max your RA first for the immediate tax saving. (2) If you value flexibility and are in a lower bracket, TFSA first for accessible, tax-free growth. (3) Ideally: do both — max TFSA at R3 000/month, then direct remaining savings capacity to the RA."
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What's the maximum annual RA contribution that qualifies for a tax deduction?",
+          "options": ["R27 500", "R200 000", "27.5% of gross income, capped at R350 000", "25% of take-home pay"],
+          "answer": 2,
+          "explanation": "You can deduct RA contributions of up to 27.5% of your taxable income, with an absolute cap of R350 000 per year. Any contributions above this don't get the deduction — they carry forward to future years."
+        },
+        {
+          "q": "When can you access RA funds?",
+          "options": ["Any time with a fee", "After 5 years", "From age 55", "Only at age 65"],
+          "answer": 2,
+          "explanation": "RA funds are accessible from age 55. You can take 1/3 as a lump sum (first R550K tax-free), and the balance must purchase an annuity to fund your retirement."
+        }
+      ],
+      "didYouKnow": "Some RA providers (like 10X, Outvest, and Allan Gray) charge as little as 0.3–1% in fees. Older RA products from insurers can charge 2–3%. Fee difference on R1M over 20 years: potentially R300 000+."
+    },
+
+    {
+      "id": "property-math",
+      "title": "The Real Maths of Buying Property in SA",
+      "category": "property",
+      "level": "Intermediate",
+      "readTime": 6,
+      "summary": "Everyone says \"property is the best investment.\" The actual maths is more complicated. Here's what buying a property in Joburg or Cape Town really costs.",
+      "absaLink": "homeLoan",
+      "externalLink": null,
+      "content": [
+        {
+          "type": "intro",
+          "text": "Buying property is not automatically better than renting. Whether it makes sense depends on the purchase price, your deposit size, the bond rate, how long you stay, and what you'd do with the capital otherwise. This explainer breaks down the real numbers in the South African context."
+        },
+        {
+          "type": "heading",
+          "text": "The upfront costs nobody mentions"
+        },
+        {
+          "type": "table",
+          "headers": ["Cost", "On R1M property", "On R1.5M property"],
+          "rows": [
+            ["Transfer duty", "R0 (exempt under R1.1M)", "R19 250"],
+            ["Bond registration", "~R27 000", "~R32 000"],
+            ["Conveyancing fees", "~R18 000", "~R22 000"],
+            ["Moving costs", "R5 000–R15 000", "R5 000–R15 000"],
+            ["Total upfront extras", "~R50 000", "~R88 250"]
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "red",
+          "text": "Transfer duty is 0% on properties under R1 100 000. Between R1.1M and R1.512M, the rate is 3% on the value above R1.1M. Above R2.245M, the rate reaches 13%. This is a major reason to target sub-R1.1M if possible."
+        },
+        {
+          "type": "heading",
+          "text": "Bond repayment at current prime"
+        },
+        {
+          "type": "text",
+          "text": "SA's prime lending rate is currently 11.75%. Most first-time buyers with good credit get prime +0 to prime +1.5%. At prime +1% (12.75%), a 20-year bond repayment looks like this:"
+        },
+        {
+          "type": "table",
+          "headers": ["Property Value", "10% Deposit", "Bond Amount", "Monthly Repayment (12.75%)"],
+          "rows": [
+            ["R900 000", "R90 000", "R810 000", "~R9 840/month"],
+            ["R1 200 000", "R120 000", "R1 080 000", "~R13 120/month"],
+            ["R1 500 000", "R150 000", "R1 350 000", "~R16 400/month"],
+            ["R2 000 000", "R200 000", "R1 800 000", "~R21 860/month"]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "The opportunity cost of the deposit"
+        },
+        {
+          "type": "text",
+          "text": "A R180 000 deposit invested in a global equity ETF at 10% p.a. for 10 years = approximately R467 000. That's the opportunity cost of tying capital into a deposit. It doesn't mean renting is better — property appreciates too — but you need to model both sides honestly."
+        },
+        {
+          "type": "callout",
+          "variant": "sage",
+          "text": "Property in SA has appreciated ~5–7% p.a. on average over 20 years. A R1M property bought in 2004 is worth roughly R3.2–4.3M today. But this is pre-cost-of-ownership (levies, rates, maintenance, insurance) and location-dependent."
+        }
+      ],
+      "quiz": [
+        {
+          "q": "At what property value does transfer duty kick in in SA (2024/25)?",
+          "options": ["R500 000", "R800 000", "R1 000 000", "R1 100 000"],
+          "answer": 3,
+          "explanation": "Transfer duty is 0% on properties valued up to R1 100 000. Above that threshold, the rate starts at 3% on the value above R1.1M. This is why many sellers price just below R1.1M."
+        },
+        {
+          "q": "Approximately what is the monthly repayment on a R1M bond at 12.75% (20-year term)?",
+          "options": ["R7 500", "R9 840", "R12 000", "R14 500"],
+          "answer": 1,
+          "explanation": "At 12.75% over 20 years, a R900K bond (R1M property with 10% deposit) repays approximately R9 840/month. Always use a bond repayment calculator with the current prime rate."
+        }
+      ],
+      "didYouKnow": "Cape Town's entry-level 1-bedroom apartment starts from around R1.4M in the city bowl. Johannesburg's entry point is closer to R800K–R1M depending on area, which is why the Property track is more achievable in JHB/Pretoria first."
+    },
+
+    {
+      "id": "debt-intelligence",
+      "title": "Debt-to-Income Ratio & Smart Debt Management",
+      "category": "debt",
+      "level": "Intermediate",
+      "readTime": 4,
+      "summary": "Not all debt is bad — but too much of any kind kills your wealth-building capacity. Here's how to measure your debt load and which types to prioritise.",
+      "absaLink": null,
+      "externalLink": "ncrCreditBureau",
+      "content": [
+        {
+          "type": "intro",
+          "text": "Your debt-to-income (DTI) ratio is your total monthly debt repayments divided by your gross monthly income, expressed as a percentage. Banks look at this when deciding whether to approve a home loan — and you should use it to benchmark your own financial health."
+        },
+        {
+          "type": "callout",
+          "variant": "gold",
+          "text": "SA banks typically want your total debt repayments (including the new bond) to be below 30–35% of gross income for home loan approval."
+        },
+        {
+          "type": "table",
+          "headers": ["DTI Ratio", "Status", "What it means"],
+          "rows": [
+            ["Under 20%", "✓ Healthy", "Strong borrowing capacity, good savings rate possible"],
+            ["20–35%", "⚠ Caution", "Manageable but limits investment capacity"],
+            ["35–45%", "⚠ At Risk", "Likely to struggle with unexpected expenses"],
+            ["Above 45%", "✗ Danger", "Difficult to qualify for new credit; financial stress"]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "The balloon payment trap"
+        },
+        {
+          "type": "text",
+          "text": "South African vehicle finance often includes a \"balloon payment\" — a lump sum (typically 20–30% of vehicle value) due at the end of the repayment term. A R550 000 car on a 72-month deal with a 30% balloon means you pay R165 000 in month 73, on top of the monthly repayments. Many buyers roll this into a new loan, restarting the cycle. The total cost of ownership can be double the purchase price."
+        },
+        {
+          "type": "example",
+          "title": "True cost of a R550 000 car with 25% balloon over 72 months at 14.75%",
+          "steps": [
+            "Monthly repayment on R550K with R137 500 balloon: ~R8 700/month",
+            "Total repayments over 72 months: R8 700 × 72 = R626 400",
+            "Balloon still owing: R137 500",
+            "Total paid: R763 900 for a R550 000 car",
+            "Vehicle depreciation: R550K car worth ~R180K–R220K at year 6",
+            "True cost of ownership: R763 900 – R200 000 (resale) = R563 900"
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What DTI ratio do South African banks typically require for home loan approval?",
+          "options": ["Under 20%", "Under 30–35%", "Under 50%", "No limit"],
+          "answer": 1,
+          "explanation": "Most SA banks want total debt repayments (including the new bond) to be under 30–35% of gross income. If your existing debt already uses 20%, you may only qualify for a relatively small bond."
+        }
+      ],
+      "didYouKnow": "South Africa has the highest household debt-to-income ratio in sub-Saharan Africa. Young professionals (25–35) average a DTI of about 38% — largely driven by vehicle finance and student loans."
+    },
+
+    {
+      "id": "offshore-investing",
+      "title": "Investing Offshore: SARB Allowances & ETFs",
+      "category": "offshore",
+      "level": "Advanced",
+      "readTime": 6,
+      "summary": "ZAR has depreciated ~6–8% annually against USD over the last decade. Building offshore exposure isn't just diversification — it's currency protection. Here's how to do it correctly.",
+      "absaLink": "investmentAccount",
+      "externalLink": "sarbExchangeControl",
+      "content": [
+        {
+          "type": "intro",
+          "text": "Offshore investing means placing capital outside South Africa, in foreign-currency-denominated assets. For South Africans, this is both a diversification strategy and a hedge against rand depreciation. The regulatory framework is straightforward once you understand it."
+        },
+        {
+          "type": "heading",
+          "text": "SARB Allowances (2024/25)"
+        },
+        {
+          "type": "table",
+          "headers": ["Allowance Type", "Annual Limit", "Who Can Use It"],
+          "rows": [
+            ["Single Discretionary Allowance (SDA)", "R1 000 000", "All adult SA residents (no tax clearance)"],
+            ["Foreign Capital Allowance (FCA)", "R10 000 000", "SA residents with tax clearance from SARS"],
+            ["Total combined", "R11 000 000/year", "Per individual"]
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "gold",
+          "text": "Most young professionals use the R1M SDA. No tax clearance needed, no motivations required. Simply transfer to a foreign account or buy JSE-listed offshore ETFs."
+        },
+        {
+          "type": "heading",
+          "text": "Two ways to invest offshore"
+        },
+        {
+          "type": "text",
+          "text": "(1) JSE-listed offshore ETFs: Buy rand-denominated funds (Satrix MSCI World, CoreShares S&P 500, Sygnia Itrix) on the JSE. Simple as buying a local share. (2) Direct offshore via a broker: Use a platform like EasyEquities USD, Investec Wealth, or a local FSCA-regulated offshore platform to directly buy USD-denominated securities. Better currency protection."
+        },
+        {
+          "type": "example",
+          "title": "ZAR depreciation impact on offshore investing",
+          "steps": [
+            "You invest R100 000 in an S&P 500 ETF in 2019 when USD/ZAR = R14.50",
+            "Your USD investment = $6 896",
+            "S&P 500 returns ~70% over 5 years → USD value = $11 723",
+            "In 2024, USD/ZAR = R19.00",
+            "Rand value = R11 723 × R19 = R222 737",
+            "If you'd invested R100 000 locally in the JSE All Share (flat 5 years): ~R128 000",
+            "Offshore gain: R122 737 vs domestic: R28 000 — driven largely by currency"
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "Tax on offshore investments"
+        },
+        {
+          "type": "text",
+          "text": "Offshore gains are subject to South African Capital Gains Tax (CGT) when you sell. The annual exclusion is R40 000. Above that, 40% of the gain is included in your taxable income (the \"inclusion rate\") and taxed at your marginal rate. For a 36% bracket taxpayer: effective CGT rate = 40% × 36% = 14.4%."
+        },
+        {
+          "type": "callout",
+          "variant": "sage",
+          "text": "Tip: A Satrix MSCI World ETF inside your TFSA gives you global equity exposure with zero South African CGT. This is often described as the \"best of both worlds\" — offshore-like diversification with TFSA tax benefits."
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What is the Single Discretionary Allowance (SDA) for South African residents in 2024/25?",
+          "options": ["R500 000", "R1 000 000", "R5 000 000", "R10 000 000"],
+          "answer": 1,
+          "explanation": "The SDA is R1 000 000 per year, per person. No tax clearance is required. It resets annually on 1 March (the start of SA's tax year)."
+        },
+        {
+          "q": "What is the effective CGT rate for a taxpayer in the 36% marginal bracket on offshore gains?",
+          "options": ["36%", "18%", "14.4%", "20%"],
+          "answer": 2,
+          "explanation": "40% of the gain is included in taxable income (the CGT inclusion rate), then taxed at your marginal rate of 36%. So 40% × 36% = 14.4% effective CGT rate."
+        }
+      ],
+      "didYouKnow": "The rand has depreciated roughly 6.5% per year against the US dollar over the last 10 years. R1M invested in 2014 would have needed to grow to R1.89M just to maintain USD purchasing power by 2024."
+    },
+
+    {
+      "id": "compound-growth",
+      "title": "Compound Growth: The Maths That Changes Everything",
+      "category": "investing",
+      "level": "Advanced",
+      "readTime": 4,
+      "summary": "Einstein allegedly called compound interest the eighth wonder of the world. Here's why starting at 25 vs 30 changes your retirement outcome by millions of rands.",
+      "absaLink": "investmentAccount",
+      "externalLink": null,
+      "content": [
+        {
+          "type": "intro",
+          "text": "Compound growth means your returns earn returns. In year 1, you earn 10% on your initial capital. In year 2, you earn 10% on your capital plus last year's returns. Over decades, this creates an exponential curve — not a straight line."
+        },
+        {
+          "type": "heading",
+          "text": "The cost of waiting"
+        },
+        {
+          "type": "table",
+          "headers": ["Start Age", "Monthly Investment", "Stop Age", "Return", "Value at 65"],
+          "rows": [
+            ["25", "R3 000", "65 (40 years)", "10% p.a.", "~R19.0M"],
+            ["30", "R3 000", "65 (35 years)", "10% p.a.", "~R11.4M"],
+            ["35", "R3 000", "65 (30 years)", "10% p.a.", "~R6.8M"],
+            ["40", "R3 000", "65 (25 years)", "10% p.a.", "~R3.9M"]
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "red",
+          "text": "Waiting 5 years (from 25 to 30) costs you ~R7.6M at retirement. Waiting 10 years costs ~R12.2M. The first years are the most valuable."
+        },
+        {
+          "type": "heading",
+          "text": "The Rule of 72"
+        },
+        {
+          "type": "text",
+          "text": "A quick way to estimate how long it takes to double your money: divide 72 by the annual return rate. At 6% return: 72 ÷ 6 = 12 years to double. At 10%: 72 ÷ 10 = 7.2 years to double. This is why fees matter — a 2% fee on a 10% return effectively gives you an 8% return, adding 1.8 years to each doubling cycle."
+        },
+        {
+          "type": "heading",
+          "text": "Real vs nominal returns"
+        },
+        {
+          "type": "text",
+          "text": "Inflation erodes purchasing power. If your investment returns 10% but inflation is 6%, your \"real\" return is only 4%. SA's long-term inflation averages around 5–6%. This means a 10% nominal return on a JSE equity fund translates to roughly 4–5% real growth in purchasing power."
+        }
+      ],
+      "quiz": [
+        {
+          "q": "Using the Rule of 72, how long does it take to double money at 8% annual return?",
+          "options": ["6 years", "9 years", "12 years", "16 years"],
+          "answer": 1,
+          "explanation": "72 ÷ 8 = 9 years. At 8% compounding annually, your money doubles every 9 years. At 12%, it doubles every 6 years."
+        }
+      ],
+      "didYouKnow": "Warren Buffett made 97% of his wealth after age 65 — entirely because of compounding over decades. He started investing at 11 but the real acceleration only happens late in the curve."
+    },
+
+    {
+      "id": "credit-scores",
+      "title": "Credit Scores & the SA Credit Bureaus",
+      "category": "debt",
+      "level": "Beginner",
+      "readTime": 3,
+      "summary": "Your credit score determines whether you get a home loan, at what rate, and how much you can borrow. Here's exactly how it works in South Africa.",
+      "absaLink": null,
+      "externalLink": "transunionFreeReport",
+      "content": [
+        {
+          "type": "intro",
+          "text": "Your credit score is a number (typically 0–999 in SA) that tells lenders how likely you are to repay debt. The higher it is, the lower the risk — and the better the interest rate you'll get on a bond, car finance, or credit card."
+        },
+        {
+          "type": "callout",
+          "variant": "gold",
+          "text": "SA's four main credit bureaus: TransUnion, Experian, Compuscan, and XDS. You're entitled to one free credit report per year from each under the NCA."
+        },
+        {
+          "type": "table",
+          "headers": ["Score Range (TransUnion)", "Rating", "Home Loan Impact"],
+          "rows": [
+            ["767–999", "Excellent", "Best rates (prime or better)"],
+            ["681–766", "Good", "Standard rates"],
+            ["614–680", "Fair", "Higher rates, may need larger deposit"],
+            ["583–613", "Average", "Limited options, higher rates"],
+            ["Below 583", "Poor", "Loan applications likely declined"]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "What affects your score"
+        },
+        {
+          "type": "text",
+          "text": "Payment history (paying on time) has the biggest impact — accounting for roughly 35% of your score. Credit utilisation (how much of your available credit you use) is next. Older credit accounts help. Multiple new applications in a short period hurt. Late payments, defaults, and judgments have severe negative impact and can stay on your record for up to 5 years."
+        },
+        {
+          "type": "callout",
+          "variant": "sage",
+          "text": "Strategy for young professionals: Get a low-limit credit card, use it for regular purchases (groceries, petrol), and pay the full balance every month. This builds your credit history with zero interest cost."
+        }
+      ],
+      "quiz": [
+        {
+          "q": "What is the biggest factor in your South African credit score?",
+          "options": ["Income level", "Payment history", "Number of accounts", "Age"],
+          "answer": 1,
+          "explanation": "Payment history — whether you pay on time — has the largest impact on your credit score (approximately 35% weighting). Even one missed payment can significantly damage your score."
+        }
+      ],
+      "didYouKnow": "Your credit score isn't affected by checking your own report (\"soft inquiry\"). Only when a lender formally applies for credit on your behalf (\"hard inquiry\") does it temporarily reduce your score."
+    }
+  ],
+
+  "glossary": [
+    { "term": "PAYE",             "def": "Pay As You Earn — income tax deducted from your salary by your employer and paid to SARS monthly." },
+    { "term": "UIF",              "def": "Unemployment Insurance Fund — a 1% deduction (capped at R177.12/month) that funds unemployment benefits." },
+    { "term": "TFSA",             "def": "Tax-Free Savings Account — invest up to R36 000/year (R500 000 lifetime) with zero tax on growth, dividends, or withdrawal." },
+    { "term": "RA",               "def": "Retirement Annuity — a private pension fund with contributions deductible up to 27.5% of gross income (max R350K/year)." },
+    { "term": "Primary Rebate",   "def": "A fixed deduction (R17 235 in 2024/25) subtracted directly from your calculated income tax — every taxpayer gets this." },
+    { "term": "DTI",              "def": "Debt-to-Income ratio — total monthly debt repayments divided by gross monthly income, expressed as a percentage." },
+    { "term": "Transfer Duty",    "def": "Government tax on property purchases. 0% under R1.1M, then graduated rates scaling up to 13% for properties above R2.245M." },
+    { "term": "Bond Registration","def": "Legal cost to register a mortgage bond at the Deeds Office. Typically R27–35K depending on property value." },
+    { "term": "Prime Rate",       "def": "The benchmark lending rate set by SA's major commercial banks, currently 11.75%. Most loans are priced as prime + X%." },
+    { "term": "CGT",              "def": "Capital Gains Tax — tax on profit from selling an asset. In SA, 40% of the gain is included in your taxable income (the inclusion rate)." },
+    { "term": "SDA",              "def": "Single Discretionary Allowance — R1M/year you can transfer offshore without SARS tax clearance. Resets 1 March annually." },
+    { "term": "FCA",              "def": "Foreign Capital Allowance — up to R10M/year offshore with SARS tax clearance. For larger offshore allocations beyond the SDA." },
+    { "term": "JSE",              "def": "Johannesburg Stock Exchange — SA's primary stock exchange. Major indices include the Top 40 and All Share (ALSI)." },
+    { "term": "ETF",              "def": "Exchange-Traded Fund — a basket of assets (e.g., the top 40 SA companies) traded like a single share. Low-cost, diversified." },
+    { "term": "MSCI World",       "def": "An index tracking ~1 500 large- and mid-cap companies across 23 developed countries. A benchmark for global diversification." },
+    { "term": "Balloon Payment",  "def": "A large lump sum due at the end of a vehicle finance term — typically 20–30% of the vehicle's original value." },
+    { "term": "NCA",              "def": "National Credit Act — the SA law governing consumer credit, including rights to credit reports and debt review processes." },
+    { "term": "SARB",             "def": "South African Reserve Bank — SA's central bank. Sets the repo rate and administers foreign exchange (SARB) controls." },
+    { "term": "Repo Rate",        "def": "The rate at which the Reserve Bank lends money to commercial banks. Prime rate = repo rate + 3.5%. Currently 8.25% (repo)." },
+    { "term": "Marginal Rate",    "def": "The tax rate applied to the last rand of income earned. Only the portion in each bracket is taxed at that bracket's rate." },
+    { "term": "Compound Interest","def": "Interest calculated on both the initial principal and all previously accumulated interest — creating exponential growth over time." },
+    { "term": "Real Return",      "def": "Investment return adjusted for inflation. If return = 10% and inflation = 6%, real return = ~4% purchasing power gain." },
+    { "term": "Sectional Title",  "def": "A property ownership structure for units in a complex (e.g., apartments). Owners pay monthly levies for shared building maintenance." },
+    { "term": "Provident Fund",   "def": "An employer-managed retirement fund (like an RA but employer-controlled). Contributions and growth are also tax-deferred." },
+    { "term": "FIRE",             "def": "Financial Independence, Retire Early — a wealth-building philosophy targeting early retirement through aggressive saving and investing." }
+  ]
+}
