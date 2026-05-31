@@ -1,19 +1,23 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FlaskConical, HelpCircle, LogOut, Menu, X, LayoutDashboard, BookOpen, BarChart2, User } from 'lucide-react';
+import {
+  FlaskConical, HelpCircle, LogOut, Menu, X,
+  LayoutDashboard, BookOpen, BarChart2, User,
+} from 'lucide-react';
 import '../styles/Sidebar.css';
 import absaLogo from '../assets/absa-logo.png';
 
 const NAV_ITEMS = [
-  { label: 'Money Snapshot',  to: '/',           icon: <LayoutDashboard size={18} />,  end: true },
-  { label: 'Strategy Tracks', to: '/tracks',      icon: <BarChart2 size={18} /> },
-  { label: 'Simulation Lab',  to: '/simulation',  icon: <FlaskConical size={18} /> },
-  { label: 'Learn',           to: '/learn',        icon: <BookOpen size={18} /> },
+  { label: 'Money Snapshot',  to: '/',          icon: <LayoutDashboard size={18} />, end: true  },
+  { label: 'Strategy Tracks', to: '/tracks',     icon: <BarChart2       size={18} />, end: false },
+  { label: 'Simulation Lab',  to: '/simulation', icon: <FlaskConical    size={18} />, end: false },
+  { label: 'Learn',           to: '/learn',      icon: <BookOpen        size={18} />, end: false },
 ];
 
 export default function Sidebar({ userTrack = 'First Property Path', collapsed, onToggle }) {
-  const { logout } = useAuth();
-  const navigate   = useNavigate();
+  const { logout }  = useAuth();
+  const navigate    = useNavigate();
+  const location    = useLocation();
 
   const handleLogout = () => { logout(); navigate('/login'); };
 
@@ -32,7 +36,11 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
           </div>
         </NavLink>
 
-        <button className="sidebar__toggle" onClick={onToggle} aria-label={collapsed ? 'Expand' : 'Collapse'}>
+        <button
+          className="sidebar__toggle"
+          onClick={onToggle}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
           {collapsed ? <Menu size={16} /> : <X size={16} />}
         </button>
       </div>
@@ -76,7 +84,7 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
         </div>
         <div className="sidebar__footer-link">
           <span className="sidebar__footer-icon"><HelpCircle size={17} /></span>
-          <span className="sidebar__footer-text">Help & Glossary</span>
+          <span className="sidebar__footer-text">Help &amp; Glossary</span>
           <span className="sidebar__link-tooltip">Help</span>
         </div>
         <button className="sidebar__logout" onClick={handleLogout}>
