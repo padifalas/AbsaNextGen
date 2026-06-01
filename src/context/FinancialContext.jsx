@@ -2,63 +2,115 @@ import { createContext, useContext, useState } from 'react';
 
 const FinancialContext = createContext(null);
 
-// SARS 2024/25 tax tables (annual brackets)
+// SARS 2024/25 TAX TABLES
+//  idk how accrrate these are but i used this Source: https://www.sars.gov.za/tax-rates/income-tax/rates-of-tax-for-individuals/
+
+
 const TAX_BRACKETS = [
-  { min: 0, max: 237100, base: 0, rate: 0.18 },
-  { min: 237101, max: 370500, base: 42678, rate: 0.26 },
-  { min: 370501, max: 512800, base: 77362, rate: 0.31 },
-  { min: 512801, max: 673000, base: 121475, rate: 0.36 },
-  { min: 673001, max: 857900, base: 179147, rate: 0.39 },
-  { min: 857901, max: 1817000, base: 251258, rate: 0.41 },
-  { min: 1817001, max: Infinity, base: 644489, rate: 0.45 },
+  { min: 0,        max: 237100,   base: 0,      rate: 0.18 },
+  { min: 237101,   max: 370500,   base: 42678,  rate: 0.26 },
+  { min: 370501,   max: 512800,   base: 77362,  rate: 0.31 },
+  { min: 512801,   max: 673000,   base: 121475, rate: 0.36 },
+  { min: 673001,   max: 857900,   base: 179147, rate: 0.39 },
+  { min: 857901,   max: 1817000,  base: 251258, rate: 0.41 },
+  { min: 1817001,  max: Infinity, base: 644489, rate: 0.45 },
 ];
 
-const PRIMARY_REBATE = 17235; // 2024/25
-const UIF_RATE = 0.01;
-const UIF_CAP_MONTHLY = 177.12; // R17 712 annual ceiling / 12
+const PRIMARY_REBATE    = 17235;
+const UIF_RATE          = 0.01;
+const UIF_CAP_MONTHLY   = 177.12; // Annual ceiling R17 712 / 12
 
-export function calculateTax(grossMonthly) {
-  const annual = grossMonthly * 12;
-  const bracket = TAX_BRACKETS.find(b => annual >= b.min && annual <= b.max);
-  if (!bracket) return { paye: 0, uif: 0, takeHome: grossMonthly };
 
-  const annualTax = bracket.base + (annual - bracket.min) * bracket.rate;
-  const afterRebate = Math.max(0, annualTax - PRIMARY_REBATE);
-  const monthlyPaye = afterRebate / 12;
+const RA_DEDUCTION_PCT  = 0.275;  // 27.5% of greater of remuneration or taxable income
+const RA_DEDUCTION_CAP  = 350000; // Absolute annual cap ........R350 000 peryear
+
+
+// calculateTax(grossMonthly, raMonthly?)
+//
+
+//
+// RETURNS:
+//   paye          — monthly PAYE after RA deduction
+//   uif           — monthly UIF (calculated on gross, not taxable income)
+//   takeHome      — grossMonthly − paye − uif
+//   effectiveRate — effective tax rate on gross income (for display)
+//   raTaxSaving   — monthly PAYE reduction attributable to the RA contribution
+//   raDeductionUsed — annual RA amount actually deducted (may be < raMonthly * 12 if capped)
+
+
+export function calculateTax(grossMonthly, raMonthly = 0) {
+  const grossAnnual = grossMonthly * 12;
+
+
+  const raAnnual           = raMonthly * 12;
+  const maxByPct           = grossAnnual * RA_DEDUCTION_PCT;
+  const allowableDeduction = Math.min(raAnnual, maxByPct, RA_DEDUCTION_CAP);
+  const taxableAnnual      = Math.max(0, grossAnnual - allowableDeduction);
+
+
+  const bracket = TAX_BRACKETS.find(b => taxableAnnual >= b.min && taxableAnnual <= b.max)
+    || TAX_BRACKETS[0];
+
+  const annualTaxBeforeRebate = bracket.base + (taxableAnnual - bracket.min) * bracket.rate;
+  const annualTaxAfterRebate  = Math.max(0, annualTaxBeforeRebate - PRIMARY_REBATE);
+  const monthlyPaye           = annualTaxAfterRebate / 12;
+
+
+  const bracketNoRa            = TAX_BRACKETS.find(b => grossAnnual >= b.min && grossAnnual <= b.max)
+    || TAX_BRACKETS[0];
+  const annualTaxNoRa          = Math.max(0,
+    bracketNoRa.base + (grossAnnual - bracketNoRa.min) * bracketNoRa.rate - PRIMARY_REBATE
+  );
+  const monthlyPayeNoRa        = annualTaxNoRa / 12;
+  const raTaxSavingMonthly     = Math.round(monthlyPayeNoRa - monthlyPaye);
+
+
   const monthlyUif = Math.min(grossMonthly * UIF_RATE, UIF_CAP_MONTHLY);
+  const takeHome = Math.round(grossMonthly - monthlyPaye - monthlyUif);
 
   return {
-    paye: Math.round(monthlyPaye),
-    uif: Math.round(monthlyUif),
-    takeHome: Math.round(grossMonthly - monthlyPaye - monthlyUif),
-    effectiveRate: ((afterRebate / annual) * 100).toFixed(1),
+    paye:              Math.round(monthlyPaye),
+    uif:               Math.round(monthlyUif),
+    takeHome,
+    effectiveRate:     grossAnnual > 0
+      ? ((annualTaxAfterRebate / grossAnnual) * 100).toFixed(1)
+      : '0.0',
+    raTaxSaving:       raTaxSavingMonthly,          // monthly PAYE reduction from RA
+    raDeductionUsed:   Math.round(allowableDeduction), // annual amount actually deducted
+    raDeductionCapped: raAnnual > 0 && allowableDeduction < raAnnual, // true if SARS cap hit
   };
 }
+
+
 
 const DEFAULT_STATE = {
   // Income
   grossMonthly: 45000,
 
   // Fixed expenses
-  rent: 12000,
+  rent:         12000,
   carRepayment: 6500,
-  medicalAid: 3200,
-  insurance: 1200,
-  studentLoan: 0,
+  medicalAid:   3200,
+  insurance:    1200,
+  studentLoan:  0,
 
-  // Savings / Investments
-  tfsa: 3000,
-  ra: 0,
-  emergencyFund: 0,
+  // Savings
+  tfsa:         3000,
+  ra:           0,
+
+  // Emergency fund
+  emergencyFund:       0,
   emergencyFundTarget: 36000, // 3 months of R12k rent
 
-  // Goals
+  // Property goal
   depositTarget: 180000,
-  depositSaved: 22000,
+  depositSaved:  22000,
 
-  // Track selection
-  selectedTrack: 'property', // 'property' or 'balanced' or 'aggressive'
+
+  selectedTrack: 'property',
 };
+
+
 
 export function FinancialProvider({ children }) {
   const [financial, setFinancial] = useState(() => {
@@ -75,15 +127,13 @@ export function FinancialProvider({ children }) {
       const next = { ...prev, ...updates };
       try {
         localStorage.setItem('ws_financial', JSON.stringify(next));
-      } catch {
-        // ignore localStorage failures
-      }
+      } catch { /* ignore */ }
       return next;
     });
   };
 
-  // Derived values
-  const tax = calculateTax(financial.grossMonthly);
+
+  const tax = calculateTax(financial.grossMonthly, financial.ra);
 
   const totalFixedCosts =
     financial.rent +
@@ -94,18 +144,24 @@ export function FinancialProvider({ children }) {
 
   const totalSavingsContributions = financial.tfsa + financial.ra;
 
+  // Free money/capital = what's for real unallocated each month
   const freeCapital = tax.takeHome - totalFixedCosts - totalSavingsContributions;
 
-  const debtToIncome = ((financial.carRepayment + financial.studentLoan) / tax.takeHome * 100).toFixed(1);
+  const debtToIncome = tax.takeHome > 0
+    ? ((financial.carRepayment + financial.studentLoan) / tax.takeHome * 100).toFixed(1)
+    : '0.0';
 
-  const savingsRate = ((totalSavingsContributions / tax.takeHome) * 100).toFixed(1);
+  const savingsRate = tax.takeHome > 0
+    ? ((totalSavingsContributions / tax.takeHome) * 100).toFixed(1)
+    : '0.0';
 
-  const depositProgress = ((financial.depositSaved / financial.depositTarget) * 100).toFixed(1);
+  const depositProgress = financial.depositTarget > 0
+    ? ((financial.depositSaved / financial.depositTarget) * 100).toFixed(1)
+    : '0.0';
 
-  const monthsToDeposit =
-    freeCapital > 0
-      ? Math.ceil((financial.depositTarget - financial.depositSaved) / (freeCapital * 0.7))
-      : null;
+  const monthsToDeposit = freeCapital > 0
+    ? Math.ceil((financial.depositTarget - financial.depositSaved) / (freeCapital * 0.7))
+    : null;
 
   return (
     <FinancialContext.Provider
