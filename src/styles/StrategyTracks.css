@@ -106,18 +106,36 @@
 .track-card__header {
   padding: 18px 18px 14px;
   position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
+}
+
+.track-card__header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(18, 18, 42, 0.7) 0%, rgba(30, 16, 64, 0.75) 60%, rgba(42, 16, 96, 0.8) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.track-card__header > * {
+  position: relative;
+  z-index: 1;
 }
 
 .track-card__header--property {
-  background: linear-gradient(135deg, #12122a 0%, #1e1040 60%, #2a1060 100%);
+  --base-gradient: linear-gradient(135deg, #12122a 0%, #1e1040 60%, #2a1060 100%);
 }
 
 .track-card__header--balanced {
-  background: linear-gradient(135deg, #0d2218 0%, #1a3d28 60%, #1f6b47 100%);
+  --base-gradient: linear-gradient(135deg, #0d2218 0%, #1a3d28 60%, #1f6b47 100%);
 }
 
 .track-card__header--aggressive {
-  background: linear-gradient(135deg, #0a1930 0%, #162a4a 60%, #1e3a6a 100%);
+  --base-gradient: linear-gradient(135deg, #0a1930 0%, #162a4a 60%, #1e3a6a 100%);
 }
 
 .track-card__active-badge {
@@ -1310,12 +1328,31 @@
 /* Hero */
 .track-detail__hero {
   border-radius: var(--radius-lg);
-  padding: 28px 28px 24px;
+  padding: 40px 36px 32px;
   margin-bottom: 16px;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
+  min-height: 280px;
+}
+
+.track-detail__hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(18, 18, 42, 0.65) 0%, rgba(30, 16, 64, 0.7) 60%, rgba(42, 16, 96, 0.75) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.track-detail__hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .track-detail__hero-active-badge {
@@ -1366,8 +1403,18 @@
   font-size: 0.9375rem;
   color: rgba(255,255,255,0.65);
   line-height: 1.5;
-  max-width: 480px;
+  max-width: 100%;
   margin-bottom: 16px;
+  white-space: normal;
+}
+
+@media (min-width: 768px) {
+  .track-detail__hero-pitch {
+    max-width: 600px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .track-detail__hero-progress {

@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/StrategyTracks.css';
 import { useFinancial } from '../context/FinancialContext';
+import heroImage from '../assets/first-prop.jpg';
 import {
   Home, TrendingUp, Globe, ChevronRight, AlertTriangle,
 } from 'lucide-react';
@@ -85,7 +86,10 @@ export default function StrategyTracks() {
               onKeyDown={e => e.key === 'Enter' && handleSelect(track.id)}
               aria-pressed={isActive}
             >
-              <div className={`track-card__header ${track.headerClass}`}>
+              <div
+                className={`track-card__header ${track.headerClass}`}
+                style={{ backgroundImage: `url(${heroImage})` }}
+              >
                 {isActive && <div className="track-card__active-badge">Active</div>}
                 <div className="track-card__icon">{icon}</div>
                 <div className="track-card__tagline">{track.tagline}</div>

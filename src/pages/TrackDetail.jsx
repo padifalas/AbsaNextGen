@@ -5,6 +5,7 @@ import {
   Zap, BookOpen, BarChart2, Target, Award, RotateCcw, Info,
   ChevronLeft, Shield, TrendingDown, ArrowRight,
 } from 'lucide-react';
+import heroImage from '../assets/first-prop.jpg';
 import { useFinancial } from '../context/FinancialContext';
 import {
   getTrackBySlug, TRACKS, trackPath,
@@ -177,7 +178,10 @@ export default function TrackDetail() {
       </nav>
 
 
-      <div className={`track-detail__hero ${track.headerClass}`}>
+      <div
+        className={`track-detail__hero ${track.headerClass}`}
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
         {isActiveTrack && (
           <div className="track-detail__hero-active-badge">
             Active Track
