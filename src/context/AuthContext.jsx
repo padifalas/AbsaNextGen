@@ -114,6 +114,21 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updateProfile = async (nextData) => {
+    setLoading(true);
+    setAuthError('');
+    try {
+      await new Promise((r) => setTimeout(r, 500));
+      persistUser(nextData);
+      return { success: true };
+    } catch (err) {
+      setAuthError(err.message || 'Unable to update profile.');
+      return { success: false, error: err.message || 'Unable to update profile.' };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const completeOnboarding = async () => {
     setLoading(true);
     setAuthError('');
@@ -141,7 +156,7 @@ export function AuthProvider({ children }) {
   const clearError = () => setAuthError('');
 
   return (
-    <AuthContext.Provider value={{ user, login, register, completeOnboarding, logout, loading, authError, clearError }}>
+    <AuthContext.Provider value={{ user, login, register, updateProfile, completeOnboarding, logout, loading, authError, clearError }}>
       {children}
     </AuthContext.Provider>
   );

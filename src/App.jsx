@@ -12,6 +12,7 @@ import StrategyTracks from './pages/StrategyTracks';
 import TrackDetail from './pages/TrackDetail';
 import SimulationLab from './pages/SimulationLab';
 import Learn from './pages/Learn';
+import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Onboarding from './pages/Onboarding';
@@ -113,6 +114,14 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <AppShell><SimulationLab /></AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <AppShell><Profile /></AppShell>
                 </ProtectedRoute>
               }
             />

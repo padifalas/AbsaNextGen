@@ -77,11 +77,14 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
 
       {/* Footer */}
       <div className="sidebar__footer">
-        <div className="sidebar__footer-link">
+        <NavLink
+          to="/profile"
+          className={({ isActive }) => `sidebar__footer-link${isActive ? ' active' : ''}`}
+        >
           <span className="sidebar__footer-icon"><User size={17} /></span>
           <span className="sidebar__footer-text">Profile</span>
           <span className="sidebar__link-tooltip">Profile</span>
-        </div>
+        </NavLink>
         <div className="sidebar__footer-link">
           <span className="sidebar__footer-icon"><HelpCircle size={17} /></span>
           <span className="sidebar__footer-text">Help &amp; Glossary</span>
