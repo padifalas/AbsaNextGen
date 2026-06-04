@@ -105,6 +105,85 @@ function calcCarVsInvest({ carPrice, balloonPct, term, interestRate, insurance, 
   };
 }
 
+function calcLocalVsOffshore({
+  monthlyInvestment,
+  offshoreAllocationPct,
+  years,
+  localReturn,
+  offshoreReturn,
+  zarDepreciation,
+}) {
+  const n = years * 12;
+  const offshoreRatio = offshoreAllocationPct / 100;
+  const localRatio = 1 - offshoreRatio;
+
+  // Monthly compound growth helper
+  const fv = (monthly, annualRate, months) => {
+    const r = annualRate / 100 / 12;
+    if (r === 0) return monthly * months;
+    return monthly * ((Math.pow(1 + r, months) - 1) / r);
+  };
+
+  // Current 60/40 split portfolio
+  const localGrowth = fv(monthlyInvestment * localRatio, localReturn, n);
+  const offshoreGrowthZAR = fv(monthlyInvestment * offshoreRatio, offshoreReturn, n);
+  const zarMultiplier = Math.pow(1 + zarDepreciation / 100, years);
+  // Offshore in USD = ZAR grew but ZAR depreciated vs USD → USD value is lower
+  const offshoreGrowthUSD = offshoreGrowthZAR / zarMultiplier;
+  const totalZAR = localGrowth + offshoreGrowthZAR;
+  const totalUSD = offshoreGrowthUSD;
+
+  // Three scenario mixes
+  const scenarios = [
+    { label: '100% Local', offPct: 0 },
+    { label: '60/40 Split', offPct: 40 },
+    { label: '100% Offshore', offPct: 100 },
+  ];
+
+  const scenarioResults = scenarios.map(({ label, offPct }) => {
+    const oRatio = offPct / 100;
+    const lRatio = 1 - oRatio;
+    const lGrow = fv(monthlyInvestment * lRatio, localReturn, n);
+    const oGrowZAR = fv(monthlyInvestment * oRatio, offshoreReturn, n);
+    const oGrowUSD = oGrowZAR / zarMultiplier;
+    const totZAR = lGrow + oGrowZAR;
+    const totUSD = oGrowUSD;
+
+    // Purchasing power adjusted: local portion loses to ZAR inflation implicitly;
+    // we show real ZAR value vs USD equivalent
+    const ppAdjusted = lGrow / zarMultiplier + oGrowZAR;
+
+    return { label, offPct, zarValue: Math.round(totZAR), usdValue: Math.round(totUSD), ppAdjusted: Math.round(ppAdjusted) };
+  });
+
+  // SARB SDA tracker: cumulative annual offshore contributions
+  const annualOffshore = monthlyInvestment * offshoreRatio * 12;
+  const sdaLimit = 1000000;
+  const sdaUsed = Math.min(annualOffshore, sdaLimit);
+  const sdaRemaining = Math.max(0, sdaLimit - sdaUsed);
+  const sdaPct = Math.round((sdaUsed / sdaLimit) * 100);
+
+  // Purchasing power: what R1M today buys in `years` time at ZAR depreciation
+  const ppLoss = 1 - 1 / zarMultiplier;
+
+  return {
+    totalZAR: Math.round(totalZAR),
+    totalUSD: Math.round(totalUSD),
+    localGrowth: Math.round(localGrowth),
+    offshoreGrowthZAR: Math.round(offshoreGrowthZAR),
+    offshoreGrowthUSD: Math.round(offshoreGrowthUSD),
+    scenarioResults,
+    sdaUsed: Math.round(sdaUsed),
+    sdaRemaining: Math.round(sdaRemaining),
+    sdaPct,
+    zarMultiplier: zarMultiplier.toFixed(2),
+    ppLoss: Math.round(ppLoss * 100),
+    annualOffshore: Math.round(annualOffshore),
+  };
+}
+
+
+
 function YearBars({ buyValues, rentValues, labels, colors, tooltipLabels }) {
   const max = Math.max(...buyValues, ...rentValues, 1);
   const buyRefs = useRef([]);
@@ -241,22 +320,34 @@ export default function SimulationLab() {
     years: 5,
   });
 
+    const [lvo, setLvo] = useState({
+    monthlyInvestment: 5000,
+    offshoreAllocationPct: 40,
+    years: 10,
+    localReturn: 11,
+    offshoreReturn: 10,
+    zarDepreciation: 5,
+  });
+
   const pvrResult = useMemo(() => calcPropertyVsRent(pvr), [pvr]);
   const cviResult = useMemo(() => calcCarVsInvest(cvi), [cvi]);
+  const lvoResult = useMemo(() => calcLocalVsOffshore(lvo), [lvo]);
 
   const up = (setter) => (key) => (val) => setter(p => ({ ...p, [key]: parseFloat(val) || 0 }));
   const updatePvr = up(setPvr);
   const updateCvi = up(setCvi);
+  const updateLvo = up(setLvo);
 
   const tabs = [
     { id: 'property', label: 'Property vs Rent', badge: 'Studio 1' },
     { id: 'car', label: 'Car vs Invest', badge: 'Studio 2' },
+    {id: 'offshore', label: 'Local vs Offshore', badge: 'Studio 3'},
   ];
 
   return (
     <div className="sim-page">
 
-      {/* Heading at top */}
+
       <div className="sim-page__header">
         <div className="sim-page__eyebrow">Know Your Money</div>
         <h1 className="sim-page__title">Simulation Lab</h1>
@@ -510,7 +601,159 @@ export default function SimulationLab() {
           </div>
         </>
       )}
+{activeTab === 'offshore' && (
+  <>
+    <div className="sim-context-note">
+      <strong>SA Context:</strong> SARB Single Discretionary Allowance (SDA): R1M per calendar year — no tax clearance needed.
+      Offshore ETFs on JSE (e.g. Satrix MSCI World, CoreShares S&amp;P 500) count as local for CGT but track USD indices.
+      Direct offshore holdings require SARS disclosure; CGT applies on disposal in ZAR terms.
+    </div>
 
+    <div className="sim-studio">
+      <div className="sim-inputs">
+        <div className="sim-inputs__header">
+          <div className="sim-inputs__title">Local vs Offshore</div>
+        </div>
+        <div className="sim-inputs__body">
+
+          <div className="sim-field-group">
+            <div className="sim-field-group__label">Portfolio Setup</div>
+            <SliderField
+              label="Monthly Investment" hint={fmt(lvo.monthlyInvestment)}
+              min={500} max={50000} step={500} value={lvo.monthlyInvestment}
+              onChange={updateLvo('monthlyInvestment')} metaMin="R500" metaMax="R50K"
+            />
+            <SliderField
+              label="Offshore Allocation" hint={`${lvo.offshoreAllocationPct}% offshore / ${100 - lvo.offshoreAllocationPct}% local`}
+              min={0} max={100} step={5} value={lvo.offshoreAllocationPct}
+              onChange={updateLvo('offshoreAllocationPct')} metaMin="0% (all local)" metaMax="100% (all offshore)"
+            />
+            <SliderField
+              label="Time Horizon" hint={`${lvo.years} years`}
+              min={5} max={20} step={5} value={lvo.years}
+              onChange={updateLvo('years')} metaMin="5 yrs" metaMax="20 yrs"
+            />
+          </div>
+
+          <div className="sim-field-group">
+            <div className="sim-field-group__label">Return Assumptions</div>
+            <SliderField
+              label="SA Local Return p.a." hint={`${lvo.localReturn}%`}
+              min={4} max={18} step={0.5} value={lvo.localReturn}
+              onChange={updateLvo('localReturn')} metaMin="4%" metaMax="18%"
+            />
+            <SliderField
+              label="Offshore Return p.a. (USD)" hint={`${lvo.offshoreReturn}%`}
+              min={4} max={16} step={0.5} value={lvo.offshoreReturn}
+              onChange={updateLvo('offshoreReturn')} metaMin="4%" metaMax="16%"
+            />
+            <SliderField
+              label="ZAR Depreciation p.a. vs USD" hint={`${lvo.zarDepreciation}%`}
+              min={1} max={12} step={0.5} value={lvo.zarDepreciation}
+              onChange={updateLvo('zarDepreciation')} metaMin="1%" metaMax="12%"
+            />
+          </div>
+
+        </div>
+      </div>
+
+      <div className="sim-outputs">
+
+        {/* Main outcome cards */}
+        <div className="sim-compare-row">
+          <div className="sim-compare-card sim-compare-card--buy">
+            <div className="sim-compare-card__label">Portfolio in ZAR at Year {lvo.years}</div>
+            <div className="sim-compare-card__value">{fmtM(lvoResult.totalZAR)}</div>
+            <div className="sim-compare-card__sub">
+              Local: {fmtM(lvoResult.localGrowth)} · Offshore leg: {fmtM(lvoResult.offshoreGrowthZAR)}
+            </div>
+          </div>
+          <div className="sim-compare-card sim-compare-card--rent">
+            <div className="sim-compare-card__label">Offshore Leg in USD at Year {lvo.years}</div>
+            <div className="sim-compare-card__value">${Math.round(lvoResult.totalUSD).toLocaleString('en-ZA')}</div>
+            <div className="sim-compare-card__sub">
+              At {lvo.zarDepreciation}% ZAR depreciation p.a. — {lvoResult.ppLoss}% ZAR purchasing power lost
+            </div>
+          </div>
+        </div>
+
+        {/* Scenario comparison bar chart */}
+        <div className="sim-bar-chart">
+          <div className="sim-bar-chart__header">
+            <div className="sim-bar-chart__title">Scenario Comparison — ZAR vs Purchasing Power Adjusted</div>
+            <div className="sim-bar-chart__legend">
+              <div className="sim-legend-item">
+                <div className="sim-legend-dot" style={{ background: 'var(--positive)' }} /> ZAR value
+              </div>
+              <div className="sim-legend-item">
+                <div className="sim-legend-dot" style={{ background: '#3B82F6' }} /> Purchasing power adj.
+              </div>
+            </div>
+          </div>
+          <YearBars
+            labels={lvoResult.scenarioResults.map(s => s.label)}
+            buyValues={lvoResult.scenarioResults.map(s => s.zarValue)}
+            rentValues={lvoResult.scenarioResults.map(s => s.ppAdjusted)}
+            colors={['var(--positive)', '#3B82F6']}
+            tooltipLabels={['ZAR value', 'PP-adjusted']}
+          />
+        </div>
+
+        {/* SARB SDA Tracker */}
+        <div className="sim-sda-tracker">
+          <div className="sim-sda-tracker__header">
+            <span className="sim-sda-tracker__title">SARB SDA Tracker — Annual Offshore Usage</span>
+            <span className="sim-sda-tracker__pct">{lvoResult.sdaPct}% used</span>
+          </div>
+          <div className="sim-sda-bar">
+            <div
+              className={`sim-sda-bar__fill${lvoResult.sdaPct > 80 ? ' sim-sda-bar__fill--warn' : ''}`}
+              style={{ width: `${Math.min(lvoResult.sdaPct, 100)}%` }}
+            />
+          </div>
+          <div className="sim-sda-tracker__meta">
+            <span>Used: {fmt(lvoResult.sdaUsed)}</span>
+            <span>Remaining: {fmt(lvoResult.sdaRemaining)} of R1 000 000 SDA</span>
+          </div>
+          {lvoResult.sdaUsed >= 1000000 && (
+            <div className="sim-sda-tracker__warning">
+              ⚠ Your annual offshore contributions exceed the R1M SDA. Amounts above R1M require a tax clearance certificate from SARS.
+            </div>
+          )}
+        </div>
+
+        {/* Studio verdict */}
+        <div className="sim-verdict">
+          <div className="sim-verdict__label">Studio 3 Results — {lvo.offshoreAllocationPct}% offshore over {lvo.years} years</div>
+          <div className="sim-verdict__text">
+            {(() => {
+              const custom = lvoResult.scenarioResults.find(s => s.offPct === lvo.offshoreAllocationPct)
+                || { zarValue: lvoResult.totalZAR, usdValue: lvoResult.totalUSD };
+              const allOffshore = lvoResult.scenarioResults.find(s => s.offPct === 100);
+              const allLocal = lvoResult.scenarioResults.find(s => s.offPct === 0);
+              return (
+                <>
+                  A <strong>{lvo.offshoreAllocationPct}/{100 - lvo.offshoreAllocationPct} split</strong> grows to{' '}
+                  <strong>{fmtM(lvoResult.totalZAR)}</strong> in {lvo.years} years.{' '}
+                  Going 100% offshore would grow to{' '}
+                  <strong>${Math.round(allOffshore.usdValue).toLocaleString('en-ZA')}</strong> USD (worth{' '}
+                  <strong>{fmtM(allOffshore.zarValue)}</strong> at projected ZAR rates), while 100% local reaches{' '}
+                  <strong>{fmtM(allLocal.zarValue)}</strong> — but loses{' '}
+                  <strong>{lvoResult.ppLoss}%</strong> of its purchasing power in real USD terms.
+                </>
+              );
+            })()}
+          </div>
+          <div className="sim-verdict__breakeven">
+            <strong>SA-listed offshore ETFs</strong> (e.g. Satrix MSCI World, 1nvest S&amp;P 500) are treated as SA assets for CGT and SDA purposes — simplest route for most investors.
+            Direct offshore holdings trigger SARS Foreign Asset disclosure and CGT on disposal calculated in ZAR terms (inclusion rate: 40% for individuals above annual exclusion of R40 000).
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </>
+)}
       {/* Explainer */}
       <div className="sim-context-note" style={{ marginTop: 28 }}>
         <strong>How these calculators work:</strong> Property vs Rent models true total cost of ownership (bond, transfer duty, registration, levies) against the renter's invested position. Car vs Invest uses SA balloon finance structures and real depreciation curves. Numbers are estimates — consult a financial adviser before major decisions.
