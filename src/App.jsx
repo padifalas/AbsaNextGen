@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { gsap } from 'gsap';
 import { FinancialProvider, useFinancial } from './context/FinancialContext';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -25,7 +26,19 @@ const TRACK_LABELS = {
 function AppShell({ children }) {
   const { financial } = useFinancial();
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
+  const mainRef = useRef(null);
   const userTrack = TRACK_LABELS[financial.selectedTrack] || 'First Property Path';
+
+  useEffect(() => {
+    if (!mainRef.current) return;
+    gsap.fromTo(
+      mainRef.current,
+      { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }
+    );
+  }, [location]);
+
   return (
     <div className="app-layout">
       <Sidebar
@@ -33,7 +46,7 @@ function AppShell({ children }) {
         collapsed={collapsed}
         onToggle={() => setCollapsed(c => !c)}
       />
-      <main className={`main-content${collapsed ? ' collapsed' : ''}`}>
+      <main ref={mainRef} className={`main-content${collapsed ? ' collapsed' : ''}`}>
         {children}
       </main>
       <MobileNav />

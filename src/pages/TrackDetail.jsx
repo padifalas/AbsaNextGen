@@ -1,10 +1,11 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useLayoutEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   Home, TrendingUp, Globe, CheckCircle, Clock, AlertTriangle,
   Zap, BookOpen, BarChart2, Target, Award, RotateCcw, Info,
   ChevronLeft, Shield, TrendingDown, ArrowRight,
 } from 'lucide-react';
+import { gsap } from 'gsap';
 import propertyImage from '../assets/first-prop.jpg';
 import balancedImage from '../assets/balanced-lifestyle.jpeg';
 import aggressiveImage from '../assets/aggressive-global.jpeg';
@@ -67,9 +68,26 @@ function AllocationBar({ model }) {
 }
 
 function MilestoneRow({ milestone, index, isDone, isActive, onToggle }) {
+  const rowRef = useRef(null);
+  const prevDone = useRef(isDone);
   const status = isDone ? 'done' : isActive ? 'active' : 'pending';
+
+  useLayoutEffect(() => {
+    if (prevDone.current === isDone || !rowRef.current) {
+      prevDone.current = isDone;
+      return;
+    }
+
+    gsap.fromTo(
+      rowRef.current,
+      { scale: 1.01, backgroundColor: isDone ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.02)' },
+      { scale: 1, backgroundColor: 'rgba(255,255,255,0)', duration: 0.28, ease: 'power2.out' }
+    );
+    prevDone.current = isDone;
+  }, [isDone]);
+
   return (
-    <div className={`milestone-row milestone-row--${status}`}>
+    <div ref={rowRef} className={`milestone-row milestone-row--${status}`}>
       <div className="milestone-row__connector" />
       <button
         className={`milestone-dot milestone-dot--${status}`}
@@ -118,6 +136,8 @@ export default function TrackDetail() {
   const { financial, updateFinancial, derived } = useFinancial();
 
   const track = getTrackBySlug(slug);
+  const pageRef = useRef(null);
+  const progressFillRef = useRef(null);
 
   //  Tab state — tabs live inside the route page
   const [activeTab, setActiveTab]       = useState('milestones');
@@ -149,6 +169,23 @@ export default function TrackDetail() {
   const isActiveTrack = financial.selectedTrack === track.id;
   const trackIcon     = TRACK_ICONS[track.iconId] || <Home size={22} color="#fff" />;
 
+  useLayoutEffect(() => {
+    if (!pageRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        pageRef.current,
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }
+      );
+      gsap.fromTo(
+        pageRef.current.querySelectorAll('.track-detail__hero > *'),
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', stagger: 0.04 }
+      );
+    }, pageRef);
+    return () => ctx.revert();
+  }, [track.id]);
+
   const heroImage = track.id === 'balanced'
     ? balancedImage
     : track.id === 'aggressive'
@@ -163,6 +200,16 @@ export default function TrackDetail() {
   const maxXP           = trackMilestones.reduce((s, m) => s + m.xp, 0);
   const firstPendingIdx = trackMilestones.findIndex(m => !milestoneMap[m.id]);
 
+  useLayoutEffect(() => {
+    if (!progressFillRef.current) return;
+
+    gsap.to(progressFillRef.current, {
+      width: `${progressPct}%`,
+      duration: 0.65,
+      ease: 'power2.out',
+    });
+  }, [progressPct]);
+
   const nudgeText = track.nudgeTemplate({
     takeHome:     derived.tax.takeHome,
     rent:         financial.rent,
@@ -171,7 +218,7 @@ export default function TrackDetail() {
   });
 
   return (
-    <div className="tracks-page">
+    <div ref={pageRef} className="tracks-page">
 
 
       <nav className="track-detail__breadcrumb">
@@ -202,12 +249,12 @@ export default function TrackDetail() {
         <div className="track-detail__hero-progress">
           <div className="track-detail__hero-ring-wrap">
             <ProgressRing pct={progressPct} color="#fff" trackColor="rgba(255,255,255,0.2)" size={52} stroke={4} />
-            <span className="track-detail__hero-ring-label">{progressPct}%</span>
-          </div>
-          <div className="track-detail__hero-stats">
-            <span className="track-detail__hero-stat-val">{completedCount}/{totalCount}</span>
-            <span className="track-detail__hero-stat-sub">milestones</span>
-            <span className="track-detail__hero-stat-val" style={{ color: 'rgba(255,255,255,0.85)', marginTop: 4 }}>
+              <span className="track-detail__hero-ring-label">{progressPct}%</span>
+            </div>
+            <div className="track-detail__hero-stats">
+              <span className="track-detail__hero-stat-val">{completedCount}/{totalCount}</span>
+              <span className="track-detail__hero-stat-sub">milestones</span>
+              <span className="track-detail__hero-stat-val" style={{ color: 'rgba(255,255,255,0.85)', marginTop: 4 }}>
               {totalXP.toLocaleString('en-ZA')} XP
             </span>
             <span className="track-detail__hero-stat-sub">of {maxXP.toLocaleString('en-ZA')}</span>
@@ -263,8 +310,11 @@ export default function TrackDetail() {
 
           {/* Progress bar */}
           <div className="milestones-progress-bar">
-            <div className="milestones-progress-bar__fill"
-              style={{ width: `${progressPct}%`, background: track.accentColor }} />
+            <div
+              ref={progressFillRef}
+              className="milestones-progress-bar__fill"
+              style={{ width: `${progressPct}%`, background: track.accentColor }}
+            />
           </div>
           <div className="milestones-progress-label">
             <span>{completedCount} of {totalCount} milestones complete · {totalXP} XP earned</span>

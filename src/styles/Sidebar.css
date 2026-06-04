@@ -231,7 +231,7 @@
   color: rgba(255, 255, 255, 0.58);
   font-size: 0.9rem;
   font-weight: 500;
-  transition: background 0.18s ease, color 0.18s ease;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
   position: relative;
   white-space: nowrap;
   overflow: hidden;
@@ -244,11 +244,14 @@
 
 /* Hover */
 .sidebar__link:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   color: #fff;
+  transform: translateX(2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
 }
 .sidebar.collapsed .sidebar__link:hover {
   transform: none;
+  box-shadow: none;
 }
 
 /* Active */
@@ -358,12 +361,14 @@
   position: relative;
   white-space: nowrap;
   overflow: hidden;
-  transition: background 0.18s ease, color 0.18s ease;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
 }
 .sidebar.collapsed .sidebar__footer-link { justify-content: center; }
 .sidebar__footer-link:hover {
-  background: rgba(255, 255, 255, 0.07);
-  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  transform: translateX(1px);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.06);
 }
 
 .sidebar__footer-icon {

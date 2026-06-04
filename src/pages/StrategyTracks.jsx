@@ -1,5 +1,6 @@
-import { useCallback } from 'react';
+import { useCallback, useRef, useLayoutEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { gsap } from 'gsap';
 import '../styles/StrategyTracks.css';
 import { useFinancial } from '../context/FinancialContext';
 import propertyImage from '../assets/first-prop.jpg';
@@ -21,16 +22,28 @@ const TRACK_ICONS = {
 
 
 function CardProgressBar({ track, milestoneMap }) {
+  const fillRef = useRef(null);
   const done  = track.milestones.filter(m => milestoneMap[m.id]).length;
   const total = track.milestones.length;
   const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  useLayoutEffect(() => {
+    if (!fillRef.current) return;
+    gsap.to(fillRef.current, {
+      width: `${pct}%`,
+      duration: 0.6,
+      ease: 'power2.out',
+    });
+  }, [pct]);
+
   if (done === 0) return null;
   return (
     <div className="track-card__progress">
       <div className="track-card__progress-bar">
         <div
+          ref={fillRef}
           className="track-card__progress-fill"
-          style={{ width: `${pct}%`, background: track.accentColor }}
+          style={{ width: '0%', background: track.accentColor }}
         />
       </div>
       <span className="track-card__progress-label">{done}/{total} milestones</span>
@@ -42,6 +55,30 @@ export default function StrategyTracks() {
   const { financial, updateFinancial } = useFinancial();
   const navigate = useNavigate();
   const milestoneMap = loadMilestones();
+  const cardsRef = useRef([]);
+
+  const addCardRef = useCallback((el) => {
+    if (el && !cardsRef.current.includes(el)) cardsRef.current.push(el);
+  }, []);
+
+  const handleCardHover = useCallback((el, entering) => {
+    gsap.to(el, {
+      scale: entering ? 1.02 : 1,
+      duration: 0.18,
+      ease: 'power2.out',
+      overwrite: 'auto',
+      boxShadow: entering ? '0 20px 45px rgba(0,0,0,0.16)' : '0 16px 40px rgba(0,0,0,0.12)',
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!cardsRef.current.length) return;
+    gsap.fromTo(
+      cardsRef.current,
+      { opacity: 0, y: 24, scale: 0.98 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'power3.out', stagger: 0.08 }
+    );
+  }, []);
 
   const handleSelect = useCallback((id) => {
     updateFinancial({ selectedTrack: id });
@@ -87,8 +124,11 @@ export default function StrategyTracks() {
           return (
             <div
               key={track.id}
+              ref={addCardRef}
               className={`track-card${isActive ? ' active-track' : ''}`}
               onClick={() => handleSelect(track.id)}
+              onMouseEnter={e => handleCardHover(e.currentTarget, true)}
+              onMouseLeave={e => handleCardHover(e.currentTarget, false)}
               role="button"
               tabIndex={0}
               onKeyDown={e => e.key === 'Enter' && handleSelect(track.id)}
