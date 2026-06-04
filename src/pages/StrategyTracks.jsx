@@ -2,7 +2,9 @@ import { useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/StrategyTracks.css';
 import { useFinancial } from '../context/FinancialContext';
-import heroImage from '../assets/first-prop.jpg';
+import propertyImage from '../assets/first-prop.jpg';
+import balancedImage from '../assets/balanced-lifestyle.jpeg';
+import aggressiveImage from '../assets/aggressive-global.jpeg';
 import {
   Home, TrendingUp, Globe, ChevronRight, AlertTriangle,
 } from 'lucide-react';
@@ -75,6 +77,12 @@ export default function StrategyTracks() {
         {TRACKS.map(track => {
           const isActive = financial.selectedTrack === track.id;
           const icon     = TRACK_ICONS[track.iconId] || <Home size={22} color="#fff" />;
+
+          const heroImage = track.id === 'balanced'
+            ? balancedImage
+            : track.id === 'aggressive'
+              ? aggressiveImage
+              : propertyImage;
 
           return (
             <div

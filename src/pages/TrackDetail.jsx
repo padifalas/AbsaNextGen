@@ -5,7 +5,9 @@ import {
   Zap, BookOpen, BarChart2, Target, Award, RotateCcw, Info,
   ChevronLeft, Shield, TrendingDown, ArrowRight,
 } from 'lucide-react';
-import heroImage from '../assets/first-prop.jpg';
+import propertyImage from '../assets/first-prop.jpg';
+import balancedImage from '../assets/balanced-lifestyle.jpeg';
+import aggressiveImage from '../assets/aggressive-global.jpeg';
 import { useFinancial } from '../context/FinancialContext';
 import {
   getTrackBySlug, TRACKS, trackPath,
@@ -147,6 +149,11 @@ export default function TrackDetail() {
   const isActiveTrack = financial.selectedTrack === track.id;
   const trackIcon     = TRACK_ICONS[track.iconId] || <Home size={22} color="#fff" />;
 
+  const heroImage = track.id === 'balanced'
+    ? balancedImage
+    : track.id === 'aggressive'
+      ? aggressiveImage
+      : propertyImage;
 
   const trackMilestones = track.milestones;
   const completedCount  = trackMilestones.filter(m => milestoneMap[m.id]).length;
@@ -155,7 +162,6 @@ export default function TrackDetail() {
   const totalXP         = trackMilestones.reduce((s, m) => milestoneMap[m.id] ? s + m.xp : s, 0);
   const maxXP           = trackMilestones.reduce((s, m) => s + m.xp, 0);
   const firstPendingIdx = trackMilestones.findIndex(m => !milestoneMap[m.id]);
-
 
   const nudgeText = track.nudgeTemplate({
     takeHome:     derived.tax.takeHome,
