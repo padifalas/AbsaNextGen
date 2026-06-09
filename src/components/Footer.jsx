@@ -18,10 +18,11 @@ const ABSA_LINKS = [
   { label: 'About Us',       href: 'https://www.absa.co.za/about-us/' },
   { label: 'Careers',        href: 'https://www.absa.co.za/about-us/careers/' },
   { label: 'Investors',      href: 'https://www.absa.africa/investor-relations/'},
-  { label: 'Newsroom',       href: 'https://www.absa.co.za/about-us/media/' },
-  { label: 'Sustainability', href: 'https://www.absa.co.za/about-us/sustainability/' },
+  { label: 'Newsroom',       href: 'https://www.absa.africa/news-and-insights/' },
+  { label: 'Sustainability', href: 'https://www.absa.africa/sustainability/' },
 ];
 
+const GITHUB_PROFILE= 'https://github.com/padifalas';
 const GITHUB_REPO = 'https://github.com/padifalas/AbsaNextGen';
 
 const linkProps = { target: '_blank', rel: 'noopener noreferrer' };
@@ -55,9 +56,9 @@ export default function Footer() {
             <h3 className="site-footer__heading">Developer</h3>
             <ul className="site-footer__links">
               <li>
-                <a href={GITHUB_REPO} {...linkProps}>
+                <a href={GITHUB_PROFILE} {...linkProps}>
                   <IconGithub size={15} />
-                  GitHub Repository
+                  GitHub Acccount
                 </a>
               </li>
               <li>

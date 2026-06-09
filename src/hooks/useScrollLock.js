@@ -43,7 +43,7 @@ function unlockScroll() {
   savedStyles = null;
 }
 
-/** Locks page scroll while active. Safe to use from multiple modals (ref-counted). */
+/** lockks page scroll while active*/
 export function useScrollLock(active = true) {
   useEffect(() => {
     if (!active) return undefined;

@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Hammersmith+One&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  
+
   --page-bg: #e8e6e1;
-  
+
   --surface-1: #ffffff;
- 
+
   --surface-2: #f2f1ec;
-  
+
   --surface-dark: #0a1930;
 
   --surface-dark-2: #162a4a;
- 
+
 
   --red: #0a1930;
   --red-light: #e4eaf4;
@@ -20,7 +20,7 @@
   --dark-red: #051021;
 
   --gold: #b28a50;
- 
+
   --gold-light: #fdfaf6;
   --gold-mid: #cfb183;
 
@@ -30,10 +30,10 @@
   --sage-mid: #2d8a5e;
 
   --slate: #676767;
- 
+
   --slate-light: #e8ecf0;
 
-  /* Semantic state colors */
+
   --positive: #1f6b47;
   --positive-bg: rgba(31, 107, 71, 0.08);
   --positive-border: rgba(31, 107, 71, 0.2);
@@ -51,7 +51,7 @@
   --font-body: 'DM Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* ── borders n radius*/
+  /* borders n radius*/
   --border: rgba(10, 25, 48, 0.1);
   --border-strong: rgba(10, 25, 48, 0.2);
   --radius-xs: 4px;
@@ -171,7 +171,6 @@ body {
   flex-direction: column;
   background: transparent;
   transition: margin-left 280ms var(--ease-in-out);
-  /* Subtle left edge gradient where sidebar meets content */
   background-image: linear-gradient(to right, rgba(10, 25, 48, 0.04) 0%, transparent 80px);
 }
 
@@ -387,7 +386,7 @@ input[type="number"]:focus {
   background: var(--surface-1);
 }
 
-/* ── Fade-in animation ── */
+/* Fade-in animation  */
 @keyframes fadeUp {
   from {
     opacity: 0;

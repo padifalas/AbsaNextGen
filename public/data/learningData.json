@@ -31,35 +31,35 @@
   },
 
   "absaDeepLinks": {
-    "_comment": "These are real ABSA product page URLs. In production these would be fetched from ABSA's link registry.",
+    "_comment": "These are real ABSA product page URLs.",
     "homeLoan": {
       "label": "ABSA Home Loans",
-      "url": "https://www.absa.co.za/personal/loans/home-loans/",
+      "url": "https://www.absa.co.za/personal/loans/for-a-home/understanding-home-loans/",
       "cta": "Apply for a home loan"
     },
     "retirementAnnuity": {
       "label": "ABSA Retirement Annuity",
-      "url": "https://www.absa.co.za/personal/investments/retirement-annuity/",
+      "url": "https://www.absa.co.za/personal/save-invest/products/absa-retirement-annuity/",
       "cta": "Open an RA"
     },
     "tfsa": {
       "label": "ABSA Tax-Free Investment",
-      "url": "https://www.absa.co.za/personal/investments/tax-free-investment/",
+      "url": "https://www.absa.co.za/personal/save-invest/tax-free-savings-and-investments/explore/",
       "cta": "Open a TFSA"
     },
     "investmentAccount": {
       "label": "ABSA Investment Account",
-      "url": "https://www.absa.co.za/personal/investments/",
+      "url": "https://www.absa.co.za/personal/investment-management/investment-accounts/",
       "cta": "Explore investments"
     },
     "vehicleFinance": {
       "label": "ABSA Vehicle Finance",
-      "url": "https://www.absa.co.za/personal/loans/vehicle-finance/",
+      "url": "https://www.absa.co.za/personal/loans/for-a-car/calculate/",
       "cta": "Calculate vehicle finance"
     },
     "bondCalculator": {
       "label": "ABSA Bond Calculator",
-      "url": "https://www.absa.co.za/personal/loans/home-loans/bond-repayment-calculator/",
+      "url": "https://www.absa.co.mz/en/personal/borrow/home-loan-calculator/",
       "cta": "Calculate bond repayments"
     }
   },
@@ -67,11 +67,11 @@
   "externalLinks": {
     "_comment": "Authoritative SA government and regulator sources referenced in content.",
     "sarsIndividualRates": "https://www.sars.gov.za/tax-rates/income-tax/rates-of-tax-for-individuals/",
-    "sarsRa": "https://www.sars.gov.za/types-of-tax/income-tax/retirement-benefits/",
-    "sarbExchangeControl": "https://www.resbank.co.za/en/home/what-we-do/financial-surveillance/exchange-control-regulations",
+    "sarsRa": "https://www.sars.gov.za/tax-rates/income-tax/retirement-lump-sum-benefits/",
+    "sarbExchangeControl": "https://www.resbank.co.za/content/dam/sarb/what-we-do/financial-surveillance/financial-surveillance-documents/Exchange%20Control%20Regulations,%201961.pdf",
     "faisOmbudsman": "https://www.faisombud.co.za/",
     "ncrCreditBureau": "https://www.ncr.org.za/",
-    "transunionFreeReport": "https://www.transunion.co.za/consumer/free-credit-report"
+    "transunionFreeReport": "https://www.transunion.co.za/assistance/free-credit-report"
   },
 
   "categories": [

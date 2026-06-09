@@ -40,10 +40,7 @@ import {
   Clock, Check, HelpCircle, ExternalLink, RefreshCw, AlertCircle,
 } from 'lucide-react';
 
-// ─────────────────────────────────────────────
-// ICON MAP  (category id → lucide icon)
-// Icons are UI concerns — they stay in the component, not the data file.
-// ─────────────────────────────────────────────
+
 const CATEGORY_ICONS = {
   tax:        <DollarSign   size={16} />,
   savings:    <TrendingUp   size={16} />,
@@ -57,9 +54,7 @@ const CATEGORY_ICONS = {
 
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
 
-// ─────────────────────────────────────────────
-// SMALL PRESENTATIONAL COMPONENTS
-// ─────────────────────────────────────────────
+
 
 function LevelBadge({ level }) {
   const map = {
@@ -131,7 +126,7 @@ function ContentBlock({ block }) {
   }
 }
 
-/** Interactive quiz block. Stateful locally — no global state needed. */
+
 function QuizBlock({ questions }) {
   const [answers,  setAnswers]  = useState({});
   const [revealed, setRevealed] = useState({});
@@ -195,12 +190,10 @@ function QuizBlock({ questions }) {
 
 /**
  * Module detail modal.
- * Renders content + quiz tabs, "Did You Know", and optional ABSA CTA.
+ * this show content + quiz tabs, "Did You Know", and optional ABSA CTA.
  *
  * ABSA DEEP LINKS:
- *   If module.absaLink is set, we look it up in absaDeepLinks (from the JSON)
- *   and render a branded CTA. This is the integration point where a production
- *   ABSA link registry would surface the correct, up-to-date URL.
+ *    look it up in absaDeepLinks (from the JSON) n render a branded CTA. This is the integration point where a production
  */
 function LearnModalPortal({ children }) {
   return createPortal(children, document.body);
@@ -210,7 +203,7 @@ function ModuleModal({ module, absaDeepLinks, externalLinks, onClose, onComplete
   const [tab, setTab] = useState('content');
   const cat = { color: module._catColor };
 
-  // Resolve ABSA link from the data (not hardcoded here)
+  // Resolve ABSA link from the data (noooooo hardcoded here)
   const absaLinkData   = module.absaLink     ? absaDeepLinks?.[module.absaLink]   : null;
   const externalSource = module.externalLink ? externalLinks?.[module.externalLink] : null;
 
@@ -221,7 +214,7 @@ function ModuleModal({ module, absaDeepLinks, externalLinks, onClose, onComplete
     <div className="learn-modal-overlay" onClick={onClose}>
       <div className="learn-modal" onClick={e => e.stopPropagation()}>
 
-        {/* ── Header ── */}
+
         <div className="learn-modal__header" style={{ borderColor: module._catColor }}>
           <div className="learn-modal__meta">
             <span className="learn-modal__cat" style={{ color: module._catColor }}>
@@ -247,7 +240,7 @@ function ModuleModal({ module, absaDeepLinks, externalLinks, onClose, onComplete
           </button>
         </div>
 
-        {/* ── Body ── */}
+
         <div className="learn-modal__body">
           {tab === 'content' && (
             <div className="learn-content">
@@ -261,11 +254,7 @@ function ModuleModal({ module, absaDeepLinks, externalLinks, onClose, onComplete
                 <p>{module.didYouKnow}</p>
               </div>
 
-              {/* ── ABSA Deep Link CTA ────────────────────────────────────────
-                  Sourced from learningData.json → absaDeepLinks.
-                  In production: ABSA's link registry API supplies these URLs.
-                  Changing a destination requires no code deploy — only a CMS
-                  or registry update. ────────────────────────────────────────*/}
+
               {absaLinkData && (
                 <div className="learn-absa-cta">
                   <div className="learn-absa-cta__label">Ready to take action?</div>
@@ -284,7 +273,7 @@ function ModuleModal({ module, absaDeepLinks, externalLinks, onClose, onComplete
                 </div>
               )}
 
-              {/* External authoritative source link (SARS, SARB, NCR, etc.) */}
+
               {externalSource && (
                 <div className="learn-source-link">
                   <Info size={12} />
@@ -308,7 +297,7 @@ function ModuleModal({ module, absaDeepLinks, externalLinks, onClose, onComplete
           )}
         </div>
 
-        {/* ── Footer ── */}
+
         <div className="learn-modal__footer">
           {isCompleted ? (
             <span className="learn-modal__done">
@@ -329,7 +318,7 @@ function ModuleModal({ module, absaDeepLinks, externalLinks, onClose, onComplete
   );
 }
 
-/** Glossary slide-over. Fetched terms rendered with live search. */
+/** glossary sfetched terms rendered with live search. */
 function GlossaryPanel({ terms, onClose }) {
   const [search, setSearch] = useState('');
   const bodyRef = useRef(null);
@@ -433,9 +422,8 @@ function ModuleCard({ module, done, recommended, onClick }) {
   );
 }
 
-// ─────────────────────────────────────────────
-// LOADING & ERROR STATES
-// ─────────────────────────────────────────────
+// loafing & ERROR STATES
+
 
 function LearnSkeleton() {
   return (
@@ -472,20 +460,18 @@ function LearnError({ message, onRetry }) {
   );
 }
 
-// ─────────────────────────────────────────────
-// MAIN COMPONENT
-// ─────────────────────────────────────────────
+
 
 export default function Learn() {
   const { financial } = useFinancial();
   const location = useLocation();
   const navigate = useNavigate();
 
-  // ── Data fetch (swap URL in useLearningData.js for production) ───────────
+
   const { data, loading, error } = useLearningData();
   const [retryKey, setRetryKey] = useState(0);
 
-  // ── UI state ─────────────────────────────────────────────────────────────
+
   const [completed,       setCompleted]       = useState(() => {
     try { return JSON.parse(localStorage.getItem('ws_learn_completed') || '[]'); } catch { return []; }
   });
@@ -508,12 +494,11 @@ export default function Learn() {
     localStorage.setItem('ws_learn_completed', JSON.stringify(next));
   };
 
-  // ── Early returns for loading / error ────────────────────────────────────
-  if (loading) return <LearnSkeleton />;
+  // ── Early returns for loading / error ────────────────────────────────────  if (loading) return <LearnSkeleton />;
   if (error)   return <LearnError message={error} onRetry={() => setRetryKey(k => k + 1)} />;
   if (!data)   return null;
 
-  // ── Enrich modules with category display data (UI join — not in JSON) ────
+
   const categoryMap = Object.fromEntries(
     (data.categories || []).map(c => [c.id, c])
   );
@@ -524,7 +509,7 @@ export default function Learn() {
     _catLabel: categoryMap[m.category]?.label    || m.category,
   }));
 
-  // ── Derived values ────────────────────────────────────────────────────────
+
   const track          = financial?.selectedTrack || 'balanced';
   const recommendedIds = data.trackRecommendations?.[track] || data.trackRecommendations?.balanced || [];
 
@@ -552,13 +537,11 @@ export default function Learn() {
     ...(data.categories || []),
   ];
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // RENDER
-  // ─────────────────────────────────────────────────────────────────────────
+
   return (
     <div className="learn-page">
 
-      {/* ── Header ── */}
+      {/*Header  */}
       <div className="learn-page__header">
         <div className="learn-page__eyebrow">Financial Literacy</div>
         <h1 className="learn-page__title">Learn</h1>
@@ -567,7 +550,7 @@ export default function Learn() {
           first five years. Real numbers, real context — no textbook fluff.
         </p>
 
-        {/* Progress banner */}
+
         <div className="learn-progress-banner">
           <div className="learn-progress-banner__left">
             <Award size={18} className="learn-progress-banner__icon" />
@@ -590,7 +573,7 @@ export default function Learn() {
         </div>
       </div>
 
-      {/* ── Quick actions ── */}
+
       <div className="learn-quick-actions">
         <button className="learn-quick-btn" onClick={() => setShowGlossary(true)}>
           <BookOpen size={15} />
@@ -609,7 +592,7 @@ export default function Learn() {
         </div>
       </div>
 
-      {/* ── Recommended section ── */}
+      {/* Recommended section */}
       {!searchQuery && activeCategory === 'all' && (
         <div className="learn-section">
           <div className="learn-section__header">
@@ -638,7 +621,7 @@ export default function Learn() {
         </div>
       )}
 
-      {/* ── Filters ── */}
+
       <div className="learn-filters">
         <div className="learn-filter-row">
           <span className="learn-filter-label">Level:</span>
@@ -671,7 +654,7 @@ export default function Learn() {
         </div>
       </div>
 
-      {/* ── Module grid ── */}
+
       <div className="learn-section">
         <div className="learn-section__header">
           <BookOpen size={15} className="learn-section__icon" />
@@ -716,7 +699,7 @@ export default function Learn() {
         )}
       </div>
 
-      {/* ── Level guide ── */}
+
       <div className="learn-level-guide">
         <div className="learn-level-guide__title">Learning Path Guide</div>
         <div className="learn-level-guide__items">
@@ -738,7 +721,7 @@ export default function Learn() {
         </div>
       </div>
 
-      {/* ── Modals ── */}
+
       {openModule && (
         <ModuleModal
           module={openModule}

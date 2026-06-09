@@ -1,21 +1,6 @@
-/**
- * tracksData.js
- * ─────────────────────────────────────────────────────────────────────────────
- * Single source of truth for all Strategy Track content.
- * Imported by both StrategyTracks.jsx (overview) and TrackDetail.jsx (detail page).
- *
- * SLUG MAP:
- *   property   → /tracks/first-property-path
- *   balanced   → /tracks/balanced-lifestyle
- *   aggressive → /tracks/aggressive-global
- *
- * Adding a new track: add an entry here and the routes/UI update automatically.
- * ─────────────────────────────────────────────────────────────────────────────
- */
 
 import { calculateTax } from '../context/FinancialContext';
 
-// ── Slug ↔ ID mapping ────────────────────────────────────────────────────────
 
 export const SLUG_TO_ID = {
   'first-property-path': 'property',
@@ -29,23 +14,23 @@ export const ID_TO_SLUG = {
   aggressive: 'aggressive-global',
 };
 
-/** Convert a track ID to its URL slug. */
+
 export function trackPath(id) {
   return `/tracks/${ID_TO_SLUG[id] || id}`;
 }
 
-/** Resolve a URL slug to a track object (or null). */
+
 export function getTrackBySlug(slug) {
   const id = SLUG_TO_ID[slug];
   return TRACKS.find(t => t.id === id) || null;
 }
 
-/** Resolve a track ID to a track object (or null). */
+
 export function getTrackById(id) {
   return TRACKS.find(t => t.id === id) || null;
 }
 
-// ── localStorage helpers ─────────────────────────────────────────────────────
+
 
 export const MILESTONE_KEY = 'ws_milestones';
 
@@ -59,7 +44,7 @@ export function saveMilestones(map) {
   catch { /* ignore quota errors */ }
 }
 
-// ── Track data ───────────────────────────────────────────────────────────────
+
 
 export const TRACKS = [
   {
@@ -70,7 +55,7 @@ export const TRACKS = [
     pitch: 'Build your deposit fast. Get into the property market within 3 years.',
     headerClass: 'track-card__header--property',
     accentColor: '#7C8FD4',
-    // icon is assigned in the consuming component (JSX can't live in a .js data file safely)
+
     iconId: 'home',
     priorities: [
       'Save 20% deposit — avoid LTV premium on bond',
