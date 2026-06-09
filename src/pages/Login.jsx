@@ -137,7 +137,7 @@ export default function Login() {
           <div className="login-trust">
             <ShieldCheck size={14} className="login-trust__icon" />
             <span className="login-trust__text">
-              ABSA NextGen Assignment · Padi Falas-Maifala · Not Affiliated with ABSA Group
+              ABSA NextGen Exam · Padi Falas-Maifala · Not Affiliated with ABSA
             </span>
           </div>
 

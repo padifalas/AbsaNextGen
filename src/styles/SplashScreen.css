@@ -1,0 +1,203 @@
+
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0a1930;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Entrance */
+  opacity: 0;
+  animation: splash-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.splash--leaving {
+  opacity: 0 !important;
+  transform: scale(1.06) !important;
+  pointer-events: none;
+  animation: none !important;
+}
+
+@keyframes splash-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+.splash__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0;
+  animation: orb-appear 1s ease forwards;
+}
+
+.splash__orb--1 {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(178, 138, 80, 0.18) 0%, transparent 70%);
+  top: -120px;
+  right: -100px;
+  animation-name: orb-appear, orb-drift-1;
+  animation-duration: 0.9s, 8s;
+  animation-timing-function: ease, ease-in-out;
+  animation-fill-mode: forwards, none;
+  animation-iteration-count: 1, infinite;
+  animation-delay: 0.1s, 0.1s;
+}
+
+.splash__orb--2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(31, 107, 71, 0.12) 0%, transparent 70%);
+  bottom: -80px;
+  left: -60px;
+  animation-name: orb-appear, orb-drift-2;
+  animation-duration: 0.9s, 10s;
+  animation-timing-function: ease, ease-in-out;
+  animation-fill-mode: forwards, none;
+  animation-iteration-count: 1, infinite;
+  animation-delay: 0.2s, 0.2s;
+}
+
+.splash__orb--3 {
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(178, 138, 80, 0.1) 0%, transparent 70%);
+  top: 40%;
+  left: 20%;
+  animation-name: orb-appear, orb-drift-3;
+  animation-duration: 0.9s, 7s;
+  animation-timing-function: ease, ease-in-out;
+  animation-fill-mode: forwards, none;
+  animation-iteration-count: 1, infinite;
+  animation-delay: 0.3s, 0.3s;
+}
+
+@keyframes orb-appear {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes orb-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(-30px, 25px) scale(1.05); }
+}
+
+@keyframes orb-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(25px, -20px) scale(1.04); }
+}
+
+@keyframes orb-drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(15px, 30px) scale(0.97); }
+}
+
+
+.splash__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+/* ── Logo ── */
+.splash__logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 22px;
+  opacity: 0;
+  animation: splash-item-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}
+
+.splash__logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.92;
+}
+
+
+.splash__wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 14px;
+  opacity: 0;
+  animation: splash-item-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+}
+
+.splash__wordmark-main {
+  font-family: 'Playfair Display', 'DM Serif Display', Georgia, serif;
+  font-size: 2.25rem;
+  font-weight: 400;
+  color: rgba(253, 250, 246, 0.97);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.splash__wordmark-sub {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(178, 138, 80, 0.75);
+}
+
+
+.splash__tagline {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.875rem;
+  color: rgba(253, 250, 246, 0.35);
+  letter-spacing: 0.01em;
+  margin-bottom: 38px;
+  opacity: 0;
+  animation: splash-item-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+}
+
+
+.splash__bar-track {
+  width: 120px;
+  height: 2px;
+  background: rgba(253, 250, 246, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  opacity: 0;
+  animation: splash-item-in 0.4s ease 0.7s forwards;
+}
+
+.splash__bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(178, 138, 80, 0.6), rgba(178, 138, 80, 1));
+  border-radius: 2px;
+  animation: bar-sweep 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.75s forwards;
+}
+
+@keyframes splash-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bar-sweep {
+  0%   { width: 0%; }
+  40%  { width: 55%; }
+  70%  { width: 78%; }
+  100% { width: 100%; }
+}

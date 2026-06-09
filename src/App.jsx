@@ -8,6 +8,7 @@ import OnboardingRoute from './components/OnBoardingRoute';
 import Sidebar from './components/Sidebar';
 import MobileNav from './components/MobileNav';
 import Footer from './components/Footer';
+import SplashScreen from './components/SplashScreen';
 import MoneySnapshot from './pages/MoneySnapshot';
 import StrategyTracks from './pages/StrategyTracks';
 import TrackDetail from './pages/TrackDetail';
@@ -72,6 +73,7 @@ export default function App() {
     <AuthProvider>
       <FinancialProvider>
         <BrowserRouter>
+          <SplashScreen />
           <ScrollToTop />
           <Routes>
             {/*Public routes  */}
@@ -147,7 +149,7 @@ export default function App() {
               }
             />
 
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         </BrowserRouter>
       </FinancialProvider>
