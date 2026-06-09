@@ -1,8 +1,5 @@
 /**
-owns ALL data-fetching for the Learn page.
- *
-
- *   Fetches from /data/learningData.json
+owns ALL data-fetching for the Learn page. fetchess learningData.json
  *without requiring a live backend.... wanted to be ambitious and call a real API, but no public CMS or REST endpoints exist lol.
  */
 
