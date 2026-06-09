@@ -1,8 +1,7 @@
 
 .tracks-page {
-  padding: 28px 32px 56px;
-  max-width: 1040px;
-  margin: 0 auto;
+  width: 100%;
+  padding: var(--page-inset-y) var(--page-inset-x) var(--page-inset-bottom);
   position: relative;
 }
 
@@ -1639,7 +1638,6 @@
  */
 
 @media (max-width: 900px) {
-  .tracks-page { padding: 20px 20px 40px; }
 
   .tracks-grid { grid-template-columns: 1fr; gap: 12px; }
 
@@ -1695,7 +1693,6 @@
 }
 
 @media (max-width: 640px) {
-  .tracks-page { padding: 16px 14px 36px; }
 
   .tracks-page__title { font-size: 1.75rem; }
 

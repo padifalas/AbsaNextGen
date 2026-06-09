@@ -94,6 +94,11 @@
   --radius-card: var(--radius-md);
   --transition-fast: var(--t-fast) ease;
   --transition-base: var(--t-base) ease;
+
+  /* Page layout — full-width content with comfortable edge inset */
+  --page-inset-x: clamp(28px, 4vw, 64px);
+  --page-inset-y: 28px;
+  --page-inset-bottom: 56px;
 }
 
 *,
@@ -125,6 +130,9 @@ body {
 
 #root {
   display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
   min-height: 100vh;
 }
 
@@ -149,18 +157,28 @@ body {
 
 .app-layout {
   display: flex;
-  min-height: 100vh;
+  flex: 1;
   width: 100%;
+  min-width: 0;
+  min-height: 100vh;
 }
 
 .main-content {
   margin-left: 240px;
   flex: 1;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: transparent;
   transition: margin-left 280ms var(--ease-in-out);
   /* Subtle left edge gradient where sidebar meets content */
   background-image: linear-gradient(to right, rgba(10, 25, 48, 0.04) 0%, transparent 80px);
+}
+
+.main-content__body {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
 }
 
 .main-content.collapsed {
@@ -402,14 +420,32 @@ input[type="number"]:focus {
   animation-delay: 0.20s;
 }
 
+@media (max-width: 900px) {
+  :root {
+    --page-inset-x: 24px;
+    --page-inset-y: 22px;
+    --page-inset-bottom: 44px;
+  }
+}
+
 @media (max-width: 768px) {
   .main-content {
     margin-left: 0 !important;
     padding-bottom: 68px;
   }
   .app-layout { flex-direction: column; }
+
+  :root {
+    --page-inset-x: 20px;
+  }
 }
 
 @media (max-width: 480px) {
   .main-content { padding-bottom: 72px; }
+
+  :root {
+    --page-inset-x: 16px;
+    --page-inset-y: 18px;
+    --page-inset-bottom: 36px;
+  }
 }

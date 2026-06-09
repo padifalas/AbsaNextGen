@@ -1,7 +1,6 @@
 .profile-page {
-  padding: 28px 32px 56px;
-  max-width: 1040px;
-  margin: 0 auto;
+  width: 100%;
+  padding: var(--page-inset-y) var(--page-inset-x) var(--page-inset-bottom);
 }
 
 .profile-header {
@@ -318,10 +317,6 @@
 }
 
 @media (max-width: 640px) {
-  .profile-page {
-    padding: 22px 18px 40px;
-  }
-
   .profile-header {
     flex-direction: column;
     align-items: stretch;

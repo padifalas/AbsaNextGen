@@ -1,8 +1,7 @@
 /* Page wrapper */
 .ms-page {
-  padding: 24px 32px;
-  max-width: 1140px;
-  margin: 0 auto;
+  width: 100%;
+  padding: var(--page-inset-y) var(--page-inset-x) var(--page-inset-bottom);
 }
 
 /*  Header */
@@ -693,7 +692,6 @@
 }
 
 @media (max-width: 600px) {
-  .ms-page  { padding: 20px 16px; }
   .ms-tiles { grid-template-columns: 1fr; }
   .ms-strip { grid-template-columns: 1fr; }
   .ms-page__title { font-size: 1.75rem; }

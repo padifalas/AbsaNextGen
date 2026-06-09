@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import OnboardingRoute from './components/OnBoardingRoute';
 import Sidebar from './components/Sidebar';
 import MobileNav from './components/MobileNav';
+import Footer from './components/Footer';
 import MoneySnapshot from './pages/MoneySnapshot';
 import StrategyTracks from './pages/StrategyTracks';
 import TrackDetail from './pages/TrackDetail';
@@ -58,7 +59,8 @@ function AppShell({ children }) {
         onToggle={() => setCollapsed(c => !c)}
       />
       <main ref={mainRef} className={`main-content${collapsed ? ' collapsed' : ''}`}>
-        {children}
+        <div className="main-content__body">{children}</div>
+        <Footer />
       </main>
       <MobileNav />
     </div>

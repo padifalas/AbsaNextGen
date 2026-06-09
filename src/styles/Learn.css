@@ -5,9 +5,8 @@
 
 /* ── Page Shell ── */
 .learn-page {
-  padding: 28px 32px 48px;
-  max-width: 1040px;
-  margin: 0 auto;
+  width: 100%;
+  padding: var(--page-inset-y) var(--page-inset-x) var(--page-inset-bottom);
 }
 
 /* ── Header ── */
@@ -1283,10 +1282,6 @@
 ═══════════════════════════════════════════════════ */
 
 @media (max-width: 900px) {
-  .learn-page {
-    padding: 20px 20px 40px;
-  }
-
   .learn-cards-grid--3 {
     grid-template-columns: 1fr 1fr;
   }
@@ -1308,10 +1303,6 @@
 }
 
 @media (max-width: 640px) {
-  .learn-page {
-    padding: 16px 14px 36px;
-  }
-
   .learn-page__title {
     font-size: 1.875rem;
   }
