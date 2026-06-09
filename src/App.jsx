@@ -24,6 +24,16 @@ const TRACK_LABELS = {
   aggressive: 'Aggressive Global',
 };
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function AppShell({ children }) {
   const { financial } = useFinancial();
   const [collapsed, setCollapsed] = useState(false);
@@ -60,6 +70,7 @@ export default function App() {
     <AuthProvider>
       <FinancialProvider>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             {/*Public routes  */}
             <Route path="/login"    element={<Login />} />

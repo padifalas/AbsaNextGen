@@ -543,6 +543,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
+  overflow: hidden;
   animation: fadeIn 180ms ease both;
 }
 

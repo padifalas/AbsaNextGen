@@ -175,8 +175,7 @@ export default function Register() {
             <div className="reg-terms">
               <input type="checkbox" id="reg-terms" checked={agreed} onChange={e => setAgreed(e.target.checked)} />
               <label htmlFor="reg-terms">
-                I agree to the <a href="#" onClick={e => e.preventDefault()}>Terms of Service</a> and{' '}
-                <a href="#" onClick={e => e.preventDefault()}>Privacy Policy</a>. Nothing works rn but I just want to show that I know this is important to have in a real app. Also, by checking this box you confirm that you understand this app uses your salary data to calculate SARS estimates, and that these are just estimates and not official figures.
+                I agree to the Terms of Service and{' '} Privacy Policy. Also, checking this box you confirm that you understand this app uses your salary data to calculate SARS estimates, and that these are just estimates and not official figures.
 
               </label>
             </div>

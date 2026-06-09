@@ -21,6 +21,10 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
 
   const handleLogout = () => { logout(); navigate('/login'); };
 
+  const handleHelpGlossary = () => {
+    navigate('/learn', { state: { openGlossary: true } });
+  };
+
   return (
     <aside className={`sidebar${collapsed ? ' collapsed' : ''}`}>
 
@@ -85,11 +89,15 @@ export default function Sidebar({ userTrack = 'First Property Path', collapsed, 
           <span className="sidebar__footer-text">Profile</span>
           <span className="sidebar__link-tooltip">Profile</span>
         </NavLink>
-        <div className="sidebar__footer-link">
+        <button
+          type="button"
+          className={`sidebar__footer-link${location.pathname === '/learn' ? ' active' : ''}`}
+          onClick={handleHelpGlossary}
+        >
           <span className="sidebar__footer-icon"><HelpCircle size={17} /></span>
           <span className="sidebar__footer-text">Help &amp; Glossary</span>
-          <span className="sidebar__link-tooltip">Help</span>
-        </div>
+          <span className="sidebar__link-tooltip">Help &amp; Glossary</span>
+        </button>
         <button className="sidebar__logout" onClick={handleLogout}>
           <LogOut size={16} />
           <span className="sidebar__footer-text">Log Out</span>

@@ -26,7 +26,8 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useFinancial } from '../context/FinancialContext';
 import { useLearningData } from '../hooks/useLearningData';
 import '../styles/Learn.css';
@@ -326,6 +327,13 @@ function ModuleModal({ module, absaDeepLinks, externalLinks, onClose, onComplete
 /** Glossary slide-over. Fetched terms rendered with live search. */
 function GlossaryPanel({ terms, onClose }) {
   const [search, setSearch] = useState('');
+  const bodyRef = useRef(null);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    bodyRef.current?.scrollTo(0, 0);
+    return () => { document.body.style.overflow = ''; };
+  }, []);
 
   const filtered = terms.filter(t =>
     t.term.toLowerCase().includes(search.toLowerCase()) ||
@@ -360,7 +368,7 @@ function GlossaryPanel({ terms, onClose }) {
             <X size={18} />
           </button>
         </div>
-        <div className="learn-modal__body">
+        <div className="learn-modal__body" ref={bodyRef}>
           {Object.keys(grouped).sort().map(letter => (
             <div key={letter} className="learn-glossary-group">
               <div className="learn-glossary-group__letter">{letter}</div>
@@ -463,6 +471,8 @@ function LearnError({ message, onRetry }) {
 
 export default function Learn() {
   const { financial } = useFinancial();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // ── Data fetch (swap URL in useLearningData.js for production) ───────────
   const { data, loading, error } = useLearningData();
@@ -477,6 +487,13 @@ export default function Learn() {
   const [searchQuery,     setSearchQuery]     = useState('');
   const [openModule,      setOpenModule]      = useState(null);
   const [showGlossary,    setShowGlossary]    = useState(false);
+
+  useEffect(() => {
+    if (location.state?.openGlossary) {
+      setShowGlossary(true);
+      navigate('.', { replace: true, state: {} });
+    }
+  }, [location.state, navigate]);
 
   const markComplete = (id) => {
     const next = completed.includes(id) ? completed : [...completed, id];

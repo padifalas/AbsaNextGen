@@ -363,6 +363,14 @@
   overflow: hidden;
   transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
 }
+
+button.sidebar__footer-link {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  text-align: left;
+}
 .sidebar.collapsed .sidebar__footer-link { justify-content: center; }
 ..sidebar__footer-link:hover,
 .sidebar__footer-link.active {
