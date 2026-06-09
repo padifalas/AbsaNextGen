@@ -27,7 +27,9 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useScrollLock } from '../hooks/useScrollLock';
 import { useFinancial } from '../context/FinancialContext';
 import { useLearningData } from '../hooks/useLearningData';
 import '../styles/Learn.css';
@@ -200,6 +202,10 @@ function QuizBlock({ questions }) {
  *   and render a branded CTA. This is the integration point where a production
  *   ABSA link registry would surface the correct, up-to-date URL.
  */
+function LearnModalPortal({ children }) {
+  return createPortal(children, document.body);
+}
+
 function ModuleModal({ module, absaDeepLinks, externalLinks, onClose, onComplete, isCompleted }) {
   const [tab, setTab] = useState('content');
   const cat = { color: module._catColor };
@@ -208,12 +214,10 @@ function ModuleModal({ module, absaDeepLinks, externalLinks, onClose, onComplete
   const absaLinkData   = module.absaLink     ? absaDeepLinks?.[module.absaLink]   : null;
   const externalSource = module.externalLink ? externalLinks?.[module.externalLink] : null;
 
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
-  }, []);
+  useScrollLock();
 
   return (
+    <LearnModalPortal>
     <div className="learn-modal-overlay" onClick={onClose}>
       <div className="learn-modal" onClick={e => e.stopPropagation()}>
 
@@ -321,6 +325,7 @@ function ModuleModal({ module, absaDeepLinks, externalLinks, onClose, onComplete
         </div>
       </div>
     </div>
+    </LearnModalPortal>
   );
 }
 
@@ -329,10 +334,10 @@ function GlossaryPanel({ terms, onClose }) {
   const [search, setSearch] = useState('');
   const bodyRef = useRef(null);
 
+  useScrollLock();
+
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
     bodyRef.current?.scrollTo(0, 0);
-    return () => { document.body.style.overflow = ''; };
   }, []);
 
   const filtered = terms.filter(t =>
@@ -348,6 +353,7 @@ function GlossaryPanel({ terms, onClose }) {
   }, {});
 
   return (
+    <LearnModalPortal>
     <div className="learn-modal-overlay" onClick={onClose}>
       <div className="learn-modal learn-modal--glossary" onClick={e => e.stopPropagation()}>
         <div className="learn-modal__header" style={{ borderColor: 'var(--gold)' }}>
@@ -388,6 +394,7 @@ function GlossaryPanel({ terms, onClose }) {
         </div>
       </div>
     </div>
+    </LearnModalPortal>
   );
 }
 

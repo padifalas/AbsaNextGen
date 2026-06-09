@@ -543,6 +543,7 @@
   justify-content: center;
   padding: 24px;
   overflow: hidden;
+  overscroll-behavior: none;
   animation: fadeIn 180ms ease both;
 }
 
@@ -673,7 +674,10 @@
 
 .learn-modal__body {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding: 24px;
 }
 
