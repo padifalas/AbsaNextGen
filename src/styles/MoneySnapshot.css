@@ -1,10 +1,10 @@
-/* Page wrapper */
+
 .ms-page {
   width: 100%;
   padding: var(--page-inset-y) var(--page-inset-x) var(--page-inset-bottom);
 }
 
-/*  Header */
+
 .ms-page__header {
   text-align: center;
   margin-bottom: 22px;

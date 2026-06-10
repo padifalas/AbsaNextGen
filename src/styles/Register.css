@@ -1,18 +1,16 @@
-/* Register-specific overrides — Login.css is already imported for shared styles */
 
-/* Allow the form card to be a bit taller without overflow */
 .register-form-card {
   max-width: 420px;
 }
 
-/* Two-column name row */
+
 .reg-field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
 }
 
-/* Password strength meter */
+
 .reg-strength {
   display: flex;
   align-items: center;
@@ -87,7 +85,7 @@
   padding-left: 2px;
 }
 
-/* Tighten the right panel scroll for taller form */
+
 @media (max-height: 800px) {
   .login-right {
     align-items: flex-start;

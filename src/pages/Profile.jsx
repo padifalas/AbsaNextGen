@@ -157,11 +157,11 @@ export default function Profile() {
       <section className="profile-summary-card">
         <div className="profile-summary-head">
           {user.picture ? (
-            <img 
-              src={user.picture} 
-              alt="Google Profile" 
-              className="profile-summary-avatar" 
-              style={{ objectFit: 'cover', width: '56px', height: '56px', borderRadius: '18px' }} 
+            <img
+              src={user.picture}
+              alt="Google Profile"
+              className="profile-summary-avatar"
+              style={{ objectFit: 'cover', width: '56px', height: '56px', borderRadius: '18px' }}
             />
           ) : (
             <div className="profile-summary-avatar">{accountInitials || 'AB'}</div>

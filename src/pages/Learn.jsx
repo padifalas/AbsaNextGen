@@ -1,30 +1,4 @@
-/**
- * Learn.jsx
- * ─────────────────────────────────────────────────────────────────────────────
- * Financial education hub for ABSA NextGen Wealth Studio.
- *
- * DATA ARCHITECTURE:
- *   All content (modules, glossary, ABSA links, SA regulatory values) is
- *   fetched via useLearningData() from /public/data/learningData.json.
- *
- *   This component has zero hardcoded content — it is a pure rendering layer.
- *   Swapping the data source (local JSON → CMS API → ABSA backend) requires
- *   only a one-line URL change in useLearningData.js. See that file for the
- *   full architecture rationale and production swap instructions.
- *
- * ABSA DEEP LINKS:
- *   Each module optionally carries an `absaLink` key that maps to a named
- *   entry in learningData.json → absaDeepLinks. These are rendered as
- *   contextual CTAs at the bottom of each module modal ("Open with ABSA →").
- *   In production, ABSA's link registry API would supply these URLs so
- *   marketing can update destinations without a code deploy.
- *
- * SA REGULATORY DATA:
- *   SARS bracket data, TFSA limits, prime rate, transfer duty thresholds, and
- *   SARB allowances are stored in learningData.json → meta and referenced
- *   within module content blocks. They are not duplicated in this file.
- * ─────────────────────────────────────────────────────────────────────────────
- */
+
 
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
@@ -188,13 +162,7 @@ function QuizBlock({ questions }) {
   );
 }
 
-/**
- * Module detail modal.
- * this show content + quiz tabs, "Did You Know", and optional ABSA CTA.
- *
- * ABSA DEEP LINKS:
- *    look it up in absaDeepLinks (from the JSON) n render a branded CTA. This is the integration point where a production
- */
+
 function LearnModalPortal({ children }) {
   return createPortal(children, document.body);
 }
@@ -494,7 +462,7 @@ export default function Learn() {
     localStorage.setItem('ws_learn_completed', JSON.stringify(next));
   };
 
-  // ── Early returns for loading / error ────────────────────────────────────  if (loading) return <LearnSkeleton />;
+
   if (error)   return <LearnError message={error} onRetry={() => setRetryKey(k => k + 1)} />;
   if (!data)   return null;
 

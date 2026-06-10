@@ -65,14 +65,14 @@ export default function Login() {
               const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
                 headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
               });
-              
+
               if (!res.ok) {
                 throw new Error('Failed to retrieve Google profile.');
               }
 
               const profile = await res.json();
               const result = await loginWithGoogle(profile);
-              
+
               if (result.success) {
                 if (result.onboarded) {
                   navigate('/');
@@ -182,9 +182,9 @@ export default function Login() {
 
           <div className="login-divider"><span>or continue with</span></div>
 
-          <button 
+          <button
             type="button"
-            className="login-oauth" 
+            className="login-oauth"
             onClick={handleGoogleLogin}
             disabled={loading}
           >

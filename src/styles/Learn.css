@@ -4,7 +4,7 @@
   padding: var(--page-inset-y) var(--page-inset-x) var(--page-inset-bottom);
 }
 
-/* ── Header ── */
+
 .learn-page__header {
   margin-bottom: 28px;
   text-align: center;
@@ -42,7 +42,7 @@
   line-height: 1.65;
 }
 
-/* ── Progress Banner ── */
+
 .learn-progress-banner {
   display: flex;
   align-items: center;
@@ -1395,7 +1395,7 @@
   font-style: italic;
 }
 
-/* ── External source link ── */
+
 .learn-source-link {
   display: flex;
   align-items: center;
