@@ -40,12 +40,12 @@ export default function AuthPanel() {
         {/* Hero tagline */}
         <div className="login-left__hero">
           <h1 className="login-left__tagline">
-            Your wealth<br />
-            journey,{' '}
-            <em>starts here.</em>
+            Build wealth,<br />
+            Live your{' '}
+            <em>tomorrow.</em>
           </h1>
           <p className="login-left__body">
-            A modern financial planning platform built for the next generation of South African investors.
+           Navigate every financial milestone with confidence. Track goals, explore possibilities, and build a stronger financial future; one decision at a time
           </p>
         </div>
 

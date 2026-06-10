@@ -114,19 +114,30 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const loginWithGoogle = async () => {
+  const loginWithGoogle = async (profileData) => {
     setLoading(true);
     setAuthError('');
     try {
-      await new Promise((r) => setTimeout(r, 900));
+      if (profileData && profileData.error) {
+        throw new Error(profileData.error);
+      }
+      if (!profileData || !profileData.email) {
+        throw new Error('Google Sign-In failed to retrieve user profile.');
+      }
       
       const stored = localStorage.getItem('ws_user');
       let googleUser;
       if (stored) {
         try {
           const existing = JSON.parse(stored);
-          if (existing.email === 'google.user@gmail.com') {
-            googleUser = existing;
+          if (existing.email === profileData.email) {
+            googleUser = {
+              ...existing,
+              firstName: profileData.given_name || existing.firstName,
+              lastName: profileData.family_name || existing.lastName,
+              name: profileData.name || existing.name,
+              picture: profileData.picture || existing.picture,
+            };
           }
         } catch {
           // ignore parsing failures
@@ -135,11 +146,12 @@ export function AuthProvider({ children }) {
 
       if (!googleUser) {
         googleUser = {
-          id: 'usr_google',
-          firstName: 'Google',
-          lastName: 'User',
-          email: 'google.user@gmail.com',
-          name: 'Google User',
+          id: `usr_${profileData.sub || Math.random().toString(36).substring(2, 11)}`,
+          firstName: profileData.given_name || 'Google',
+          lastName: profileData.family_name || 'User',
+          email: profileData.email,
+          name: profileData.name || 'Google User',
+          picture: profileData.picture || '',
           onboarded: false,
         };
       }

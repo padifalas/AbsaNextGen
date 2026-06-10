@@ -69,15 +69,60 @@ export default function Register() {
     if (result.success) navigate('/onboarding');
   };
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleLogin = () => {
     clearError();
-    const result = await loginWithGoogle();
-    if (result.success) {
-      if (result.onboarded) {
-        navigate('/');
-      } else {
-        navigate('/onboarding');
-      }
+
+    if (!window.google) {
+      loginWithGoogle({ error: 'Google Sign-In is still loading. Please try again in a few seconds.' });
+      return;
+    }
+
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!clientId || clientId.includes('YOUR_GOOGLE_CLIENT_ID')) {
+      loginWithGoogle({ error: 'Dint configure Google Client ID... check VITE_GOOGLE_CLIENT_ID in  .env file.' });
+      return;
+    }
+
+    try {
+      const client = window.google.accounts.oauth2.initTokenClient({
+        client_id: clientId,
+        scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+        callback: async (tokenResponse) => {
+          if (tokenResponse.error) {
+            loginWithGoogle({ error: `Google login failed: ${tokenResponse.error_description || tokenResponse.error}` });
+            return;
+          }
+
+          if (tokenResponse.access_token) {
+            try {
+              const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+              });
+
+              if (!res.ok) {
+                throw new Error('Failed to retrieve Google profile.');
+              }
+
+              const profile = await res.json();
+              const result = await loginWithGoogle(profile);
+
+              if (result.success) {
+                if (result.onboarded) {
+                  navigate('/');
+                } else {
+                  navigate('/onboarding');
+                }
+              }
+            } catch (err) {
+              loginWithGoogle({ error: err.message || 'Failed to fetch user profile details.' });
+            }
+          }
+        },
+      });
+
+      client.requestAccessToken();
+    } catch (err) {
+      loginWithGoogle({ error: err.message || 'Failed to initialize Google Sign-In.' });
     }
   };
 
@@ -207,9 +252,9 @@ export default function Register() {
 
           <div className="login-divider"><span>or sign up with</span></div>
 
-          <button 
+          <button
             type="button"
-            className="login-oauth" 
+            className="login-oauth"
             onClick={handleGoogleLogin}
             disabled={loading}
           >
