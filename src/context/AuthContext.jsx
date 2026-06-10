@@ -114,6 +114,46 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const loginWithGoogle = async () => {
+    setLoading(true);
+    setAuthError('');
+    try {
+      await new Promise((r) => setTimeout(r, 900));
+      
+      const stored = localStorage.getItem('ws_user');
+      let googleUser;
+      if (stored) {
+        try {
+          const existing = JSON.parse(stored);
+          if (existing.email === 'google.user@gmail.com') {
+            googleUser = existing;
+          }
+        } catch {
+          // ignore parsing failures
+        }
+      }
+
+      if (!googleUser) {
+        googleUser = {
+          id: 'usr_google',
+          firstName: 'Google',
+          lastName: 'User',
+          email: 'google.user@gmail.com',
+          name: 'Google User',
+          onboarded: false,
+        };
+      }
+
+      persistUser(googleUser);
+      return { success: true, onboarded: googleUser.onboarded };
+    } catch (err) {
+      setAuthError(err.message);
+      return { success: false, error: err.message };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const updateProfile = async (nextData) => {
     setLoading(true);
     setAuthError('');
@@ -156,7 +196,7 @@ export function AuthProvider({ children }) {
   const clearError = () => setAuthError('');
 
   return (
-    <AuthContext.Provider value={{ user, login, register, updateProfile, completeOnboarding, logout, loading, authError, clearError }}>
+    <AuthContext.Provider value={{ user, login, register, loginWithGoogle, updateProfile, completeOnboarding, logout, loading, authError, clearError }}>
       {children}
     </AuthContext.Provider>
   );

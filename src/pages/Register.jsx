@@ -29,7 +29,7 @@ const STRENGTH_LABELS = ['', 'Weak', 'Fair', 'Good', 'Strong'];
 const STRENGTH_COLORS = ['', 'var(--red)', 'var(--gold)', 'var(--gold)', 'var(--sage)'];
 
 export default function Register() {
-  const { register, loading, authError, clearError } = useAuth();
+  const { register, loginWithGoogle, loading, authError, clearError } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -67,6 +67,18 @@ export default function Register() {
       password: form.password,
     });
     if (result.success) navigate('/onboarding');
+  };
+
+  const handleGoogleLogin = async () => {
+    clearError();
+    const result = await loginWithGoogle();
+    if (result.success) {
+      if (result.onboarded) {
+        navigate('/');
+      } else {
+        navigate('/onboarding');
+      }
+    }
   };
 
   return (
@@ -195,7 +207,12 @@ export default function Register() {
 
           <div className="login-divider"><span>or sign up with</span></div>
 
-          <button className="login-oauth" onClick={() => alert('Google OAuth dont work yet bud. Maybe next submission lol.')}>
+          <button 
+            type="button"
+            className="login-oauth" 
+            onClick={handleGoogleLogin}
+            disabled={loading}
+          >
             <IconGoogle /> Continue with Google
           </button>
 

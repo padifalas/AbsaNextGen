@@ -15,7 +15,7 @@ const IconGoogle = () => (
 );
 
 export default function Login() {
-  const { login, loading, authError, clearError } = useAuth();
+  const { login, loginWithGoogle, loading, authError, clearError } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail]       = useState('');
@@ -34,6 +34,18 @@ export default function Login() {
     clearError();
     const result = await login({ email, password });
     if (result.success) navigate('/');
+  };
+
+  const handleGoogleLogin = async () => {
+    clearError();
+    const result = await loginWithGoogle();
+    if (result.success) {
+      if (result.onboarded) {
+        navigate('/');
+      } else {
+        navigate('/onboarding');
+      }
+    }
   };
 
   return (
@@ -125,7 +137,12 @@ export default function Login() {
 
           <div className="login-divider"><span>or continue with</span></div>
 
-          <button className="login-oauth" onClick={() => alert('Google OAuth dont work yet bud. Maybe next submission lol.')}>
+          <button 
+            type="button"
+            className="login-oauth" 
+            onClick={handleGoogleLogin}
+            disabled={loading}
+          >
             <IconGoogle />
             Continue with Google
           </button>
